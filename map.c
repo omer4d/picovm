@@ -1,20 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "value.h"
 #include "map.h"
 
-typedef struct NODE_t {
+typedef struct MAP_NODE_t {
     VALUE key;
     VALUE item;
-    struct NODE_t* prev;
-    struct NODE_t* next;
+    struct MAP_NODE_t* prev;
+    struct MAP_NODE_t* next;
 }NODE;
-
-struct MAP_t {
-    int capacity;
-    NODE* data;
-    NODE* next_free;
-};
 
 NODE* const sentinel = &(NODE){PVM_NIL_INIT, PVM_NIL_INIT, NULL, NULL};
 
@@ -97,39 +92,8 @@ void replace_node(NODE* n0, NODE* n1) {
     n0->next->prev = n1;
 }
 
-unsigned sax_hash(void *data, int len) {
-    unsigned char *p = data;
-    unsigned h = 0;
-    int i;
-
-    for (i = 0; i < len; i++) {
-        h ^= (h << 5) + (h >> 2) + p[i];
-    }
-
-    return h;
-}
-
 NODE* own_node(MAP* m, VALUE* key) {
-    unsigned h;
-    
-    switch(key->type) {
-        case BOOL_TYPE:
-            h = sax_hash(&key->data.boolean, sizeof(int));
-            break;
-        case NUM_TYPE:
-            h = sax_hash(&key->data.num, sizeof(double));
-            break;
-        case FUNC_TYPE:
-            h = sax_hash(&key->data.func, sizeof(void*));
-            break;
-        case OBJECT_TYPE:
-            h = sax_hash(&key->data.num, sizeof(OBJECT*));
-            break;
-        default:
-            assert(0);
-    }
-    
-    return &m->data[mod(h, m->capacity)];
+    return &m->data[mod(value_hash(key), m->capacity)];
 }
 
 int new_bucket, same_bucket, wrong_bucket;
@@ -210,12 +174,12 @@ unsigned int gen_key(unsigned int x) {
     return gen_key_helper(gen_key_helper(x) ^ 0x5bf03635);
 }
 
-void test() {
+void test_map() {
     new_bucket = 0;
     same_bucket = 0;
     wrong_bucket = 0;
 
-    MAP* m = create_map(1024);
+    MAP* m = create_map(8);
     int i, j;
     
     for(i = 0; i < 1000; ++i) {

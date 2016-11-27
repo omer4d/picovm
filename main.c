@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#include "value.h"
 #include "types.h"
 
 #define ARG_STACK_SIZE 1024
@@ -169,8 +170,6 @@ void loop() {
 }
 
 int main() {
-    test();
-    
     PNODE* dup = fcons(dup_impl);
     PNODE* plus = fcons(plus_impl);
     PNODE* call = fcons(call_impl);
