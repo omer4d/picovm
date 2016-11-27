@@ -28,20 +28,6 @@ PNODE** ret_sp = ret_stack;
 PNODE* curr;
 void (*instr)();
 
-VALUE num(double x) {
-    VALUE v;
-    v.type = NUM_TYPE;
-    v.data.num = x;
-    return v;
-}
-
-VALUE func(PNODE* fn) {
-    VALUE v;
-    v.type = FUNC_TYPE;
-    v.data.func = fn;
-    return v;
-}
-
 PNODE* ncons(PNODE* n) {
     PNODE* node = program_pos;
     ++program_pos;
@@ -100,7 +86,7 @@ void plus_impl() {
     VALUE a = pop();
     VALUE b = pop();
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
-    push(num(a.data.num + b.data.num));
+    push(num_value(a.data.num + b.data.num));
     next();
 }
 
@@ -182,10 +168,10 @@ int main() {
     PNODE* quad = defun(2, dbl, dbl);
     PNODE* main = defun(2, call, plus);
     
-    push(num(2));
-    push(num(4));
-    push(func(quad));
-    push(func(main));
+    push(num_value(2));
+    push(num_value(4));
+    push(func_value(quad));
+    push(func_value(main));
     
     curr = run;
     next();

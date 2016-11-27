@@ -1,6 +1,20 @@
 #include "value.h"
 #include <assert.h>
 
+VALUE num_value(double x) {
+    VALUE v;
+    v.type = NUM_TYPE;
+    v.data.num = x;
+    return v;
+}
+
+VALUE func_value(PNODE* fn) {
+    VALUE v;
+    v.type = FUNC_TYPE;
+    v.data.func = fn;
+    return v;
+}
+
 int values_equal(VALUE* a, VALUE* b) {
     if(a->type != b->type)
         return 0;

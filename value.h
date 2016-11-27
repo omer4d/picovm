@@ -20,7 +20,10 @@ typedef struct {
     }data;
 }VALUE;
 
+VALUE num_value(double x);
+VALUE func_value(PNODE* fn);
 int values_equal(VALUE* a, VALUE* b);
 unsigned int value_hash(VALUE* v);
+
 
 #endif
