@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "map.h"
 
 typedef struct NODE_t {
@@ -96,14 +97,48 @@ void replace_node(NODE* n0, NODE* n1) {
     n0->next->prev = n1;
 }
 
-NODE* own_node(MAP* m, VALUE* key) {
-    return &m->data[mod((int)key->data.num, m->capacity)];
+unsigned sax_hash(void *data, int len) {
+    unsigned char *p = data;
+    unsigned h = 0;
+    int i;
+
+    for (i = 0; i < len; i++) {
+        h ^= (h << 5) + (h >> 2) + p[i];
+    }
+
+    return h;
 }
+
+NODE* own_node(MAP* m, VALUE* key) {
+    unsigned h;
+    
+    switch(key->type) {
+        case BOOL_TYPE:
+            h = sax_hash(&key->data.boolean, sizeof(int));
+            break;
+        case NUM_TYPE:
+            h = sax_hash(&key->data.num, sizeof(double));
+            break;
+        case FUNC_TYPE:
+            h = sax_hash(&key->data.func, sizeof(void*));
+            break;
+        case OBJECT_TYPE:
+            h = sax_hash(&key->data.num, sizeof(OBJECT*));
+            break;
+        default:
+            assert(0);
+    }
+    
+    return &m->data[mod(h, m->capacity)];
+}
+
+int new_bucket, same_bucket, wrong_bucket;
 
 void map_put(MAP* m, VALUE* key, VALUE* item) {
     NODE* n = own_node(m, key);
     
     if(n->item.type == OBJECT_TYPE && n->item.data.obj == NULL) {
+        ++new_bucket;
         if(n == m->next_free)
             get_free_node(m);
         else
@@ -126,7 +161,7 @@ void map_put(MAP* m, VALUE* key, VALUE* item) {
             expand(m);
             map_put(m, key, item);
         }else {
-            printf("same bucket, new\n");
+            ++same_bucket;
             NODE* curr = get_free_node(m);
             init_node(curr, key, item, n, sentinel);
             n->next = curr;
@@ -134,36 +169,30 @@ void map_put(MAP* m, VALUE* key, VALUE* item) {
       }
       
       else if(m->next_free == sentinel) {
-        expand(m);
-        map_put(m, key, item);
+            expand(m);
+            map_put(m, key, item);
       }
       
       else {
-            printf("middle of other bucket\n");
-        NODE* curr = get_free_node(m);
-        curr->key = n->key;
-        curr->item = n->item;
-        replace_node(n, curr);
-        init_node(n, key, item, sentinel, sentinel);
+            ++wrong_bucket;
+            NODE* curr = get_free_node(m);
+            curr->key = n->key;
+            curr->item = n->item;
+            replace_node(n, curr);
+            init_node(n, key, item, sentinel, sentinel);
       }
-  }
+    }
 }
 
 VALUE* map_get(MAP* m, VALUE* key) {
-  NODE* n;
-  for(n = own_node(m, key); n != sentinel; n = n->next) {
-    if(values_equal(&n->key, key))
-      return &n->item;
-  }
-  return NULL;
+    NODE* n;
+    for(n = own_node(m, key); n != sentinel; n = n->next) {
+        if(values_equal(&n->key, key))
+            return &n->item;
+    }
+    
+    return NULL;
 }
-
-
-
-
-
-
-
 
 
 
@@ -182,8 +211,13 @@ unsigned int gen_key(unsigned int x) {
 }
 
 void test() {
-    MAP* m = create_map(8);
+    new_bucket = 0;
+    same_bucket = 0;
+    wrong_bucket = 0;
+
+    MAP* m = create_map(1024);
     int i, j;
+    
     for(i = 0; i < 1000; ++i) {
         VALUE key;
         key.type = NUM_TYPE;
@@ -208,7 +242,6 @@ void test() {
     }
     
     printf("DONE: %d\n", m->capacity);
+    printf("unique: %d\ncollisions: %d\ncollisions with swap: %d\n", same_bucket, new_bucket, wrong_bucket);
 }
-
-
 

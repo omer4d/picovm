@@ -29,7 +29,7 @@ $(BIN): $(OBJ)
 main.o: main.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h types.h
 	$(CC) -c main.c -o main.o $(CFLAGS)
 
-map.o: map.c C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/stdlib.h map.h   types.h
+map.o: map.c C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/assert.h map.h types.h
 	$(CC) -c map.c -o map.o $(CFLAGS)
 
 types.o: types.c types.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/_mingw.h
