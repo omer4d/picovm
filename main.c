@@ -90,16 +90,6 @@ void plus_impl() {
     next();
 }
 
-void call_impl() {
-    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
-    *ret_sp = curr;
-    ++ret_sp;
-    VALUE v = pop();
-    assert(v.type == FUNC_TYPE);
-    curr = v.data.func;
-    next();
-}
-
 void exit_impl() {
     curr = NULL;
     instr = NULL;
@@ -155,10 +145,47 @@ void loop() {
     }
 }
 
+
 typedef struct FUNC_t {
     OBJECT_BASE base;
     union PNODE_t* pnode;
 }FUNC;
+
+OBJECT* func_meta = NULL;
+
+FUNC* create_func(PNODE* pnode) {
+    FUNC* f = malloc(sizeof(FUNC));
+    
+    if(func_meta == NULL) {
+        func_meta = create_object();
+    }
+    
+    f->base.meta = func_meta;
+    f->pnode = pnode;
+    
+    return f;
+}
+
+void destroy_func() {
+}
+
+void call_impl() {
+    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
+    *ret_sp = curr;
+    ++ret_sp;
+    VALUE v = pop();
+    assert(v.type == OBJECT_TYPE);
+    assert(v.data.obj->meta == func_meta);
+    curr = ((FUNC*)v.data.obj)->pnode;
+    next();
+}
+
+VALUE func_value(PNODE* pnode) {
+    VALUE v;
+    v.type = OBJECT_TYPE;
+    v.data.obj = (OBJECT_BASE*)create_func(pnode);
+    return v;
+}
 
 void init() {
     OBJECT* meta = create_object();

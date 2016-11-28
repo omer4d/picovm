@@ -8,13 +8,6 @@ VALUE num_value(double x) {
     return v;
 }
 
-VALUE func_value(void* fn) {
-    VALUE v;
-    v.type = FUNC_TYPE;
-    v.data.func = fn;
-    return v;
-}
-
 int values_equal(VALUE* a, VALUE* b) {
     if(a->type != b->type)
         return 0;
@@ -24,8 +17,6 @@ int values_equal(VALUE* a, VALUE* b) {
                 return a->data.boolean == b->data.boolean;
             case NUM_TYPE:
                 return a->data.num == b->data.num;
-            case FUNC_TYPE:
-                return a->data.func == b->data.func;
             case OBJECT_TYPE:
                 return a->data.obj == b->data.obj;
             default:
@@ -55,9 +46,6 @@ unsigned int value_hash(VALUE* key) {
             break;
         case NUM_TYPE:
             h = sax_hash(&key->data.num, sizeof(double));
-            break;
-        case FUNC_TYPE:
-            h = sax_hash(&key->data.func, sizeof(void*));
             break;
         case OBJECT_TYPE:
             h = sax_hash(&key->data.num, sizeof(struct OBJECT_BASE_t*));
