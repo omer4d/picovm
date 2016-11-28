@@ -3,15 +3,20 @@
 
 #include "map.h"
 
-struct MAP_OBJECT_t;
+struct OBJECT_t;
 
-typedef struct {
-    struct MAP_OBJECT_t* proto;
+typedef struct OBJECT_BASE_t {
+    struct OBJECT_t* meta;
+}OBJECT_BASE;
+
+typedef struct OBJECT_t {
+    OBJECT_BASE base;
+    MAP map;
 }OBJECT;
 
-typedef struct MAP_OBJECT_t {
-    OBJECT base;
-    MAP map;
-}MAP_OBJECT;
+OBJECT* create_object();
+void destroy_object(OBJECT* obj);
+
+void init_object_system(OBJECT* meta);
 
 #endif

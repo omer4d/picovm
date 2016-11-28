@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "value.h"
 #include "map.h"
 
 typedef struct MAP_NODE_t {
@@ -33,15 +32,23 @@ NODE* create_map_data(int capacity) {
     return data;
 }
 
-MAP* create_map(int capacity) {
-    MAP* m = (MAP*)malloc(sizeof(MAP));
+void init_map(MAP* m, int capacity) {
     m->data = m->next_free = create_map_data(capacity);
     m->capacity = capacity;
+}
+
+void cleanup_map(MAP* m) {
+    free(m->data);
+}
+
+MAP* create_map(int capacity) {
+    MAP* m = malloc(sizeof(MAP));
+    init_map(m, capacity);
     return m;
 }
 
 void destroy_map(MAP* m) {
-    free(m->data);
+    cleanup_map(m);
     free(m);
 }
 

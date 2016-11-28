@@ -4,7 +4,7 @@
 #define PVM_NIL_INIT { .type = OBJECT_TYPE, .data.obj = ((void*)0) }
 #define PVM_NIL (VALUE)PVM_NIL_INIT
 
-struct OBJECT_t;
+struct OBJECT_BASE_t;
 
 typedef enum {
     BOOL_TYPE, NUM_TYPE, FUNC_TYPE, OBJECT_TYPE
@@ -16,14 +16,13 @@ typedef struct {
         int boolean; // only 0 and 1 are valid values
         double num;
         void* func;
-        struct OBJECT_t* obj;
+        struct OBJECT_BASE_t* obj;
     }data;
 }VALUE;
 
 VALUE num_value(double x);
-VALUE func_value(PNODE* fn);
+VALUE func_value(void* fn);
 int values_equal(VALUE* a, VALUE* b);
 unsigned int value_hash(VALUE* v);
-
 
 #endif

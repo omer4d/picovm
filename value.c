@@ -8,7 +8,7 @@ VALUE num_value(double x) {
     return v;
 }
 
-VALUE func_value(PNODE* fn) {
+VALUE func_value(void* fn) {
     VALUE v;
     v.type = FUNC_TYPE;
     v.data.func = fn;
@@ -60,7 +60,7 @@ unsigned int value_hash(VALUE* key) {
             h = sax_hash(&key->data.func, sizeof(void*));
             break;
         case OBJECT_TYPE:
-            h = sax_hash(&key->data.num, sizeof(struct OBJECT_t*));
+            h = sax_hash(&key->data.num, sizeof(struct OBJECT_BASE_t*));
             break;
         default:
             assert(0);

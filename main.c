@@ -155,7 +155,21 @@ void loop() {
     }
 }
 
+typedef struct FUNC_t {
+    OBJECT_BASE base;
+    union PNODE_t* pnode;
+}FUNC;
+
+void init() {
+    OBJECT* meta = create_object();
+    meta->base.meta = meta;
+    MAP* m = &meta->map;
+    //map_put(m, 
+}
+
 int main() {
+    init();
+    
     PNODE* dup = fcons(dup_impl);
     PNODE* plus = fcons(plus_impl);
     PNODE* call = fcons(call_impl);
