@@ -166,7 +166,8 @@ FUNC* create_func(PNODE* pnode) {
     return f;
 }
 
-void destroy_func() {
+void destroy_func(FUNC* f) {
+    free(f);
 }
 
 void call_impl() {
