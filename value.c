@@ -17,7 +17,7 @@ int values_equal(VALUE* a, VALUE* b) {
                 return a->data.boolean == b->data.boolean;
             case NUM_TYPE:
                 return a->data.num == b->data.num;
-            case OBJECT_TYPE:
+            case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
                 return a->data.obj == b->data.obj;
             default:
                 assert(0);
@@ -47,7 +47,7 @@ unsigned int value_hash(VALUE* key) {
         case NUM_TYPE:
             h = sax_hash(&key->data.num, sizeof(double));
             break;
-        case OBJECT_TYPE:
+        case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
             h = sax_hash(&key->data.num, sizeof(struct OBJECT_BASE_t*));
             break;
         default:

@@ -7,7 +7,7 @@
 struct OBJECT_BASE_t;
 
 typedef enum {
-    BOOL_TYPE, NUM_TYPE, OBJECT_TYPE
+    BOOL_TYPE, NUM_TYPE, FUNC_TYPE, STRING_TYPE, SYMBOL_TYPE, OBJECT_TYPE
 }VALUE_TYPE;
 
 typedef struct {

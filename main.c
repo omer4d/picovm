@@ -195,8 +195,7 @@ void dcall_impl() {
     *ret_sp = curr;
     ++ret_sp;
     VALUE v = pop();
-    assert(v.type == OBJECT_TYPE);
-    assert(v.data.obj->meta == func_meta);
+    assert(v.type == FUNC_TYPE);
     curr = ((FUNC*)v.data.obj)->pnode;
     next();
 }
@@ -205,8 +204,8 @@ void getf_impl() {
     assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 2]);
     VALUE key = pop();
     VALUE obj = pop();
-    
-    
+    assert(obj.type == OBJECT_TYPE);
+    //if(obj.data.obj->meta == 
 }
 
 FUNC* create_func(PNODE* pnode) {
@@ -230,7 +229,7 @@ void destroy_func(FUNC* f) {
 
 VALUE func_value(PNODE* pnode) {
     VALUE v;
-    v.type = OBJECT_TYPE;
+    v.type = FUNC_TYPE;
     v.data.obj = (OBJECT_BASE*)create_func(pnode);
     return v;
 }
