@@ -145,6 +145,43 @@ void loop() {
     }
 }
 
+typedef struct SYMBOL_t {
+    OBJECT_BASE base;
+    char const* name;
+}SYMBOL;
+
+OBJECT* sym_meta = NULL;
+
+SYMBOL* create_symbol(char const* name) {
+    static SYMBOL** sym_table = NULL;
+    static int sym_table_cap = 0;
+    static int sym_num = 0;
+    
+    if(!sym_table) {
+        sym_table_cap = 8;
+        sym_table = malloc(sizeof(SYMBOL*) * sym_table_cap);
+    }
+    
+    if(!sym_meta) {
+        sym_meta = create_object();
+    }
+    
+    int i;
+    for(i = 0; i < sym_num; ++i) {
+        if(!strcmp(sym_table[i]->name, name))
+            return sym_table[i];
+    }
+    
+    if(sym_num >= sym_table_cap) {
+        sym_table = realloc(sym_table, sym_table_cap * 2);
+    }
+    
+    SYMBOL* sym = malloc(sizeof(SYMBOL));
+    sym->base.meta = sym_meta;
+    sym->name = name;
+    sym_table[sym_num++] = sym;
+    return sym;
+}
 
 typedef struct FUNC_t {
     OBJECT_BASE base;
@@ -153,11 +190,32 @@ typedef struct FUNC_t {
 
 OBJECT* func_meta = NULL;
 
+void dcall_impl() {
+    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
+    *ret_sp = curr;
+    ++ret_sp;
+    VALUE v = pop();
+    assert(v.type == OBJECT_TYPE);
+    assert(v.data.obj->meta == func_meta);
+    curr = ((FUNC*)v.data.obj)->pnode;
+    next();
+}
+
+void getf_impl() {
+    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 2]);
+    VALUE key = pop();
+    VALUE obj = pop();
+    
+    
+}
+
 FUNC* create_func(PNODE* pnode) {
     FUNC* f = malloc(sizeof(FUNC));
     
-    if(func_meta == NULL) {
+    if(!func_meta) {
         func_meta = create_object();
+        
+        //VALUE call = create_func(dcall);
     }
     
     f->base.meta = func_meta;
@@ -168,17 +226,6 @@ FUNC* create_func(PNODE* pnode) {
 
 void destroy_func(FUNC* f) {
     free(f);
-}
-
-void call_impl() {
-    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
-    *ret_sp = curr;
-    ++ret_sp;
-    VALUE v = pop();
-    assert(v.type == OBJECT_TYPE);
-    assert(v.data.obj->meta == func_meta);
-    curr = ((FUNC*)v.data.obj)->pnode;
-    next();
 }
 
 VALUE func_value(PNODE* pnode) {
@@ -200,15 +247,15 @@ int main() {
     
     PNODE* dup = fcons(dup_impl);
     PNODE* plus = fcons(plus_impl);
-    PNODE* call = fcons(call_impl);
+    PNODE* dcall = fcons(dcall_impl);
     PNODE* exit = fcons(exit_impl);
     
-    PNODE* run = defun(2, call, exit);
+    PNODE* run = defun(2, dcall, exit);
     
     
     PNODE* dbl = defun(2, dup, plus);
     PNODE* quad = defun(2, dbl, dbl);
-    PNODE* main = defun(2, call, plus);
+    PNODE* main = defun(2, dcall, plus);
     
     push(num_value(2));
     push(num_value(4));
