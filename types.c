@@ -17,3 +17,7 @@ void destroy_object(OBJECT* obj) {
     cleanup_map(&obj->map);
     free(obj);
 }
+
+int has_default_meta(OBJECT* obj) {
+    return obj->base.meta == default_meta;
+}

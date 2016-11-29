@@ -17,6 +17,7 @@ typedef union PNODE_t {
 }PNODE;
 
 PNODE program[3*1000*1000];
+char const* debug_info[3*1000*1000] = {0};
 PNODE* program_pos = program;
 
 VALUE arg_stack[ARG_STACK_SIZE] = {0};
@@ -35,10 +36,11 @@ PNODE* ncons(PNODE* n) {
     return node;
 }
 
-PNODE* fcons(CFUN fp) {
+PNODE* fcons(CFUN fp, char const* debug) {
     PNODE* node = program_pos;
     ++program_pos;
     node->fp = fp;
+    debug_info[node - program] = debug;
     return node;
 }
 
@@ -82,6 +84,19 @@ void dup_impl() {
     next();
 }
 
+void swap_impl() {
+    VALUE a = pop();
+    VALUE b = pop();
+    push(a);
+    push(b);
+    next();
+}
+
+void drop_impl() {
+    pop();
+    next();
+}
+
 void plus_impl() {
     VALUE a = pop();
     VALUE b = pop();
@@ -110,17 +125,18 @@ void cjump_impl() {
 	}
 }
 
-PNODE* defun(int n, ...) {
+PNODE* defun(char const* name, int n, ...) {
     static PNODE* leave = NULL;
     
     if(!leave) {
-        leave = fcons(leave_impl);
+        leave = fcons(leave_impl, "leave");
     }
     
     va_list argp;
     va_start(argp, n);
     
-    PNODE* first = fcons(enter_impl);
+    PNODE* first = fcons(enter_impl, "enter");
+    debug_info[first - program] = name;
     
     int i;
     for(i = 0; i < n; ++i) {
@@ -131,18 +147,6 @@ PNODE* defun(int n, ...) {
     ncons(leave);
     
     return first;
-}
-
-void print_arg_stack() {
-    VALUE* sp;
-    for(sp = arg_stack; sp != arg_sp; ++sp)
-        printf("%f\n", sp->data.num);
-}
-
-void loop() {
-    while(instr) {
-        instr();
-    }
 }
 
 typedef struct SYMBOL_t {
@@ -183,6 +187,13 @@ SYMBOL* create_symbol(char const* name) {
     return sym;
 }
 
+VALUE symbol_value(char const* name) {
+    VALUE v;
+    v.type = SYMBOL_TYPE;
+    v.data.obj = (OBJECT_BASE*)create_symbol(name);
+    return v;
+}
+
 typedef struct FUNC_t {
     OBJECT_BASE base;
     union PNODE_t* pnode;
@@ -201,11 +212,12 @@ void dcall_impl() {
 }
 
 void getf_impl() {
-    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 2]);
     VALUE key = pop();
-    VALUE obj = pop();
-    assert(obj.type == OBJECT_TYPE);
-    //if(obj.data.obj->meta == 
+    VALUE objval = pop();
+    assert(objval.type == OBJECT_TYPE);
+    OBJECT* obj = (OBJECT*)objval.data.obj;
+    push(*map_get(&obj->map, &key));
+    next();
 }
 
 FUNC* create_func(PNODE* pnode) {
@@ -241,20 +253,89 @@ void init() {
     //map_put(m, 
 }
 
+char const* lookup_debug_info(PNODE* pnode) {
+    int idx = pnode - program;
+    return idx >= 0 ? (debug_info[idx] ? debug_info[idx] : "<no-info>") : "<invalid>";
+}
+
+char* value_to_string(char* str, VALUE* sp) {
+    switch(sp->type) {
+        case BOOL_TYPE:
+            sprintf(str, "%s", sp->data.boolean ? "true" : "false");
+            break;
+        case NUM_TYPE:
+            sprintf(str, "%f", sp->data.num);
+            break;
+        case FUNC_TYPE:
+            sprintf(str, "<function %s>", lookup_debug_info(((FUNC*)sp->data.obj)->pnode));
+            break;
+        case STRING_TYPE:
+            sprintf(str, "<string>");
+            break;
+        case SYMBOL_TYPE:
+            sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
+            break;
+        case OBJECT_TYPE:
+            sprintf(str, "<object>");
+            break;
+        default:
+            assert(0);
+    }
+    
+    return str;
+}
+
+void print_debug_info() {
+    VALUE* asp;
+    PNODE** rsp;
+    char tmp[256] = {};
+    
+    printf("Next instruction: %s\n\n", lookup_debug_info(curr->into));
+    printf("%-30s %-30s\n", "ARG STACK", "CALL STACK");
+    printf("_________________________________________\n");
+    for(asp = arg_stack, rsp = ret_stack; asp < arg_sp || rsp < ret_sp; ++rsp, ++asp) {
+        if(rsp < ret_sp && asp < arg_sp)
+            printf("%-30s %-30s\n", value_to_string(tmp, asp), lookup_debug_info((*rsp)->into));
+        else if(rsp < ret_sp)
+            printf("%-30s %-30s\n", "", lookup_debug_info((*rsp)->into));
+        else
+            printf("%-30s %-30s\n", value_to_string(tmp, asp), "");
+    }
+    
+    printf("\n\n\n\n");
+}
+
+void loop() {
+    while(instr) {
+        print_debug_info();
+        instr();
+    }
+}
+
 int main() {
     init();
     
-    PNODE* dup = fcons(dup_impl);
-    PNODE* plus = fcons(plus_impl);
-    PNODE* dcall = fcons(dcall_impl);
-    PNODE* exit = fcons(exit_impl);
+    PNODE* dup = fcons(dup_impl, "dup");
+    PNODE* swap = fcons(swap_impl, "swap");
+    PNODE* drop = fcons(drop_impl, "drop");
+    PNODE* plus = fcons(plus_impl, "plus");
+    PNODE* dcall = fcons(dcall_impl, "dcall");
+    PNODE* exit = fcons(exit_impl, "exit");
     
-    PNODE* run = defun(2, dcall, exit);
+    PNODE* run = defun("run", 2, dcall, exit);
     
     
-    PNODE* dbl = defun(2, dup, plus);
-    PNODE* quad = defun(2, dbl, dbl);
-    PNODE* main = defun(2, dcall, plus);
+    PNODE* dbl = defun("dbl", 2, dup, plus);
+    PNODE* quad = defun("quad", 2, dbl, dbl);
+    PNODE* main = defun("main", 3, dcall, plus, drop);
+    
+    
+    OBJECT* o = create_object();
+    VALUE key = symbol_value("foo");
+    VALUE val = num_value(123);
+    map_put(&o->map, &key, &val);
+    push(key);
+    push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
     
     push(num_value(2));
     push(num_value(4));
@@ -264,8 +345,6 @@ int main() {
     curr = run;
     next();
     loop();
-
-    print_arg_stack();
     
     getch();
     return 0;

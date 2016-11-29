@@ -1,5 +1,6 @@
 #include "value.h"
 #include <assert.h>
+#include <stdio.h>
 
 VALUE num_value(double x) {
     VALUE v;
