@@ -57,3 +57,7 @@ unsigned int value_hash(VALUE* key) {
     
     return h;
 }
+
+int value_is_nil(VALUE* v) {
+    return v->type == OBJECT_TYPE && !v->data.obj;
+}

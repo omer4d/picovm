@@ -15,7 +15,7 @@ MAP* create_map(int capacity);
 void destroy_map(MAP* m);
 
 void map_put(MAP* m, VALUE* key, VALUE* item);
-VALUE* map_get(MAP* m, VALUE* key);
+void map_get(VALUE* out, MAP* m, VALUE* key);
 
 void test_map();
 

@@ -22,5 +22,6 @@ typedef struct {
 VALUE num_value(double x);
 int values_equal(VALUE* a, VALUE* b);
 unsigned int value_hash(VALUE* v);
+int value_is_nil(VALUE* v);
 
 #endif

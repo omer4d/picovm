@@ -155,14 +155,17 @@ void map_put(MAP* m, VALUE* key, VALUE* item) {
     }
 }
 
-VALUE* map_get(MAP* m, VALUE* key) {
+void map_get(VALUE* out, MAP* m, VALUE* key) {
     NODE* n;
+    
     for(n = own_node(m, key); n != sentinel; n = n->next) {
-        if(values_equal(&n->key, key))
-            return &n->item;
+        if(values_equal(&n->key, key)) {
+            *out = n->item;
+            return;
+        }
     }
     
-    return NULL;
+    *out = PVM_NIL;
 }
 
 
@@ -204,8 +207,9 @@ void test_map() {
             VALUE key;
             key.type = NUM_TYPE;
             key.data.num = gen_key(i);
-            VALUE* item = map_get(m, &key);
-            if(!item || item->data.num != i) {
+            VALUE item;
+            map_get(&item, m, &key);
+            if(value_is_nil(&item) || item.data.num != i) {
                 printf("WTF!");
                 return;
             }

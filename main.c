@@ -211,12 +211,14 @@ void dcall_impl() {
     next();
 }
 
-void getf_impl() {
+void dgetf_impl() {
     VALUE key = pop();
     VALUE objval = pop();
     assert(objval.type == OBJECT_TYPE);
     OBJECT* obj = (OBJECT*)objval.data.obj;
-    push(*map_get(&obj->map, &key));
+    VALUE val;
+    map_get(&val, &obj->map, &key);
+    push(val);
     next();
 }
 
@@ -276,7 +278,7 @@ char* value_to_string(char* str, VALUE* sp) {
             sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
             break;
         case OBJECT_TYPE:
-            sprintf(str, "<object>");
+            sprintf(str, value_is_nil(sp) ? "nil" : "<object>");
             break;
         default:
             assert(0);
@@ -290,7 +292,7 @@ void print_debug_info() {
     PNODE** rsp;
     char tmp[256] = {};
     
-    printf("Next instruction: %s\n\n", lookup_debug_info(curr->into));
+    printf("Next instruction: %s\n\n", curr ? lookup_debug_info(curr->into) : "N/A");
     printf("%-30s %-30s\n", "ARG STACK", "CALL STACK");
     printf("_________________________________________\n");
     for(asp = arg_stack, rsp = ret_stack; asp < arg_sp || rsp < ret_sp; ++rsp, ++asp) {
@@ -307,9 +309,12 @@ void print_debug_info() {
 
 void loop() {
     while(instr) {
-        print_debug_info();
+        //print_debug_info();
+        //getch();
         instr();
     }
+    
+    print_debug_info();
 }
 
 int main() {
@@ -320,6 +325,7 @@ int main() {
     PNODE* drop = fcons(drop_impl, "drop");
     PNODE* plus = fcons(plus_impl, "plus");
     PNODE* dcall = fcons(dcall_impl, "dcall");
+    PNODE* dgetf = fcons(dgetf_impl, "dgetf");
     PNODE* exit = fcons(exit_impl, "exit");
     
     PNODE* run = defun("run", 2, dcall, exit);
@@ -327,14 +333,15 @@ int main() {
     
     PNODE* dbl = defun("dbl", 2, dup, plus);
     PNODE* quad = defun("quad", 2, dbl, dbl);
-    PNODE* main = defun("main", 3, dcall, plus, drop);
-    
+    PNODE* main = defun("main", 5, dcall, plus, drop, swap, dgetf);
     
     OBJECT* o = create_object();
     VALUE key = symbol_value("foo");
     VALUE val = num_value(123);
+    VALUE key2 = symbol_value("baz");
     map_put(&o->map, &key, &val);
-    push(key);
+    //push(key);
+    push(key2);
     push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
     
     push(num_value(2));
