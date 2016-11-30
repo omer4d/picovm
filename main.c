@@ -8,6 +8,7 @@
 
 #define ARG_STACK_SIZE 1024
 #define RET_STACK_SIZE 1024
+#define MARK_STACK_SIZE 256
 
 typedef void (*CFUN)();
 
@@ -25,6 +26,9 @@ VALUE* arg_sp = arg_stack;
 
 PNODE* ret_stack[RET_STACK_SIZE] = {0};
 PNODE** ret_sp = ret_stack;
+
+PNODE mark_stack[MARK_STACK_SIZE];
+PNODE* mark_sp = mark_stack;
 
 PNODE* curr;
 void (*instr)();
@@ -113,10 +117,10 @@ void exit_impl() {
 void cjump_impl() {
     VALUE c = pop();
     assert(c.type == BOOL_TYPE);
-    
 	if(c.data.boolean) {
-	   curr = curr->into;
-	   instr = curr->into->fp;
+        ++curr;
+	    curr = curr->into;
+	    instr = curr->into->fp;
 	}
 	
 	else {
@@ -124,6 +128,22 @@ void cjump_impl() {
 		next();
 	}
 }
+
+void mark() {
+    assert(mark_sp < mark_stack + MARK_STACK_SIZE);
+    PNODE* pn = ncons(mark_sp);
+    mark_sp->into = pn;
+    ++mark_sp;
+}
+
+void resolve() {
+    assert(mark_sp > mark_stack);
+    --mark_sp;
+    mark_sp->into->into = program_pos;
+}
+
+PNODE* mark_placeholder;
+PNODE* resolve_placeholder;
 
 PNODE* defun(char const* name, int n, ...) {
     static PNODE* leave = NULL;
@@ -140,7 +160,13 @@ PNODE* defun(char const* name, int n, ...) {
     
     int i;
     for(i = 0; i < n; ++i) {
-        ncons(va_arg(argp, PNODE*));
+        PNODE* pn = va_arg(argp, PNODE*);
+        if(pn == mark_placeholder)
+            mark();
+        else if(pn == resolve_placeholder)
+            resolve();
+        else
+            ncons(pn);
     }
     
     va_end(argp);
@@ -249,6 +275,9 @@ VALUE func_value(PNODE* pnode) {
 }
 
 void init() {
+    mark_placeholder = malloc(sizeof(PNODE));
+    resolve_placeholder = malloc(sizeof(PNODE));
+    
     OBJECT* meta = create_object();
     meta->base.meta = meta;
     MAP* m = &meta->map;
@@ -287,6 +316,8 @@ char* value_to_string(char* str, VALUE* sp) {
     return str;
 }
 
+
+
 void print_debug_info() {
     VALUE* asp;
     PNODE** rsp;
@@ -309,7 +340,7 @@ void print_debug_info() {
 
 void loop() {
     while(instr) {
-        //print_debug_info();
+        print_debug_info();
         //getch();
         instr();
     }
@@ -326,11 +357,12 @@ int main() {
     PNODE* plus = fcons(plus_impl, "plus");
     PNODE* dcall = fcons(dcall_impl, "dcall");
     PNODE* dgetf = fcons(dgetf_impl, "dgetf");
+    PNODE* cjump = fcons(cjump_impl, "cjump");
     PNODE* exit = fcons(exit_impl, "exit");
     
     PNODE* run = defun("run", 2, dcall, exit);
     
-    
+    /*
     PNODE* dbl = defun("dbl", 2, dup, plus);
     PNODE* quad = defun("quad", 2, dbl, dbl);
     PNODE* main = defun("main", 5, dcall, plus, drop, swap, dgetf);
@@ -338,15 +370,24 @@ int main() {
     OBJECT* o = create_object();
     VALUE key = symbol_value("foo");
     VALUE val = num_value(123);
-    VALUE key2 = symbol_value("baz");
+    //VALUE key2 = symbol_value("foo");
     map_put(&o->map, &key, &val);
-    //push(key);
-    push(key2);
+    push(key);
     push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
     
     push(num_value(2));
     push(num_value(4));
-    push(func_value(quad));
+    push(func_value(quad));*/
+    
+    
+    VALUE v;
+    v.type = BOOL_TYPE;
+    v.data.boolean = 0;
+    push(num_value(2));
+    push(v);
+    
+    
+    PNODE* main = defun("main", 5, cjump, mark_placeholder, dup, resolve_placeholder, dup);
     push(func_value(main));
     
     curr = run;
