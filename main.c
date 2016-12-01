@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "value.h"
 #include "types.h"
@@ -112,6 +113,12 @@ void plus_impl() {
 void exit_impl() {
     curr = NULL;
     instr = NULL;
+}
+
+void jump_impl() {
+    ++curr;
+	curr = curr->into;
+	instr = curr->into->fp;
 }
 
 void cjump_impl() {
@@ -340,13 +347,80 @@ void print_debug_info() {
 
 void loop() {
     while(instr) {
-        print_debug_info();
+        //print_debug_info();
         //getch();
         instr();
     }
     
     print_debug_info();
 }
+
+void eval(char const* str) {
+    char const* p = str;
+    char tok[256];
+    char* tok_pos = tok;
+    
+    start:
+        if(*p == 0)
+            return;
+        else if(isspace(*p)) {
+            ++p;
+            goto start;
+        }else if(isdigit(*p)) {
+            *(tok_pos++) = *(p++);
+            goto word_or_num;
+        }else {
+            assert(isprint(*p));
+            *(tok_pos++) = *(p++);
+            goto word;
+        }
+    word:
+        if(*p == 0) {
+            *(tok_pos++) = 0;
+            // do something with word tok
+            printf("word %s\n", tok);
+            tok_pos = tok;
+            return;
+        }else if(isspace(*p)) {
+            *(tok_pos++) = 0;
+            ++p;
+            // do something with word tok
+            printf("word %s\n", tok);
+            tok_pos = tok;
+            goto start;
+        }else {
+            assert(isprint(*p));
+            *(tok_pos++) = *(p++);
+            goto word;
+        }
+    word_or_num:
+        if(*p == 0) {
+            *(tok_pos++) = 0;
+            // do something with num tok
+            printf("num %s\n", tok);
+            tok_pos = tok;
+            return;
+        }else if(isspace(*p)) {
+            *(tok_pos++) = 0;
+            ++p;
+            // do something with num tok
+            printf("num %s\n", tok);
+            tok_pos = tok;
+            goto start;
+        }else if(isdigit(*p)) {
+            *(tok_pos++) = *(p++);
+            goto word_or_num;
+        }else {
+            assert(isprint(*p));
+            *(tok_pos++) = *(p++);
+            goto word;
+        }
+}
+
+void eval_word(char const* str) {
+    
+}
+
 
 int main() {
     init();
@@ -358,9 +432,12 @@ int main() {
     PNODE* dcall = fcons(dcall_impl, "dcall");
     PNODE* dgetf = fcons(dgetf_impl, "dgetf");
     PNODE* cjump = fcons(cjump_impl, "cjump");
+    PNODE* jump = fcons(jump_impl, "jump");
     PNODE* exit = fcons(exit_impl, "exit");
     
     PNODE* run = defun("run", 2, dcall, exit);
+    
+    eval("          foo       1234 sd 132d324 31 ");
     
     /*
     PNODE* dbl = defun("dbl", 2, dup, plus);
@@ -387,7 +464,13 @@ int main() {
     push(v);
     
     
-    PNODE* main = defun("main", 5, cjump, mark_placeholder, dup, resolve_placeholder, dup);
+    PNODE* main = defun("main", 8,
+                        cjump, mark_placeholder,
+                        dup,
+                        jump, mark_placeholder,
+                        resolve_placeholder,
+                        dup,
+                        resolve_placeholder);
     push(func_value(main));
     
     curr = run;
