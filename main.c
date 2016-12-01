@@ -355,72 +355,55 @@ void loop() {
     print_debug_info();
 }
 
-void eval(char const* str) {
-    char const* p = str;
-    char tok[256];
+typedef enum {
+    TOK_WORD, TOK_NUM, TOK_END
+}TOK_TYPE;
+
+char const* tokenizer_pos;
+
+void init_tokenizer(char const* str) {
+    tokenizer_pos = str;
+}
+
+TOK_TYPE next_tok(char* tok) {
     char* tok_pos = tok;
     
     start:
-        if(*p == 0)
-            return;
-        else if(isspace(*p)) {
-            ++p;
+        if(*tokenizer_pos == 0)
+            return TOK_END;
+        else if(isspace(*tokenizer_pos)) {
+            ++tokenizer_pos;
             goto start;
-        }else if(isdigit(*p)) {
-            *(tok_pos++) = *(p++);
+        }else if(isdigit(*tokenizer_pos)) {
+            *(tok_pos++) = *(tokenizer_pos++);
             goto word_or_num;
         }else {
-            assert(isprint(*p));
-            *(tok_pos++) = *(p++);
+            assert(isprint(*tokenizer_pos));
+            *(tok_pos++) = *(tokenizer_pos++);
             goto word;
         }
     word:
-        if(*p == 0) {
+        if(*tokenizer_pos == 0 || isspace(*tokenizer_pos)) {
             *(tok_pos++) = 0;
-            // do something with word tok
-            printf("word %s\n", tok);
-            tok_pos = tok;
-            return;
-        }else if(isspace(*p)) {
-            *(tok_pos++) = 0;
-            ++p;
-            // do something with word tok
-            printf("word %s\n", tok);
-            tok_pos = tok;
-            goto start;
+            return TOK_WORD;
         }else {
-            assert(isprint(*p));
-            *(tok_pos++) = *(p++);
+            assert(isprint(*tokenizer_pos));
+            *(tok_pos++) = *(tokenizer_pos++);
             goto word;
         }
     word_or_num:
-        if(*p == 0) {
+        if(*tokenizer_pos == 0 || isspace(*tokenizer_pos)) {
             *(tok_pos++) = 0;
-            // do something with num tok
-            printf("num %s\n", tok);
-            tok_pos = tok;
-            return;
-        }else if(isspace(*p)) {
-            *(tok_pos++) = 0;
-            ++p;
-            // do something with num tok
-            printf("num %s\n", tok);
-            tok_pos = tok;
-            goto start;
-        }else if(isdigit(*p)) {
-            *(tok_pos++) = *(p++);
+            return TOK_NUM;
+        }else if(isdigit(*tokenizer_pos)) {
+            *(tok_pos++) = *(tokenizer_pos++);
             goto word_or_num;
         }else {
-            assert(isprint(*p));
-            *(tok_pos++) = *(p++);
+            assert(isprint(*tokenizer_pos));
+            *(tok_pos++) = *(tokenizer_pos++);
             goto word;
         }
 }
-
-void eval_word(char const* str) {
-    
-}
-
 
 int main() {
     init();
@@ -437,7 +420,22 @@ int main() {
     
     PNODE* run = defun("run", 2, dcall, exit);
     
-    eval("          foo       1234 sd 132d324 31 ");
+    
+    init_tokenizer("          foo       1234 sd 132d324 31 ");
+    char tok[256];
+    TOK_TYPE tt;
+    for(tt = next_tok(tok); tt != TOK_END; tt = next_tok(tok)) {
+        switch(tt) {
+            case TOK_WORD:
+                printf("WORD: %s\n", tok);
+                break;
+            case TOK_NUM:
+                printf("NUM: %s\n", tok);
+                break;
+        }
+    }
+
+//    eval("          foo       1234 sd 132d324 31 ");
     
     /*
     PNODE* dbl = defun("dbl", 2, dup, plus);
