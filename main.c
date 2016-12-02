@@ -406,7 +406,7 @@ void init() {
     ncons(*/
     
     /*
-        dup default_meta eq
+    dup default_meta eq
     cjump mark
         dup meta [ index ] swap getf
         call
@@ -655,11 +655,14 @@ int main() {
     
     
     
-    
+    //|---------->
+    //key obj
         /*
-        dup default_meta eq
+    
+    dup meta
+    dup default_meta eq
     cjump mark
-        dup meta [ index ] swap getf
+        [ index ] swap getf
         call
         leave
     resolve
@@ -678,6 +681,10 @@ int main() {
     // ********
     PNODE* getf = fcons(enter_impl);
     register_func(getf, "getf", 0);
+
+    ncons(dup);
+    ncons(meta);
+    
     ncons(dup);
     ncons(fpush);
     PNODE* tmp = ncons(NULL);
@@ -687,9 +694,6 @@ int main() {
     
     ncons(cjump);
     mark();
-        ncons(dup);
-        ncons(meta);
-        
         ncons(fpush);
         tmp = ncons(NULL);
         tmp->value = symbol_value("index");
@@ -699,6 +703,7 @@ int main() {
         ncons(jump);
         mark();
     resolve(2);
+        ncons(drop);
         ncons(dgetf);
     resolve(1);
     drop_marks(2);
@@ -737,7 +742,7 @@ int main() {
         tmp = ncons(NULL);
         tmp->value = symbol_value("call");
         ncons(swap);
-        ncons(dgetf);
+        ncons(getf);
         ncons(call);
         ncons(jump);
         mark();
