@@ -10,8 +10,9 @@ VALUE num_value(double x) {
 }
 
 int values_equal(VALUE* a, VALUE* b) {
-    if(a->type != b->type)
+    if(a->type != b->type) {
         return 0;
+    }
     else {
         switch(a->type) {
             case BOOL_TYPE:
@@ -49,7 +50,7 @@ unsigned int value_hash(VALUE* key) {
             h = sax_hash(&key->data.num, sizeof(double));
             break;
         case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
-            h = sax_hash(&key->data.num, sizeof(struct OBJECT_BASE_t*));
+            h = sax_hash(&key->data.obj, sizeof(struct OBJECT_BASE_t*));
             break;
         default:
             assert(0);

@@ -240,8 +240,6 @@ typedef struct FUNC_t {
     union PNODE_t* pnode;
 }FUNC;
 
-OBJECT* func_meta = NULL;
-
 void dcall_impl() {
     assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
     *ret_sp = curr;
@@ -274,8 +272,9 @@ void dgetf_impl() {
 
 void meta_impl() {
     VALUE objval = pop();
-    assert(objval.type == OBJECT_TYPE);
+    assert(objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE);
     OBJECT* obj = (OBJECT*)objval.data.obj;
+    objval.type = OBJECT_TYPE;
     objval.data.obj = (OBJECT_BASE*)obj->base.meta;
     push(objval);
     next();
@@ -294,12 +293,34 @@ void eq_impl() {
     next();
 }
 
-FUNC* create_func(PNODE* pnode) {
+PNODE* pcall;
+PNODE* dcall;
+VALUE pcall_val;
+
+VALUE func_value(PNODE* pnode, int primitive);
+PNODE* register_func(PNODE*, char const*, int primitive);
+OBJECT* func_meta = NULL;
+OBJECT* primitive_func_meta = NULL;
+
+FUNC* create_func(PNODE* pnode, int primitive) {
     FUNC* f = malloc(sizeof(FUNC));
     
     if(!func_meta) {
-        func_meta = create_object();
-          
+                func_meta = create_object();
+        primitive_func_meta = create_object();
+        
+        dcall = register_func(fcons(dcall_impl), "dcall", 1);
+        pcall = register_func(fcons(pcall_impl), "pcall", 1);
+        
+
+         
+        pcall_val = func_value(pcall, 1);
+        VALUE key = symbol_value("call");
+        VALUE item = pcall_val;
+        map_put(&func_meta->map, &key, &item);
+        
+        
+        
         //VALUE call = create_func(dcall);
     }
     
@@ -313,10 +334,10 @@ void destroy_func(FUNC* f) {
     free(f);
 }
 
-VALUE func_value(PNODE* pnode) {
+VALUE func_value(PNODE* pnode, int primitive) {
     VALUE v;
     v.type = FUNC_TYPE;
-    v.data.obj = (OBJECT_BASE*)create_func(pnode);
+    v.data.obj = (OBJECT_BASE*)create_func(pnode, primitive);
     return v;
 }
 
@@ -332,9 +353,9 @@ VALUE func_value(PNODE* pnode) {
 
 OBJECT* global_scope;
 
-PNODE* register_func(PNODE* pnode, char const* name) {
+PNODE* register_func(PNODE* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(name);
-    VALUE item = func_value(pnode);
+    VALUE item = func_value(pnode, primitive);
     map_put(&global_scope->map, &key, &item);
     set_debug_info(pnode, name);
     return pnode;
@@ -342,9 +363,9 @@ PNODE* register_func(PNODE* pnode, char const* name) {
 
 PNODE* run = NULL;
 
-void set_method(OBJECT* object, char const* name, PNODE* func) {
+void set_method(OBJECT* object, char const* name, PNODE* func, int primitive) {
     VALUE key = symbol_value(name);
-    VALUE item = func_value(func);
+    VALUE item = func_value(func, primitive);
     map_put(&object->map, &key, &item);
 }
 
@@ -363,21 +384,13 @@ void init() {
     
     global_scope = create_object();
     
-    PNODE* dup = register_func(fcons(dup_impl), "dup");
-    PNODE* swap = register_func(fcons(swap_impl), "swap");
-    PNODE* drop = register_func(fcons(drop_impl), "drop");
-    PNODE* plus = register_func(fcons(plus_impl), "+");
-    PNODE* dcall = register_func(fcons(dcall_impl), "dcall");
-    //PNODE* dcall = register_func(fcons(pcall_impl), "pcall");
-    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf");
-    PNODE* cjump = register_func(fcons(cjump_impl), "cjump");
-    PNODE* jump = register_func(fcons(jump_impl), "jump");
-    PNODE* push = register_func(fcons(push_impl), "push");
-    PNODE* exit = register_func(fcons(exit_impl), "exit");
+    PNODE* dcall = register_func(fcons(dcall_impl), "dcall", 1);
+    PNODE* exit = register_func(fcons(exit_impl), "exit", 1);
     
-    run = register_func(defun(2, dcall, exit), "run");
+    run = register_func(defun(2, dcall, exit), "run", 0);
     
-    set_method(meta, "index", dgetf);
+    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf", 1);
+    set_method(meta, "index", dgetf, 1);
     
     
     /*
@@ -459,7 +472,7 @@ void print_debug_info() {
 void loop() {
     while(instr) {
         print_debug_info();
-        //getch();
+        getch();
         instr();
     }
     
@@ -567,26 +580,26 @@ int main() {
     
     
     
-    PNODE* dup = register_func(fcons(dup_impl), "dup");
-    PNODE* swap = register_func(fcons(swap_impl), "swap");
-    PNODE* drop = register_func(fcons(drop_impl), "drop");
-    PNODE* plus = register_func(fcons(plus_impl), "+");
-    PNODE* dcall = register_func(fcons(dcall_impl), "dcall");
-    PNODE* pcall = register_func(fcons(pcall_impl), "pcall");
+    PNODE* dup = register_func(fcons(dup_impl), "dup", 1);
+    PNODE* swap = register_func(fcons(swap_impl), "swap", 1);
+    PNODE* drop = register_func(fcons(drop_impl), "drop", 1);
+    PNODE* plus = register_func(fcons(plus_impl), "+", 1);
+    PNODE* dcall = register_func(fcons(dcall_impl), "dcall", 1);
+   
     
-    PNODE* meta = register_func(fcons(meta_impl), "meta");
-    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf");
+    PNODE* meta = register_func(fcons(meta_impl), "meta", 1);
+    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf", 1);
     
-    PNODE* cjump = register_func(fcons(cjump_impl), "cjump");
-    PNODE* jump = register_func(fcons(jump_impl), "jump");
+    PNODE* cjump = register_func(fcons(cjump_impl), "cjump", 1);
+    PNODE* jump = register_func(fcons(jump_impl), "jump", 1);
     
-    PNODE* exit = register_func(fcons(exit_impl), "exit");
+    PNODE* exit = register_func(fcons(exit_impl), "exit", 1);
     
-    PNODE* leave = register_func(fcons(leave_impl), "leave");
-    PNODE* fpush = register_func(fcons(push_impl), "push");
-    PNODE* eq = register_func(fcons(eq_impl), "eq");
+    PNODE* leave = register_func(fcons(leave_impl), "leave", 1);
+    PNODE* fpush = register_func(fcons(push_impl), "push", 1);
+    PNODE* eq = register_func(fcons(eq_impl), "eq", 1);
     
-    run = register_func(defun(2, dcall, exit), "run");
+    run = register_func(defun(2, dcall, exit), "run", 0);
     
     // |---->
     // key obj
@@ -655,9 +668,16 @@ int main() {
     
     
     
-        
-    PNODE* f = fcons(enter_impl);
-    register_func(f, "getf");
+    PNODE* call = fcons(enter_impl);
+    register_func(call, "call", 0);
+    ncons(jump);
+    PNODE* call_stub = ncons(NULL);
+    
+    // ********
+    // * getf *
+    // ********
+    PNODE* getf = fcons(enter_impl);
+    register_func(getf, "getf", 0);
     ncons(dup);
     ncons(fpush);
     PNODE* tmp = ncons(NULL);
@@ -674,20 +694,69 @@ int main() {
         tmp = ncons(NULL);
         tmp->value = symbol_value("index");
         ncons(swap);
-        ncons(f);
-        ncons(pcall);
+        ncons(getf);
+        ncons(call);
         ncons(jump);
         mark();
     resolve(2);
         ncons(dgetf);
     resolve(1);
+    drop_marks(2);
     
     ncons(leave);
     
     
+    // ********
+    // * call *
+    // ********
+    
+    /*
+    dup [ pcall ] eq
+    cjump mark
+        dup meta [ call ] swap getf
+        call
+        leave
+    resolve
+    pcall*/
+    
+    PNODE* call_rest = ncons(dup);
+    register_func(call_rest, "call_rest", 0);
+    call_stub->into = call_rest;
+    
+    ncons(fpush);
+    tmp = ncons(NULL);
+    tmp->value = pcall_val;//func_value(pcall);
+    ncons(eq);
+    
+    ncons(cjump);
+    mark();
+        ncons(dup);
+        ncons(meta);
+        
+        ncons(fpush);
+        tmp = ncons(NULL);
+        tmp->value = symbol_value("call");
+        ncons(swap);
+        ncons(dgetf);
+        ncons(call);
+        ncons(jump);
+        mark();
+    resolve(2);
+        ncons(pcall);
+    resolve(1);
+    
+    ncons(leave);
+    
+    // *******
+    // * etc *
+    // *******
+    
+    
+    
+    
     //PNODE* main = defun(4, meta, swap, dgetf, f);
                         
-    PNODE* main = defun(1, f);
+    PNODE* main = defun(1, getf);
     
     
     
@@ -695,7 +764,7 @@ int main() {
     
     
                         
-    push(func_value(main));
+    push(func_value(main, 0));
     
     curr = run;
     next();
