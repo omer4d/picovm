@@ -273,6 +273,7 @@ void dgetf_impl() {
 void meta_impl() {
     VALUE objval = pop();
     assert(objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE);
+    assert(!value_is_nil(&objval));
     OBJECT* obj = (OBJECT*)objval.data.obj;
     objval.type = OBJECT_TYPE;
     objval.data.obj = (OBJECT_BASE*)obj->base.meta;
@@ -296,6 +297,7 @@ void eq_impl() {
 PNODE* pcall;
 PNODE* dcall;
 VALUE pcall_val;
+VALUE dcall_val;
 
 VALUE func_value(PNODE* pnode, int primitive);
 PNODE* register_func(PNODE*, char const*, int primitive);
@@ -306,25 +308,34 @@ FUNC* create_func(PNODE* pnode, int primitive) {
     FUNC* f = malloc(sizeof(FUNC));
     
     if(!func_meta) {
-                func_meta = create_object();
+        func_meta = create_object();
         primitive_func_meta = create_object();
         
         dcall = register_func(fcons(dcall_impl), "dcall", 1);
         pcall = register_func(fcons(pcall_impl), "pcall", 1);
         
 
-         
         pcall_val = func_value(pcall, 1);
         VALUE key = symbol_value("call");
         VALUE item = pcall_val;
+        map_put(&primitive_func_meta->map, &key, &item);
+        
+        
+        dcall_val = func_value(dcall, 1);
+        key = symbol_value("call");
+        item = dcall_val;
         map_put(&func_meta->map, &key, &item);
         
+        
+        
+        
+        //key = symbol_value("index");
         
         
         //VALUE call = create_func(dcall);
     }
     
-    f->base.meta = func_meta;
+    f->base.meta = primitive ? primitive_func_meta : func_meta;
     f->pnode = pnode;
     
     return f;
@@ -616,19 +627,35 @@ int main() {
 
 //    eval("          foo       1234 sd 132d324 31 ");
     
+    
+    PNODE* dbl = register_func(defun(2, dup, plus), "dbl", 0);
+    //printf(dbl->
+    
     /*
-    PNODE* dbl = defun(2, dup, plus);
     PNODE* quad = defun(2, dbl, dbl);
     PNODE* main = defun(5, dcall, plus, drop, swap, dgetf);*/
     
     
+    
+    
+    /*test111
     OBJECT* o = create_object();
     VALUE key = symbol_value("foo");
     VALUE val = num_value(123);
     //VALUE key2 = symbol_value("foo");
     map_put(&o->map, &key, &val);
     push(key);
-    push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
+    push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});*/
+    
+    
+    
+    
+    push(num_value(2));
+    push(func_value(dbl, 0));
+    
+    
+    
+    
     
     /*
     push(num_value(2));
@@ -761,7 +788,7 @@ int main() {
     
     //PNODE* main = defun(4, meta, swap, dgetf, f);
                         
-    PNODE* main = defun(1, getf);
+    PNODE* main = defun(1, call);
     
     
     
