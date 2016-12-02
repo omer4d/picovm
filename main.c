@@ -16,6 +16,7 @@ typedef void (*CFUN)();
 typedef union PNODE_t {
     union PNODE_t* into;
     CFUN fp;
+    VALUE value;
 }PNODE;
 
 PNODE program[3*1000*1000];
@@ -34,6 +35,10 @@ PNODE* mark_sp = mark_stack;
 PNODE* curr;
 void (*instr)();
 
+void set_debug_info(PNODE* node, char const* debug) {
+    debug_info[node - program] = debug;
+}
+
 PNODE* ncons(PNODE* n) {
     PNODE* node = program_pos;
     ++program_pos;
@@ -41,11 +46,10 @@ PNODE* ncons(PNODE* n) {
     return node;
 }
 
-PNODE* fcons(CFUN fp, char const* debug) {
+PNODE* fcons(CFUN fp) {
     PNODE* node = program_pos;
     ++program_pos;
     node->fp = fp;
-    debug_info[node - program] = debug;
     return node;
 }
 
@@ -143,36 +147,39 @@ void mark() {
     ++mark_sp;
 }
 
-void resolve() {
-    assert(mark_sp > mark_stack);
-    --mark_sp;
-    mark_sp->into->into = program_pos;
+void resolve(int n) {
+    assert(mark_sp - n >= mark_stack);
+    //--mark_sp;
+    (mark_sp - n)->into->into = program_pos;
+}
+
+void drop_marks(int n) {
+    mark_sp -= n;
 }
 
 PNODE* mark_placeholder;
 PNODE* resolve_placeholder;
 
-PNODE* defun(char const* name, int n, ...) {
+PNODE* defun(int n, ...) {
     static PNODE* leave = NULL;
     
     if(!leave) {
-        leave = fcons(leave_impl, "leave");
+        leave = fcons(leave_impl);
     }
     
     va_list argp;
     va_start(argp, n);
     
-    PNODE* first = fcons(enter_impl, "enter");
-    debug_info[first - program] = name;
+    PNODE* first = fcons(enter_impl);
     
     int i;
     for(i = 0; i < n; ++i) {
         PNODE* pn = va_arg(argp, PNODE*);
-        if(pn == mark_placeholder)
-            mark();
-        else if(pn == resolve_placeholder)
-            resolve();
-        else
+        //if(pn == mark_placeholder)
+        //    mark();
+        //else if(pn == resolve_placeholder)
+        //    resolve();
+        //else
             ncons(pn);
     }
     
@@ -189,7 +196,7 @@ typedef struct SYMBOL_t {
 
 OBJECT* sym_meta = NULL;
 
-SYMBOL* create_symbol(char const* name) {
+SYMBOL* get_symbol(char const* name) {
     static SYMBOL** sym_table = NULL;
     static int sym_table_cap = 0;
     static int sym_num = 0;
@@ -210,7 +217,8 @@ SYMBOL* create_symbol(char const* name) {
     }
     
     if(sym_num >= sym_table_cap) {
-        sym_table = realloc(sym_table, sym_table_cap * 2);
+        sym_table_cap *= 2;
+        sym_table = realloc(sym_table, sizeof(SYMBOL*) * sym_table_cap);
     }
     
     SYMBOL* sym = malloc(sizeof(SYMBOL));
@@ -223,7 +231,7 @@ SYMBOL* create_symbol(char const* name) {
 VALUE symbol_value(char const* name) {
     VALUE v;
     v.type = SYMBOL_TYPE;
-    v.data.obj = (OBJECT_BASE*)create_symbol(name);
+    v.data.obj = (OBJECT_BASE*)get_symbol(name);
     return v;
 }
 
@@ -244,9 +252,18 @@ void dcall_impl() {
     next();
 }
 
+char const* lookup_debug_info(PNODE*);
+
+void pcall_impl() {
+    assert(ret_sp <= &ret_stack[RET_STACK_SIZE - 1]);
+    VALUE v = pop();
+    assert(v.type == FUNC_TYPE);
+    instr = ((FUNC*)v.data.obj)->pnode->fp;
+}
+
 void dgetf_impl() {
-    VALUE key = pop();
     VALUE objval = pop();
+    VALUE key = pop();
     assert(objval.type == OBJECT_TYPE);
     OBJECT* obj = (OBJECT*)objval.data.obj;
     VALUE val;
@@ -255,12 +272,34 @@ void dgetf_impl() {
     next();
 }
 
+void meta_impl() {
+    VALUE objval = pop();
+    assert(objval.type == OBJECT_TYPE);
+    OBJECT* obj = (OBJECT*)objval.data.obj;
+    objval.data.obj = (OBJECT_BASE*)obj->base.meta;
+    push(objval);
+    next();
+}
+
+void push_impl() {
+    push((++curr)->value);
+    next();
+}
+
+void eq_impl() {
+    VALUE a = pop();
+    VALUE b = pop();
+    VALUE c = {.type = BOOL_TYPE, .data.boolean = values_equal(&a, &b) ? 1 : 0};
+    push(c);
+    next();
+}
+
 FUNC* create_func(PNODE* pnode) {
     FUNC* f = malloc(sizeof(FUNC));
     
     if(!func_meta) {
         func_meta = create_object();
-        
+          
         //VALUE call = create_func(dcall);
     }
     
@@ -281,14 +320,86 @@ VALUE func_value(PNODE* pnode) {
     return v;
 }
 
+
+
+
+
+
+
+
+
+
+
+OBJECT* global_scope;
+
+PNODE* register_func(PNODE* pnode, char const* name) {
+    VALUE key = symbol_value(name);
+    VALUE item = func_value(pnode);
+    map_put(&global_scope->map, &key, &item);
+    set_debug_info(pnode, name);
+    return pnode;
+}
+
+PNODE* run = NULL;
+
+void set_method(OBJECT* object, char const* name, PNODE* func) {
+    VALUE key = symbol_value(name);
+    VALUE item = func_value(func);
+    map_put(&object->map, &key, &item);
+}
+
+void compile_push(VALUE val) {
+    PNODE* tmp = ncons(NULL);
+    tmp->value = val;
+}
+
 void init() {
     mark_placeholder = malloc(sizeof(PNODE));
     resolve_placeholder = malloc(sizeof(PNODE));
     
     OBJECT* meta = create_object();
     meta->base.meta = meta;
-    MAP* m = &meta->map;
-    //map_put(m, 
+    init_object_system(meta);
+    
+    global_scope = create_object();
+    
+    PNODE* dup = register_func(fcons(dup_impl), "dup");
+    PNODE* swap = register_func(fcons(swap_impl), "swap");
+    PNODE* drop = register_func(fcons(drop_impl), "drop");
+    PNODE* plus = register_func(fcons(plus_impl), "+");
+    PNODE* dcall = register_func(fcons(dcall_impl), "dcall");
+    //PNODE* dcall = register_func(fcons(pcall_impl), "pcall");
+    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf");
+    PNODE* cjump = register_func(fcons(cjump_impl), "cjump");
+    PNODE* jump = register_func(fcons(jump_impl), "jump");
+    PNODE* push = register_func(fcons(push_impl), "push");
+    PNODE* exit = register_func(fcons(exit_impl), "exit");
+    
+    run = register_func(defun(2, dcall, exit), "run");
+    
+    set_method(meta, "index", dgetf);
+    
+    
+    /*
+    PNODE* getf = fcons(enter_impl);
+    VALUE meta_val;
+    meta_val.type = OBJECT_TYPE;
+    meta_val.data.obj = (OBJECT_BASE*)meta;
+    
+    ncons(dup);
+    compile_push(meta_val);
+    ncons(push);
+    ncons(eq);
+    ncons(*/
+    
+    /*
+        dup default_meta eq
+    cjump mark
+        dup meta [ index ] swap getf
+        call
+        leave
+    resolve
+        dgetf*/
 }
 
 char const* lookup_debug_info(PNODE* pnode) {
@@ -347,7 +458,7 @@ void print_debug_info() {
 
 void loop() {
     while(instr) {
-        //print_debug_info();
+        print_debug_info();
         //getch();
         instr();
     }
@@ -405,42 +516,98 @@ TOK_TYPE next_tok(char* tok) {
         }
 }
 
-int main() {
-    init();
-    
-    PNODE* dup = fcons(dup_impl, "dup");
-    PNODE* swap = fcons(swap_impl, "swap");
-    PNODE* drop = fcons(drop_impl, "drop");
-    PNODE* plus = fcons(plus_impl, "plus");
-    PNODE* dcall = fcons(dcall_impl, "dcall");
-    PNODE* dgetf = fcons(dgetf_impl, "dgetf");
-    PNODE* cjump = fcons(cjump_impl, "cjump");
-    PNODE* jump = fcons(jump_impl, "jump");
-    PNODE* exit = fcons(exit_impl, "exit");
-    
-    PNODE* run = defun("run", 2, dcall, exit);
-    
-    
-    init_tokenizer("          foo       1234 sd 132d324 31 ");
+VALUE parse_num(char const* str) {
+    VALUE v = {.type = NUM_TYPE, .data.num = strtod(str, NULL)};
+    return v;
+}
+
+VALUE parse_word(char const* str) {
+    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(str)};
+    return v;
+}
+
+void eval_str(char const* str) {
+    init_tokenizer(str);
     char tok[256];
     TOK_TYPE tt;
+    VALUE key, item;
+    
     for(tt = next_tok(tok); tt != TOK_END; tt = next_tok(tok)) {
         switch(tt) {
             case TOK_WORD:
-                printf("WORD: %s\n", tok);
+                key = symbol_value(tok);
+                map_get(&item, &global_scope->map, &key);
+                
+                if(value_is_nil(&item)) {
+                    printf("Undefined function '%s'.\n", tok);
+                }else if(item.type != FUNC_TYPE) {
+                    printf("'%s' is not a function.\n", tok);
+                }else {
+                    push(item);
+                    curr = run;
+                    next();
+                    loop();
+                }
                 break;
             case TOK_NUM:
-                printf("NUM: %s\n", tok);
+                push(parse_num(tok));
                 break;
         }
+        
+        print_debug_info();
     }
+}
+
+int main() {
+    init();
+    
+    //eval_str("555 4 +");
+    //eval_str("+");
+    
+    
+    
+    
+    PNODE* dup = register_func(fcons(dup_impl), "dup");
+    PNODE* swap = register_func(fcons(swap_impl), "swap");
+    PNODE* drop = register_func(fcons(drop_impl), "drop");
+    PNODE* plus = register_func(fcons(plus_impl), "+");
+    PNODE* dcall = register_func(fcons(dcall_impl), "dcall");
+    PNODE* pcall = register_func(fcons(pcall_impl), "pcall");
+    
+    PNODE* meta = register_func(fcons(meta_impl), "meta");
+    PNODE* dgetf = register_func(fcons(dgetf_impl), "dgetf");
+    
+    PNODE* cjump = register_func(fcons(cjump_impl), "cjump");
+    PNODE* jump = register_func(fcons(jump_impl), "jump");
+    
+    PNODE* exit = register_func(fcons(exit_impl), "exit");
+    
+    PNODE* leave = register_func(fcons(leave_impl), "leave");
+    PNODE* fpush = register_func(fcons(push_impl), "push");
+    PNODE* eq = register_func(fcons(eq_impl), "eq");
+    
+    run = register_func(defun(2, dcall, exit), "run");
+    
+    // |---->
+    // key obj
+    /*
+    dup default_meta eq
+    cjump mark
+        dup meta [ index ] swap getf
+        call
+        leave
+    resolve
+        dgetf
+    */
+    
 
 //    eval("          foo       1234 sd 132d324 31 ");
     
     /*
-    PNODE* dbl = defun("dbl", 2, dup, plus);
-    PNODE* quad = defun("quad", 2, dbl, dbl);
-    PNODE* main = defun("main", 5, dcall, plus, drop, swap, dgetf);
+    PNODE* dbl = defun(2, dup, plus);
+    PNODE* quad = defun(2, dbl, dbl);
+    PNODE* main = defun(5, dcall, plus, drop, swap, dgetf);*/
+    
     
     OBJECT* o = create_object();
     VALUE key = symbol_value("foo");
@@ -450,25 +617,84 @@ int main() {
     push(key);
     push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
     
+    /*
     push(num_value(2));
     push(num_value(4));
     push(func_value(quad));*/
     
-    
+    /*
     VALUE v;
     v.type = BOOL_TYPE;
     v.data.boolean = 0;
     push(num_value(2));
-    push(v);
+    push(num_value(3));
+    push(v);*/
     
     
-    PNODE* main = defun("main", 8,
-                        cjump, mark_placeholder,
-                        dup,
-                        jump, mark_placeholder,
-                        resolve_placeholder,
-                        dup,
-                        resolve_placeholder);
+    /*
+    OBJECT* o = create_object();
+    VALUE key = symbol_value("index");
+    VALUE val = num_value(123);
+    map_put(&o->map, &key, &val);
+    push(key);
+    push((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)o});
+    */
+    
+    
+    
+    
+        /*
+        dup default_meta eq
+    cjump mark
+        dup meta [ index ] swap getf
+        call
+        leave
+    resolve
+        dgetf*/
+    
+    
+    
+    
+        
+    PNODE* f = fcons(enter_impl);
+    register_func(f, "getf");
+    ncons(dup);
+    ncons(fpush);
+    PNODE* tmp = ncons(NULL);
+    tmp->value.type = OBJECT_TYPE;
+    tmp->value.data.obj = (OBJECT_BASE*)default_meta;
+    ncons(eq);
+    
+    ncons(cjump);
+    mark();
+        ncons(dup);
+        ncons(meta);
+        
+        ncons(fpush);
+        tmp = ncons(NULL);
+        tmp->value = symbol_value("index");
+        ncons(swap);
+        ncons(f);
+        ncons(pcall);
+        ncons(jump);
+        mark();
+    resolve(2);
+        ncons(dgetf);
+    resolve(1);
+    
+    ncons(leave);
+    
+    
+    //PNODE* main = defun(4, meta, swap, dgetf, f);
+                        
+    PNODE* main = defun(1, f);
+    
+    
+    
+    
+    
+    
+                        
     push(func_value(main));
     
     curr = run;
