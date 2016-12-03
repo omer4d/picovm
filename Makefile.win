@@ -5,8 +5,8 @@ CPP  = g++.exe -D__DEBUG__
 CC   = gcc.exe -D__DEBUG__
 WINDRES = windres.exe
 RES  = 
-OBJ  = main.o map.o types.o value.o vm.o symbol.o func.o primitives.o $(RES)
-LINKOBJ  = main.o map.o types.o value.o vm.o symbol.o func.o primitives.o $(RES)
+OBJ  = main.o map.o types.o value.o vm.o symbol.o func.o primitives.o tokenizer.o $(RES)
+LINKOBJ  = main.o map.o types.o value.o vm.o symbol.o func.o primitives.o tokenizer.o $(RES)
 LIBS =  -L"C:/Dev-Cpp/lib" -lalleg  -g3 
 INCS =  -I"C:/Dev-Cpp/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
@@ -26,7 +26,7 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o "pvm.exe" $(LIBS)
 
-main.o: main.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/ctype.h value.h types.h   map.h symbol.h
+main.o: main.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/ctype.h value.h types.h   map.h symbol.h primitives.h vm.h
 	$(CC) -c main.c -o main.o $(CFLAGS)
 
 map.o: map.c C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/assert.h map.h value.h
@@ -38,7 +38,7 @@ types.o: types.c types.h map.h value.h
 value.o: value.c value.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h
 	$(CC) -c value.c -o value.o $(CFLAGS)
 
-vm.o: vm.c 
+vm.o: vm.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h value.h types.h map.h symbol.h primitives.h   vm.h tokenizer.h
 	$(CC) -c vm.c -o vm.o $(CFLAGS)
 
 symbol.o: symbol.c symbol.h types.h map.h value.h   C:/Dev-Cpp/include/malloc.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/stddef.h
@@ -47,5 +47,8 @@ symbol.o: symbol.c symbol.h types.h map.h value.h   C:/Dev-Cpp/include/malloc.h 
 func.o: func.c 
 	$(CC) -c func.c -o func.o $(CFLAGS)
 
-primitives.o: primitives.c 
+primitives.o: primitives.c vm.h value.h types.h map.h primitives.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/assert.h
 	$(CC) -c primitives.c -o primitives.o $(CFLAGS)
+
+tokenizer.o: tokenizer.c tokenizer.h C:/Dev-Cpp/include/ctype.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/assert.h
+	$(CC) -c tokenizer.c -o tokenizer.o $(CFLAGS)
