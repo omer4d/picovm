@@ -2,11 +2,14 @@
 #define __VM_H__
 
 #include "value.h"
-#include "types.h"
+#include "object.h"
 
 #define ARG_STACK_SIZE 1024
 #define RET_STACK_SIZE 1024
 #define MARK_STACK_SIZE 256
+
+struct SYMBOL_t;
+struct OBJECT_t;
 
 struct VM_t;
 
@@ -35,13 +38,19 @@ typedef struct VM_t {
     PNODE* curr;
     CFUN instr;
     
-    OBJECT* global_scope;
-}VM;
+    struct SYMBOL_t** sym_table;
+    int sym_table_cap;
+    int sym_num;
+    
+    struct OBJECT_t* default_meta;
+    struct OBJECT_t* sym_meta;
+    struct OBJECT_t* primitive_func_meta;
+    struct OBJECT_t* func_meta;
+    
+    struct OBJECT_t* global_scope;
+    
 
-typedef struct FUNC_t {
-    OBJECT_BASE base;
-    union PNODE_t* pnode;
-}FUNC;
+}VM;
 
 VM* create_vm();
 void destroy_vm(VM* vm);

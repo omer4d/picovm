@@ -3,6 +3,7 @@
 
 #include "map.h"
 
+struct VM_t;
 struct OBJECT_t;
 
 typedef struct OBJECT_BASE_t {
@@ -14,12 +15,7 @@ typedef struct OBJECT_t {
     MAP map;
 }OBJECT;
 
-OBJECT* create_object();
+OBJECT* create_object(OBJECT* meta);
 void destroy_object(OBJECT* obj);
-int has_default_meta(OBJECT* obj);
-
-void init_object_system(OBJECT* meta);
-
-extern OBJECT* default_meta;
 
 #endif

@@ -4,11 +4,132 @@
 #include <stdarg.h>
 
 #include "value.h"
-#include "types.h"
+#include "object.h"
 #include "symbol.h"
 #include "primitives.h"
 #include "vm.h"
 #include "tokenizer.h"
+#include "func.h"
+
+PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive);
+PNODE* ncons(VM* vm, PNODE* n);
+PNODE* fcons(VM* vm, CFUN fp);
+PNODE* fcons_deb(VM* vm, CFUN fp, char const* name);
+void mark(VM* vm);
+void resolve(VM* vm, int n);
+void drop_marks(VM* vm, int n);
+VALUE lookup(VM* vm, char const* name);
+PNODE* defun(VM* vm, int n, ...);
+void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func);
+
+void init_global_scope(VM* vm) {
+    PNODE* dup = register_func(vm, fcons(vm, dup_impl), "dup", 1);
+    PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
+    PNODE* drop = register_func(vm, fcons(vm, drop_impl), "drop", 1);
+    PNODE* plus = register_func(vm, fcons(vm, plus_impl), "+", 1);
+    
+    PNODE* meta = register_func(vm, fcons(vm, meta_impl), "meta", 1);
+    PNODE* cjump = register_func(vm, fcons(vm, cjump_impl), "cjump", 1);
+    PNODE* jump = register_func(vm, fcons(vm, jump_impl), "jump", 1);
+    
+    PNODE* exit = register_func(vm, fcons(vm, exit_impl), "exit", 1);
+    
+    PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
+    PNODE* fpush = register_func(vm, fcons(vm, push_impl), "push", 1);
+    PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
+    
+    PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
+    
+    // **** methods ****
+    
+    PNODE* dcall = fcons_deb(vm, dcall_impl, "dcall");
+    FUNC* dcall_func = create_func(dcall, vm->primitive_func_meta);
+    
+    PNODE* pcall = fcons_deb(vm, pcall_impl, "pcall");
+    FUNC* pcall_func = create_func(pcall, vm->primitive_func_meta);
+    
+    PNODE* dgetf = fcons_deb(vm, dgetf_impl, "dgetf");
+    FUNC* dgetf_func = create_func(dgetf, vm->primitive_func_meta);
+    
+    // **** call decl ****
+    
+    PNODE* call = fcons(vm, enter_impl);
+    register_func(vm, call, "call", 0);
+    ncons(vm, jump);
+    PNODE* call_stub = ncons(vm, NULL);
+    
+    // **** getf ****
+    
+    PNODE* getf = fcons(vm, enter_impl);
+    register_func(vm, getf, "getf", 0);
+
+    ncons(vm, dup);
+    ncons(vm, meta);
+    
+    ncons(vm, dup);
+    ncons(vm, fpush);
+    PNODE* tmp = ncons(vm, NULL);
+    tmp->value.type = OBJECT_TYPE;
+    tmp->value.data.obj = (OBJECT_BASE*)vm->default_meta;
+    ncons(vm, eq);
+    
+    ncons(vm, cjump);
+    mark(vm);
+        ncons(vm, fpush);
+        tmp = ncons(vm, NULL);
+        tmp->value = symbol_value(vm, "index");
+        ncons(vm, swap);
+        ncons(vm, getf);
+        ncons(vm, call);
+        ncons(vm, jump);
+    mark(vm);
+    resolve(vm, 2);
+        ncons(vm, drop);
+        ncons(vm, dgetf);
+    resolve(vm, 1);
+    drop_marks(vm, 2);
+    
+    ncons(vm, leave);
+    
+    // **** call def ****
+    
+    PNODE* call_rest = ncons(vm, dup);
+    call_stub->into = call_rest;
+    
+    ncons(vm, fpush);
+    tmp = ncons(vm, NULL);
+    tmp->value = (VALUE){.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)pcall_func}; //lookup(vm, "pcall");
+    ncons(vm, eq);
+    
+    ncons(vm, cjump);
+    mark(vm);
+        ncons(vm, dup);
+        ncons(vm, meta);
+        
+        ncons(vm, fpush);
+        tmp = ncons(vm, NULL);
+        tmp->value = symbol_value(vm, "call");
+        ncons(vm, swap);
+        ncons(vm, getf);
+        ncons(vm, call);
+        ncons(vm, jump);
+    mark(vm);
+    resolve(vm, 2);
+        ncons(vm, pcall);
+    resolve(vm, 1);
+    
+    ncons(vm, leave);
+    
+    // **** run ****
+    
+    register_func(vm, defun(vm, 2, call, exit), "run", 0);
+    
+    // **** init meta methods ****
+    
+    set_method(vm, vm->default_meta, "index", dgetf_func);
+    set_method(vm, vm->func_meta, "call", dcall_func);
+    set_method(vm, vm->primitive_func_meta, "call", pcall_func);
+}
 
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
@@ -30,7 +151,18 @@ VM* create_vm() {
     vm->curr = NULL;
     vm->instr = NULL;
     
-    vm->global_scope = create_object();
+    vm->default_meta = create_object(NULL);
+    vm->default_meta->base.meta = vm->default_meta;
+    vm->sym_meta = create_object(vm->default_meta);
+    vm->func_meta = create_object(vm->default_meta);
+    vm->primitive_func_meta = create_object(vm->default_meta);
+    
+    vm->sym_table_cap = 8;
+    vm->sym_table = malloc(sizeof(SYMBOL*) * vm->sym_table_cap);
+    vm->sym_num = 0;
+    
+    vm->global_scope = create_object(vm->default_meta);
+    init_global_scope(vm);
     
     return vm;
 }
@@ -41,13 +173,38 @@ void destroy_vm(VM* vm) {
     free(vm->arg_stack);
     free(vm->ret_stack);
     free(vm->mark_stack);
+    
     destroy_object(vm->global_scope);
+    
+    free(vm->sym_table);
+    
     free(vm);
 }
 
 
+void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func) {
+    VALUE key = symbol_value(vm, name);
+    VALUE item = (VALUE){.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)func};
+    map_put(&object->map, &key, &item);
+}
+
 void set_debug_info(VM* vm, PNODE* node, char const* debug) {
     vm->debug_info[node - vm->program] = debug;
+}
+
+VALUE lookup(VM* vm, char const* name) {
+    VALUE key = symbol_value(vm, name);
+    VALUE item;
+    map_get(&item, &vm->global_scope->map, &key);
+    return item;
+}
+
+PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
+    VALUE key = symbol_value(vm, name);
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
+    map_put(&vm->global_scope->map, &key, &item);
+    set_debug_info(vm, pnode, name);
+    return pnode;
 }
 
 PNODE* ncons(VM* vm, PNODE* n) {
@@ -62,6 +219,12 @@ PNODE* fcons(VM* vm, CFUN fp) {
     ++vm->program_pos;
     node->fp = fp;
     return node;
+}
+
+PNODE* fcons_deb(VM* vm, CFUN fp, char const* name) {
+    PNODE* pnode = fcons(vm, fp);
+    set_debug_info(vm, pnode, name);
+    return pnode;
 }
 
 void push(VM* vm, VALUE x) {
@@ -109,241 +272,13 @@ PNODE* defun(VM* vm, int n, ...) {
     int i;
     for(i = 0; i < n; ++i) {
         PNODE* pn = va_arg(argp, PNODE*);
-        //if(pn == mark_placeholder)
-        //    mark();
-        //else if(pn == resolve_placeholder)
-        //    resolve();
-        //else
-            ncons(vm, pn);
+        ncons(vm, pn);
     }
     
     va_end(argp);
     ncons(vm, leave);
     
     return first;
-}
-
-
-
-
-
-
-char const* lookup_debug_info(VM* vm, PNODE*);
-
-
-
-PNODE* pcall;
-PNODE* dcall;
-VALUE pcall_val;
-VALUE dcall_val;
-
-VALUE func_value(VM* vm, PNODE* pnode, int primitive);
-PNODE* register_func(VM* vm, PNODE*, char const*, int primitive);
-OBJECT* func_meta = NULL;
-OBJECT* primitive_func_meta = NULL;
-
-FUNC* create_func(VM* vm, PNODE* pnode, int primitive) {
-    FUNC* f = malloc(sizeof(FUNC));
-    
-    if(!func_meta) {
-        func_meta = create_object();
-        primitive_func_meta = create_object();
-        
-        dcall = register_func(vm, fcons(vm, dcall_impl), "dcall", 1);
-        pcall = register_func(vm, fcons(vm, pcall_impl), "pcall", 1);
-        
-
-        pcall_val = func_value(vm, pcall, 1);
-        VALUE key = symbol_value("call");
-        VALUE item = pcall_val;
-        map_put(&primitive_func_meta->map, &key, &item);
-        
-        
-        dcall_val = func_value(vm, dcall, 1);
-        key = symbol_value("call");
-        item = dcall_val;
-        map_put(&func_meta->map, &key, &item);
-        
-        
-        
-        
-        //key = symbol_value("index");
-        
-        
-        //VALUE call = create_func(dcall);
-    }
-    
-    f->base.meta = primitive ? primitive_func_meta : func_meta;
-    f->pnode = pnode;
-    
-    return f;
-}
-
-void destroy_func(FUNC* f) {
-    free(f);
-}
-
-VALUE func_value(VM* vm, PNODE* pnode, int primitive) {
-    VALUE v;
-    v.type = FUNC_TYPE;
-    v.data.obj = (OBJECT_BASE*)create_func(vm, pnode, primitive);
-    return v;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
-    VALUE key = symbol_value(name);
-    VALUE item = func_value(vm, pnode, primitive);
-    map_put(&vm->global_scope->map, &key, &item);
-    set_debug_info(vm, pnode, name);
-    return pnode;
-}
-
-PNODE* run = NULL;
-
-void set_method(VM* vm, OBJECT* object, char const* name, PNODE* func, int primitive) {
-    VALUE key = symbol_value(name);
-    VALUE item = func_value(vm, func, primitive);
-    map_put(&object->map, &key, &item);
-}
-
-
-
-void init(VM* vm) {
-
-    
-    OBJECT* metaobj = create_object();
-    metaobj->base.meta = metaobj;
-    init_object_system(metaobj);
-    
-    
-    
-    //PNODE* dcall = register_func(vm, fcons(vm, dcall_impl), "dcall", 1);
-    //PNODE* exit = register_func(vm, fcons(vm, exit_impl), "exit", 1);
-    
-    
-    
-    PNODE* dup = register_func(vm, fcons(vm, dup_impl), "dup", 1);
-    PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
-    PNODE* drop = register_func(vm, fcons(vm, drop_impl), "drop", 1);
-    PNODE* plus = register_func(vm, fcons(vm, plus_impl), "+", 1);
-    PNODE* dcall = register_func(vm, fcons(vm, dcall_impl), "dcall", 1);
-   
-    
-    PNODE* meta = register_func(vm, fcons(vm, meta_impl), "meta", 1);
-    PNODE* dgetf = register_func(vm, fcons(vm, dgetf_impl), "dgetf", 1);
-    
-    PNODE* cjump = register_func(vm, fcons(vm, cjump_impl), "cjump", 1);
-    PNODE* jump = register_func(vm, fcons(vm, jump_impl), "jump", 1);
-    
-    PNODE* exit = register_func(vm, fcons(vm, exit_impl), "exit", 1);
-    
-    PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
-    PNODE* fpush = register_func(vm, fcons(vm, push_impl), "push", 1);
-    PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
-    
-    
-    PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
-
-    
-    
-    set_method(vm, metaobj, "index", dgetf, 1);
-    
-    
-    PNODE* call = fcons(vm, enter_impl);
-    register_func(vm, call, "call", 0);
-    ncons(vm, jump);
-    PNODE* call_stub = ncons(vm, NULL);
-    
-    // ********
-    // * getf *
-    // ********
-    PNODE* getf = fcons(vm, enter_impl);
-    register_func(vm, getf, "getf", 0);
-
-    ncons(vm, dup);
-    ncons(vm, meta);
-    
-    ncons(vm, dup);
-    ncons(vm, fpush);
-    PNODE* tmp = ncons(vm, NULL);
-    tmp->value.type = OBJECT_TYPE;
-    tmp->value.data.obj = (OBJECT_BASE*)default_meta;
-    ncons(vm, eq);
-    
-    ncons(vm, cjump);
-    mark(vm);
-        ncons(vm, fpush);
-        tmp = ncons(vm, NULL);
-        tmp->value = symbol_value("index");
-        ncons(vm, swap);
-        ncons(vm, getf);
-        ncons(vm, call);
-        ncons(vm, jump);
-        mark(vm);
-    resolve(vm, 2);
-        ncons(vm, drop);
-        ncons(vm, dgetf);
-    resolve(vm, 1);
-    drop_marks(vm, 2);
-    
-    ncons(vm, leave);
-    
-    
-    // ********
-    // * call *
-    // ********
-    
-    /*
-    dup [ pcall ] eq
-    cjump mark
-        dup meta [ call ] swap getf
-        call
-        leave
-    resolve
-    pcall*/
-    
-    PNODE* call_rest = ncons(vm, dup);
-    register_func(vm, call_rest, "call_rest", 0);
-    call_stub->into = call_rest;
-    
-    ncons(vm, fpush);
-    tmp = ncons(vm, NULL);
-    tmp->value = pcall_val;//func_value(vm, pcall);
-    ncons(vm, eq);
-    
-    ncons(vm, cjump);
-    mark(vm);
-        ncons(vm, dup);
-        ncons(vm, meta);
-        
-        ncons(vm, fpush);
-        tmp = ncons(vm, NULL);
-        tmp->value = symbol_value("call");
-        ncons(vm, swap);
-        ncons(vm, getf);
-        ncons(vm, call);
-        ncons(vm, jump);
-        mark(vm);
-    resolve(vm, 2);
-        ncons(vm, pcall);
-    resolve(vm, 1);
-    
-    ncons(vm, leave);
-    
-    
-    run = register_func(vm, defun(vm ,2, call, exit), "run", 0);
 }
 
 char const* lookup_debug_info(VM* vm, PNODE* pnode) {
@@ -415,8 +350,8 @@ VALUE parse_num(char const* str) {
     return v;
 }
 
-VALUE parse_word(char const* str) {
-    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(str)};
+VALUE parse_word(VM* vm, char const* str) {
+    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(vm, str)};
     return v;
 }
 
@@ -426,11 +361,12 @@ void eval_str(VM* vm, char const* str) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
+    PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
     
     for(tt = next_tok(&tokenizer, tok); tt != TOK_END; tt = next_tok(&tokenizer, tok)) {
         switch(tt) {
             case TOK_WORD:
-                key = symbol_value(tok);
+                key = symbol_value(vm, tok);
                 map_get(&item, &vm->global_scope->map, &key);
                 
                 if(value_is_nil(&item)) {

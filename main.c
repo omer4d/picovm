@@ -4,10 +4,6 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-#include "value.h"
-#include "types.h"
-#include "symbol.h"
-#include "primitives.h"
 #include "vm.h"
 
 
@@ -17,7 +13,6 @@
 int main() {
     VM* vm = create_vm();
     
-    init(vm);
     char str[256];
     
     while(1) {

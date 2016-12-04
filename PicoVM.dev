@@ -1,7 +1,7 @@
 [Project]
 FileName=PicoVM.dev
 Name=PicoVM
-UnitCount=16
+UnitCount=17
 Type=1
 Ver=1
 ObjFiles=
@@ -78,7 +78,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=types.h
+FileName=object.h
 CompileCpp=0
 Folder=
 Compile=1
@@ -88,7 +88,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=types.c
+FileName=object.c
 CompileCpp=0
 Folder=
 Compile=1
@@ -199,6 +199,16 @@ BuildCmd=
 
 [Unit16]
 FileName=tokenizer.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit17]
+FileName=func.h
 CompileCpp=0
 Folder=
 Compile=1

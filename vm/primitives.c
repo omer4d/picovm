@@ -1,7 +1,6 @@
 #include "vm.h"
 #include "primitives.h"
-#include "object.h"
-#include "func.h"
+#include "types.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -87,16 +86,6 @@ void pcall_impl(VM* vm) {
     vm->instr = ((FUNC*)v.data.obj)->pnode->fp;
 }
 
-void dcall_impl(VM* vm) {
-    assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
-    *vm->ret_sp = vm->curr;
-    ++vm->ret_sp;
-    VALUE v = pop(vm);
-    assert(v.type == FUNC_TYPE);
-    vm->curr = ((FUNC*)v.data.obj)->pnode;
-    next(vm);
-}
-
 void dgetf_impl(VM* vm) {
     VALUE objval = pop(vm);
     VALUE key = pop(vm);
@@ -129,5 +118,15 @@ void eq_impl(VM* vm) {
     VALUE b = pop(vm);
     VALUE c = {.type = BOOL_TYPE, .data.boolean = values_equal(&a, &b) ? 1 : 0};
     push(vm, c);
+    next(vm);
+}
+
+void dcall_impl(VM* vm) {
+    assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
+    *vm->ret_sp = vm->curr;
+    ++vm->ret_sp;
+    VALUE v = pop(vm);
+    assert(v.type == FUNC_TYPE);
+    vm->curr = ((FUNC*)v.data.obj)->pnode;
     next(vm);
 }

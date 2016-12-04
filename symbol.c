@@ -1,43 +1,29 @@
 #include "symbol.h"
+#include "vm.h"
 #include <malloc.h>
 
-OBJECT* sym_meta = NULL;
-
-SYMBOL* get_symbol(char const* name) {
-    static SYMBOL** sym_table = NULL;
-    static int sym_table_cap = 0;
-    static int sym_num = 0;
-    
-    if(!sym_table) {
-        sym_table_cap = 8;
-        sym_table = malloc(sizeof(SYMBOL*) * sym_table_cap);
-    }
-    
-    if(!sym_meta) {
-        sym_meta = create_object();
-    }
-    
+SYMBOL* get_symbol(VM* vm, char const* name) {
     int i;
-    for(i = 0; i < sym_num; ++i) {
-        if(!strcmp(sym_table[i]->name, name))
-            return sym_table[i];
+    for(i = 0; i < vm->sym_num; ++i) {
+        if(!strcmp(vm->sym_table[i]->name, name))
+            return vm->sym_table[i];
     }
     
-    if(sym_num >= sym_table_cap) {
-        sym_table_cap *= 2;
-        sym_table = realloc(sym_table, sizeof(SYMBOL*) * sym_table_cap);
+    if(vm->sym_num >= vm->sym_table_cap) {
+        vm->sym_table_cap *= 2;
+        vm->sym_table = realloc(vm->sym_table, sizeof(SYMBOL*) * vm->sym_table_cap);
     }
     
     SYMBOL* sym = malloc(sizeof(SYMBOL));
-    sym->base.meta = sym_meta;
+    sym->base.meta = vm->sym_meta;
     sym->name = name;
-    sym_table[sym_num++] = sym;
+    vm->sym_table[vm->sym_num++] = sym;
     return sym;
 }
 
-VALUE symbol_value(char const* name) {
+VALUE symbol_value(VM* vm, char const* name) {
     VALUE v;
     v.type = SYMBOL_TYPE;
-    v.data.obj = (OBJECT_BASE*)get_symbol(name);
+    v.data.obj = (OBJECT_BASE*)get_symbol(vm, name);
     return v;
 }
