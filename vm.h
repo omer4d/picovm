@@ -1,6 +1,7 @@
 #ifndef __VM_H__
 #define __VM_H__
 
+#include "tokenizer.h"
 #include "value.h"
 #include "object.h"
 
@@ -22,6 +23,8 @@ typedef union PNODE_t {
 }PNODE;
 
 typedef struct VM_t {
+    TOKENIZER tokenizer;
+    
     PNODE* program;
     char const** debug_info;
     PNODE* program_pos;
@@ -48,8 +51,6 @@ typedef struct VM_t {
     struct OBJECT_t* func_meta;
     
     struct OBJECT_t* global_scope;
-    
-
 }VM;
 
 VM* create_vm();

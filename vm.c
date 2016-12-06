@@ -151,6 +151,7 @@ void init_global_scope(VM* vm) {
 
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
+    init_tokenizer(&vm->tokenizer, "");
     int cell_num = 3 * 1000 * 1000;
     
     vm->program = calloc(cell_num, sizeof(PNODE));
@@ -375,8 +376,7 @@ VALUE parse_word(VM* vm, char const* str) {
 }
 
 void eval_str(VM* vm, char const* str) {
-    TOKENIZER tokenizer;
-    init_tokenizer(&tokenizer, str);
+    init_tokenizer(&vm->tokenizer, str);
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
@@ -395,7 +395,7 @@ void eval_str(VM* vm, char const* str) {
     ncons(vm, exit);*/
     
     
-    for(tt = next_tok(&tokenizer, tok); tt != TOK_END; tt = next_tok(&tokenizer, tok)) {
+    for(tt = next_tok(&vm->tokenizer, tok); tt != TOK_END; tt = next_tok(&vm->tokenizer, tok)) {
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);
@@ -406,7 +406,16 @@ void eval_str(VM* vm, char const* str) {
                 }else if(item.type != FUNC_TYPE) {
                     printf("'%s' is not a function.\n", tok);
                 }else {
-                    ncons(vm, ((FUNC*)item.data.obj)->pnode);
+                    FUNC* f = (FUNC*)item.data.obj;
+                    if(f->is_macro) {
+                        push(vm, item);
+                        vm->curr = run;
+                        next(vm);
+                        loop(vm);
+                    }
+                    else {
+                        ncons(vm, f->pnode);
+                    }
                     //push(vm, item);
                     //vm->curr = run;
                     //next(vm);
