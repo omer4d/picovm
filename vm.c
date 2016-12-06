@@ -11,6 +11,7 @@
 #include "tokenizer.h"
 #include "func.h"
 
+void set_debug_info(VM* vm, PNODE* node, char const* debug);
 PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive);
 PNODE* ncons(VM* vm, PNODE* n);
 PNODE* fcons(VM* vm, CFUN fp);
@@ -21,6 +22,23 @@ void drop_marks(VM* vm, int n);
 VALUE lookup(VM* vm, char const* name);
 PNODE* defun(VM* vm, int n, ...);
 void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func);
+
+enum {
+    PUSH, INTERNAL_FUNC_NUM
+};
+
+void init_private_funcs(VM* vm) {
+    vm->program[PUSH].fp = push_impl;
+    set_debug_info(vm, &vm->program[PUSH], "push");
+    
+    vm->program_pos = vm->program + INTERNAL_FUNC_NUM;
+}
+
+void compile_literal(VM* vm, VALUE val) {
+    ncons(vm, &vm->program[PUSH]);
+    PNODE* tmp = ncons(vm, NULL);
+    tmp->value = val;
+}
 
 void init_global_scope(VM* vm) {
     PNODE* dup = register_func(vm, fcons(vm, dup_impl), "dup", 1);
@@ -35,7 +53,7 @@ void init_global_scope(VM* vm) {
     PNODE* exit = register_func(vm, fcons(vm, exit_impl), "exit", 1);
     
     PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
-    PNODE* fpush = register_func(vm, fcons(vm, push_impl), "push", 1);
+    PNODE* fpush = &vm->program[PUSH];
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
@@ -162,6 +180,7 @@ VM* create_vm() {
     vm->sym_num = 0;
     
     vm->global_scope = create_object(vm->default_meta);
+    init_private_funcs(vm);
     init_global_scope(vm);
     
     return vm;
@@ -361,7 +380,20 @@ void eval_str(VM* vm, char const* str) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
+    PNODE* old_program_pos = vm->program_pos;
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
+    PNODE* func_start = fcons(vm, enter_impl);
+    
+    /*
+    int i;
+    for(i = 0; i < n; ++i) {
+        PNODE* pn = va_arg(argp, PNODE*);
+        ncons(vm, pn);
+    }
+    
+    va_end(argp);
+    ncons(vm, exit);*/
+    
     
     for(tt = next_tok(&tokenizer, tok); tt != TOK_END; tt = next_tok(&tokenizer, tok)) {
         switch(tt) {
@@ -374,19 +406,29 @@ void eval_str(VM* vm, char const* str) {
                 }else if(item.type != FUNC_TYPE) {
                     printf("'%s' is not a function.\n", tok);
                 }else {
-                    push(vm, item);
-                    vm->curr = run;
-                    next(vm);
-                    loop(vm);
+                    ncons(vm, ((FUNC*)item.data.obj)->pnode);
+                    //push(vm, item);
+                    //vm->curr = run;
+                    //next(vm);
+                    //loop(vm);
+                    
                 }
                 break;
             case TOK_NUM:
-                push(vm, parse_num(tok));
+                //push(vm, parse_num(tok));
+                compile_literal(vm, parse_num(tok));
                 break;
         }
         
         
     }
     
+    PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
+    ncons(vm, exit);
+    vm->curr = func_start;
+    next(vm);
+    loop(vm);
+    
+    vm->program_pos = old_program_pos;
     print_debug_info(vm);
 }

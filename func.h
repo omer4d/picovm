@@ -8,6 +8,7 @@ union PNODE_t;
 typedef struct FUNC_t {
     OBJECT_BASE base;
     union PNODE_t* pnode;
+    int is_macro;
 }FUNC;
 
 FUNC* create_func(union PNODE_t* pnode, OBJECT* meta);
