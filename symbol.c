@@ -16,7 +16,7 @@ SYMBOL* get_symbol(VM* vm, char const* name) {
     
     SYMBOL* sym = malloc(sizeof(SYMBOL));
     sym->base.meta = vm->sym_meta;
-    sym->name = name;
+    sym->name = strdup(name);
     vm->sym_table[vm->sym_num++] = sym;
     return sym;
 }

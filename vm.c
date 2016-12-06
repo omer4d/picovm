@@ -11,11 +11,15 @@
 #include "tokenizer.h"
 #include "func.h"
 
+
+char* value_to_string(char* str, VALUE* sp);
 void set_debug_info(VM* vm, PNODE* node, char const* debug);
 PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive);
+PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive);
 PNODE* ncons(VM* vm, PNODE* n);
 PNODE* fcons(VM* vm, CFUN fp);
 PNODE* fcons_deb(VM* vm, CFUN fp, char const* name);
+void push(VM* vm, VALUE v);
 void mark(VM* vm);
 void resolve(VM* vm, int n);
 void drop_marks(VM* vm, int n);
@@ -34,10 +38,45 @@ void init_private_funcs(VM* vm) {
     vm->program_pos = vm->program + INTERNAL_FUNC_NUM;
 }
 
+VALUE parse_num(char const* str) {
+    VALUE v = {.type = NUM_TYPE, .data.num = strtod(str, NULL)};
+    return v;
+}
+
+VALUE parse_word(VM* vm, char const* str) {
+    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(vm, str)};
+    return v;
+}
+
+VALUE program_read(VM* vm) {
+    char tok[256];
+    TOK_TYPE tt = next_tok(&vm->tokenizer, tok);
+    switch(tt) {
+        case TOK_WORD:
+            return parse_word(vm, tok);
+        case TOK_NUM:
+            return parse_num(tok);
+        default:
+            assert(0);
+    }
+}
+
 void compile_literal(VM* vm, VALUE val) {
     ncons(vm, &vm->program[PUSH]);
     PNODE* tmp = ncons(vm, NULL);
     tmp->value = val;
+}
+
+void program_read_impl(VM* vm) {
+    VALUE v = program_read(vm);
+    push(vm, v);
+    next(vm);
+}
+
+void compile_literal_impl(VM* vm) {
+    VALUE v = pop(vm);
+    compile_literal(vm, v);
+    next(vm);
 }
 
 void init_global_scope(VM* vm) {
@@ -55,6 +94,10 @@ void init_global_scope(VM* vm) {
     PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
     PNODE* fpush = &vm->program[PUSH];
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
+    
+    PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), "$", 1);
+    PNODE* compile_literal = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
+    PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
     
@@ -227,6 +270,15 @@ PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
     return pnode;
 }
 
+PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive) {
+    VALUE key = symbol_value(vm, name);
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
+    ((FUNC*)item.data.obj)->is_macro = 1;
+    map_put(&vm->global_scope->map, &key, &item);
+    set_debug_info(vm, pnode, name);
+    return pnode;
+}
+
 PNODE* ncons(VM* vm, PNODE* n) {
     PNODE* node = vm->program_pos;
     ++vm->program_pos;
@@ -363,16 +415,6 @@ void loop(VM* vm) {
     }
     
     //print_debug_info();
-}
-
-VALUE parse_num(char const* str) {
-    VALUE v = {.type = NUM_TYPE, .data.num = strtod(str, NULL)};
-    return v;
-}
-
-VALUE parse_word(VM* vm, char const* str) {
-    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(vm, str)};
-    return v;
 }
 
 void eval_str(VM* vm, char const* str) {
