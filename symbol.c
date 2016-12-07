@@ -21,6 +21,11 @@ SYMBOL* get_symbol(VM* vm, char const* name) {
     return sym;
 }
 
+void destroy_symbol(SYMBOL* symbol) {
+    free((void*)symbol->name);
+    free(symbol);
+}
+
 VALUE symbol_value(VM* vm, char const* name) {
     VALUE v;
     v.type = SYMBOL_TYPE;

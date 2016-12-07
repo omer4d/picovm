@@ -12,5 +12,6 @@ typedef struct SYMBOL_t {
 
 SYMBOL* get_symbol(struct VM_t* vm, char const* name);
 VALUE symbol_value(struct VM_t* vm, char const* name);
+void destroy_symbol(SYMBOL* symbol);
 
 #endif

@@ -31,11 +31,20 @@ enum {
     PUSH, INTERNAL_FUNC_NUM
 };
 
+void program_flush(VM* vm) {
+    vm->program_write_start = vm->program_write_pos;
+}
+
+void program_rewind(VM* vm) {
+    vm->program_write_pos = vm->program_write_start;
+}
+
 void init_private_funcs(VM* vm) {
     vm->program[PUSH].fp = push_impl;
     set_debug_info(vm, &vm->program[PUSH], "push");
     
-    vm->program_pos = vm->program + INTERNAL_FUNC_NUM;
+    vm->program_write_pos = vm->program + INTERNAL_FUNC_NUM;
+    program_flush(vm);
 }
 
 VALUE parse_num(char const* str) {
@@ -71,13 +80,10 @@ void program_read_impl(VM* vm) {
     VALUE v = program_read(vm);
     push(vm, v);
     next(vm);
-    print_debug_info(vm);
 }
 
 void compile_literal_impl(VM* vm) {
     VALUE v = pop(vm);
-    printf("???");
-     printf("yay! %s\n", ((SYMBOL*)v.data.obj)->name);
     compile_literal(vm, v);
     next(vm);
 }
@@ -91,7 +97,7 @@ void compile_impl(VM* vm) {
         case SYMBOL_TYPE:
             map_get(&item, &vm->global_scope->map, &v);
             f = (FUNC*)item.data.obj;
-            if(f->exec == EXEC_COMPILE)
+            if(f->is_macro)
                 vm->instr = f->pnode->fp;
             else {
                 ncons(vm, f->pnode);
@@ -151,9 +157,9 @@ void init_global_scope(VM* vm) {
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
     PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), ">>", 1);
-    register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
+    PNODE* cl = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
     PNODE* compile = register_macro(vm, fcons(vm, compile_impl), "compile", 1);
-    PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
+    PNODE* quote = register_macro(vm, defun(vm, 2, program_read, cl), "'", 0);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
     
@@ -272,6 +278,8 @@ void init_global_scope(VM* vm) {
     set_method(vm, vm->default_meta, "index", dgetf_func);
     set_method(vm, vm->func_meta, "call", dcall_func);
     set_method(vm, vm->primitive_func_meta, "call", pcall_func);
+    
+    program_flush(vm);
 }
 
 VM* create_vm() {
@@ -281,7 +289,8 @@ VM* create_vm() {
     
     vm->program = calloc(cell_num, sizeof(PNODE));
     vm->debug_info = calloc(cell_num, sizeof(char*));
-    vm->program_pos = vm->program;
+    vm->program_write_start = vm->program;
+    vm->program_write_pos = vm->program;
     
     vm->arg_stack = calloc(ARG_STACK_SIZE, sizeof(VALUE));
     vm->arg_sp = vm->arg_stack;
@@ -321,6 +330,9 @@ void destroy_vm(VM* vm) {
     
     destroy_object(vm->global_scope);
     
+    int i;
+    for(i = 0; i < vm->sym_num; ++i)
+        destroy_symbol(vm->sym_table[i]);
     free(vm->sym_table);
     
     free(vm);
@@ -355,22 +367,22 @@ PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
 PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
     VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
-    ((FUNC*)item.data.obj)->exec = EXEC_COMPILE;
+    ((FUNC*)item.data.obj)->is_macro = 1;
     map_put(&vm->global_scope->map, &key, &item);
     set_debug_info(vm, pnode, name);
     return pnode;
 }
 
 PNODE* ncons(VM* vm, PNODE* n) {
-    PNODE* node = vm->program_pos;
-    ++vm->program_pos;
+    PNODE* node = vm->program_write_pos;
+    ++vm->program_write_pos;
     node->into = n;
     return node;
 }
 
 PNODE* fcons(VM* vm, CFUN fp) {
-    PNODE* node = vm->program_pos;
-    ++vm->program_pos;
+    PNODE* node = vm->program_write_pos;
+    ++vm->program_write_pos;
     node->fp = fp;
     return node;
 }
@@ -404,7 +416,7 @@ void mark(VM* vm) {
 
 void resolve(VM* vm, int n) {
     assert(vm->mark_sp - n >= vm->mark_stack);
-    (vm->mark_sp - n)->into->into = vm->program_pos;
+    (vm->mark_sp - n)->into->into = vm->program_write_pos;
 }
 
 void drop_marks(VM* vm, int n) {
@@ -504,9 +516,9 @@ void eval_str(VM* vm, char const* str) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
-    PNODE* old_program_pos = vm->program_pos;
+    //PNODE* old_program_pos = vm->program_write_pos;
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
-    PNODE* func_start = fcons(vm, enter_impl);
+    /*PNODE* func_start = */fcons(vm, enter_impl);
     
     for(tt = next_tok(&vm->tokenizer, tok); tt != TOK_END; tt = next_tok(&vm->tokenizer, tok)) {
         switch(tt) {
@@ -520,7 +532,7 @@ void eval_str(VM* vm, char const* str) {
                     printf("'%s' is not a function.\n", tok);
                 }else {
                     FUNC* f = (FUNC*)item.data.obj;
-                    if(f->exec == EXEC_COMPILE) {
+                    if(f->is_macro) {
                         push(vm, item);
                         vm->curr = run;
                         next(vm);
@@ -549,9 +561,10 @@ void eval_str(VM* vm, char const* str) {
     
     PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
     ncons(vm, exit);
-    vm->curr = func_start;
+    vm->curr = vm->program_write_start;//old_program_pos;//func_start;
     next(vm);
     loop(vm);
-    vm->program_pos = old_program_pos;
+    program_rewind(vm);
     print_debug_info(vm);
 }
+

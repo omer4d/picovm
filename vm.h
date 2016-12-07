@@ -27,7 +27,8 @@ typedef struct VM_t {
     
     PNODE* program;
     char const** debug_info;
-    PNODE* program_pos;
+    PNODE* program_write_start;
+    PNODE* program_write_pos;
 
     VALUE* arg_stack;
     VALUE* arg_sp;
