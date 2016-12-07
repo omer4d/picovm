@@ -6,7 +6,7 @@ FUNC* create_func(PNODE* pnode, OBJECT* meta) {
     
     f->base.meta = meta;
     f->pnode = pnode;
-    f->is_macro = 0;
+    f->exec = EXEC_NORMAL;
     
     return f;
 }

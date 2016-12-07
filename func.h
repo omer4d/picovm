@@ -3,12 +3,16 @@
 
 #include "object.h"
 
+typedef enum {
+    EXEC_NORMAL, EXEC_COMPILE, EXEC_READ
+}FUNC_EXEC;
+
 union PNODE_t;
 
 typedef struct FUNC_t {
     OBJECT_BASE base;
     union PNODE_t* pnode;
-    int is_macro;
+    FUNC_EXEC exec;
 }FUNC;
 
 FUNC* create_func(union PNODE_t* pnode, OBJECT* meta);

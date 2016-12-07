@@ -1,0 +1,80 @@
+free symbol names upon VM destruction
+
+mark/resolve/popmark macros
+generic compile
+jump backwards
+test it last token consumed
+get macro
+if/else
+defun
+defmacro
+immediate method fail at runtime
+comments
+leave/return
+exist producing strange results?
+TCO
+loop
+provide common combinators
+don't kill entire program with assertions for runtime errors
+closures?
+function stubs/declare
+setmac
+
+stack operations
+----------------
+dup from arbitrary stack position
+swap with arbitrary stack position
+
+
+math operations
+---------------
+plus
+minus
+multiply
+divide
+mod
+
+add common functions from math.h
+
+logical operations
+------------------
+and
+or
+not
+xor
+
+bitwise operations
+------------------
+implement on doubles or add integer type?
+and
+or
+not
+xor
+
+
+delete metamethod
+get value type
+delete operator?
+
+doubles (autogen lexer?)
+strings
+
+C compilation API
+
+
+undecided
+---------
+what to do with metaobjects of symbols/strings? (fix meta function)
+external debugger
+exceptions?
+C interop?
+   possibly unnecessary (language implementors can easily add bindings to C funcs)
+delimited continuations
+
+dynamic binding? default with opt out (immutable globals)  or optional (dynamic flag on certain globals?)
+
+
+improvements
+------------
+fix call to work like get (terminate recursion when call metamethod is pcall)
+fix dcall/pcall naming

@@ -11,7 +11,7 @@
 #include "tokenizer.h"
 #include "func.h"
 
-
+void print_debug_info(VM* vm);
 char* value_to_string(char* str, VALUE* sp);
 void set_debug_info(VM* vm, PNODE* node, char const* debug);
 PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive);
@@ -71,11 +71,63 @@ void program_read_impl(VM* vm) {
     VALUE v = program_read(vm);
     push(vm, v);
     next(vm);
+    print_debug_info(vm);
 }
 
 void compile_literal_impl(VM* vm) {
     VALUE v = pop(vm);
+    printf("???");
+     printf("yay! %s\n", ((SYMBOL*)v.data.obj)->name);
     compile_literal(vm, v);
+    next(vm);
+}
+
+void compile_impl(VM* vm) {
+    VALUE v = pop(vm);
+    VALUE item;
+    FUNC* f;
+    
+    switch(v.type) {
+        case SYMBOL_TYPE:
+            map_get(&item, &vm->global_scope->map, &v);
+            f = (FUNC*)item.data.obj;
+            if(f->exec == EXEC_COMPILE)
+                vm->instr = f->pnode->fp;
+            else {
+                ncons(vm, f->pnode);
+                next(vm);
+            }   
+            break;
+        default:
+            compile_literal(vm, v);
+            next(vm);
+            break;
+    }
+}
+
+void start_defun_impl(VM* vm) {
+    VALUE func_name = pop(vm);
+    assert(func_name.type == SYMBOL_TYPE);
+    PNODE* stub = fcons(vm, enter_impl);
+    FUNC* func = create_func(stub, vm->func_meta);
+    VALUE func_value = {.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)func};
+    map_put(&vm->global_scope->map, &func_name, &func_value);
+    set_debug_info(vm, stub, ((SYMBOL*)func_name.data.obj)->name);
+    push(vm, func_value);
+}
+
+void get_impl(VM* vm) {
+    VALUE key = pop(vm);
+    VALUE item;
+    map_get(&item, &vm->global_scope->map, &key);
+    push(vm, item);
+    next(vm);
+}
+
+void set_impl(VM* vm) {
+    VALUE item = pop(vm);
+    VALUE key = pop(vm);
+    map_put(&vm->global_scope->map, &key, &item);
     next(vm);
 }
 
@@ -84,6 +136,9 @@ void init_global_scope(VM* vm) {
     PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
     PNODE* drop = register_func(vm, fcons(vm, drop_impl), "drop", 1);
     PNODE* plus = register_func(vm, fcons(vm, plus_impl), "+", 1);
+    
+    PNODE* get = register_func(vm, fcons(vm, get_impl), "get", 1);
+    PNODE* set = register_func(vm, fcons(vm, set_impl), "set", 1);
     
     PNODE* meta = register_func(vm, fcons(vm, meta_impl), "meta", 1);
     PNODE* cjump = register_func(vm, fcons(vm, cjump_impl), "cjump", 1);
@@ -95,8 +150,9 @@ void init_global_scope(VM* vm) {
     PNODE* fpush = &vm->program[PUSH];
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
-    PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), "$", 1);
-    PNODE* compile_literal = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
+    PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), ">>", 1);
+    register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
+    PNODE* compile = register_macro(vm, fcons(vm, compile_impl), "compile", 1);
     PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
@@ -178,8 +234,34 @@ void init_global_scope(VM* vm) {
     resolve(vm, 2);
         ncons(vm, pcall);
     resolve(vm, 1);
+    drop_marks(vm, 2);
     
     ncons(vm, leave);
+    
+    // **** defun ****
+    
+    PNODE* start_defun = fcons(vm, start_defun_impl);
+    PNODE* loop;
+    set_debug_info(vm, start_defun, "start_defun");
+    PNODE* defn = fcons(vm, enter_impl);
+    register_macro(vm, defn, "defun", 0);
+    
+    ncons(vm, program_read);
+    ncons(vm, start_defun);
+    loop = ncons(vm, program_read);
+    ncons(vm, dup);
+    compile_literal(vm, symbol_value(vm, "end"));
+    ncons(vm, eq);
+    ncons(vm, cjump);
+    mark(vm);
+    // if false
+        ncons(vm, compile);
+        ncons(vm, jump);
+        ncons(vm, loop);
+    // if true
+        resolve(vm, 1);
+        ncons(vm, leave);
+    drop_marks(vm, 1);
     
     // **** run ****
     
@@ -273,7 +355,7 @@ PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
 PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
     VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
-    ((FUNC*)item.data.obj)->is_macro = 1;
+    ((FUNC*)item.data.obj)->exec = EXEC_COMPILE;
     map_put(&vm->global_scope->map, &key, &item);
     set_debug_info(vm, pnode, name);
     return pnode;
@@ -426,17 +508,6 @@ void eval_str(VM* vm, char const* str) {
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
     PNODE* func_start = fcons(vm, enter_impl);
     
-    /*
-    int i;
-    for(i = 0; i < n; ++i) {
-        PNODE* pn = va_arg(argp, PNODE*);
-        ncons(vm, pn);
-    }
-    
-    va_end(argp);
-    ncons(vm, exit);*/
-    
-    
     for(tt = next_tok(&vm->tokenizer, tok); tt != TOK_END; tt = next_tok(&vm->tokenizer, tok)) {
         switch(tt) {
             case TOK_WORD:
@@ -449,7 +520,7 @@ void eval_str(VM* vm, char const* str) {
                     printf("'%s' is not a function.\n", tok);
                 }else {
                     FUNC* f = (FUNC*)item.data.obj;
-                    if(f->is_macro) {
+                    if(f->exec == EXEC_COMPILE) {
                         push(vm, item);
                         vm->curr = run;
                         next(vm);
@@ -458,10 +529,11 @@ void eval_str(VM* vm, char const* str) {
                     else {
                         ncons(vm, f->pnode);
                     }
-                    //push(vm, item);
-                    //vm->curr = run;
-                    //next(vm);
-                    //loop(vm);
+                    /*
+                    push(vm, item);
+                    vm->curr = run;
+                    next(vm);
+                    loop(vm);*/
                     
                 }
                 break;
@@ -474,12 +546,12 @@ void eval_str(VM* vm, char const* str) {
         
     }
     
+    
     PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
     ncons(vm, exit);
     vm->curr = func_start;
     next(vm);
     loop(vm);
-    
     vm->program_pos = old_program_pos;
     print_debug_info(vm);
 }
