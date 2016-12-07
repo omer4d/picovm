@@ -112,6 +112,7 @@ void compile_impl(VM* vm) {
 }
 
 void start_defun_impl(VM* vm) {
+    program_rewind(vm);
     VALUE func_name = pop(vm);
     assert(func_name.type == SYMBOL_TYPE);
     PNODE* stub = fcons(vm, enter_impl);
@@ -119,7 +120,16 @@ void start_defun_impl(VM* vm) {
     VALUE func_value = {.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)func};
     map_put(&vm->global_scope->map, &func_name, &func_value);
     set_debug_info(vm, stub, ((SYMBOL*)func_name.data.obj)->name);
-    push(vm, func_value);
+    //push(vm, func_value);
+    next(vm);
+}
+
+void end_defun_impl(VM* vm) {
+    PNODE* leave = ((FUNC*)lookup(vm, "leave").data.obj)->pnode; //fcons(vm, leave_impl);
+    ncons(vm, leave);
+    program_flush(vm);
+    fcons(vm, enter_impl);
+    next(vm);
 }
 
 void get_impl(VM* vm) {
@@ -247,8 +257,12 @@ void init_global_scope(VM* vm) {
     // **** defun ****
     
     PNODE* start_defun = fcons(vm, start_defun_impl);
-    PNODE* loop;
     set_debug_info(vm, start_defun, "start_defun");
+    
+    PNODE* end_defun = fcons(vm, end_defun_impl);
+    set_debug_info(vm, end_defun, "end_defun");
+    
+    PNODE* loop;
     PNODE* defn = fcons(vm, enter_impl);
     register_macro(vm, defn, "defun", 0);
     
@@ -266,6 +280,8 @@ void init_global_scope(VM* vm) {
         ncons(vm, loop);
     // if true
         resolve(vm, 1);
+        ncons(vm, drop);
+        ncons(vm, end_defun);
         ncons(vm, leave);
     drop_marks(vm, 1);
     
@@ -503,7 +519,7 @@ void print_debug_info(VM* vm) {
 
 void loop(VM* vm) {
     while(vm->instr) {
-        //print_debug_info();
+        //print_debug_info(vm);
         //getch();
         vm->instr(vm);
     }
@@ -558,7 +574,7 @@ void eval_str(VM* vm, char const* str) {
         
     }
     
-    
+    //printf("end!");
     PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
     ncons(vm, exit);
     vm->curr = vm->program_write_start;//old_program_pos;//func_start;
