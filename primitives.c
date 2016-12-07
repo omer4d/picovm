@@ -4,6 +4,7 @@
 #include "func.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 void next(VM* vm) {
     ++vm->curr;
@@ -47,10 +48,38 @@ void drop_impl(VM* vm) {
 }
 
 void plus_impl(VM* vm) {
-    VALUE a = pop(vm);
-    VALUE b = pop(vm);
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     push(vm, num_value(a.data.num + b.data.num));
+    next(vm);
+}
+
+void minus_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
+    push(vm, num_value(b.data.num - a.data.num));
+    next(vm);
+}
+
+void mul_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
+    push(vm, num_value(b.data.num * a.data.num));
+    next(vm);
+}
+
+
+void div_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
+    push(vm, num_value(b.data.num / a.data.num));
+    next(vm);
+}
+
+void mod_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
+    push(vm, num_value(fmod(b.data.num, a.data.num)));
     next(vm);
 }
 

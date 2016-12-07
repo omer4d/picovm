@@ -238,6 +238,10 @@ void init_global_scope(VM* vm) {
     PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
     PNODE* drop = register_func(vm, fcons(vm, drop_impl), "drop", 1);
     PNODE* plus = register_func(vm, fcons(vm, plus_impl), "+", 1);
+    PNODE* minus = register_func(vm, fcons(vm, minus_impl), "-", 1);
+    PNODE* mul = register_func(vm, fcons(vm, mul_impl), "*", 1);
+    PNODE* div = register_func(vm, fcons(vm, div_impl), "/", 1);
+    PNODE* mod = register_func(vm, fcons(vm, mod_impl), "mod", 1);
     
     PNODE* get = register_func(vm, fcons(vm, get_impl), "get", 1);
     PNODE* set = register_func(vm, fcons(vm, set_impl), "set", 1);
@@ -657,6 +661,7 @@ void loop(VM* vm) {
     
     //print_debug_info();
 }
+
 
 void eval_str(VM* vm, char const* str) {
     init_tokenizer(&vm->tokenizer, str);

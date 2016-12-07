@@ -9,7 +9,13 @@ void leave_impl(struct VM_t* vm);
 void dup_impl(struct VM_t* vm);
 void swap_impl(struct VM_t* vm);
 void drop_impl(struct VM_t* vm);
+
 void plus_impl(struct VM_t* vm);
+void minus_impl(struct VM_t* vm);
+void mul_impl(struct VM_t* vm);
+void div_impl(struct VM_t* vm);
+void mod_impl(struct VM_t* vm);
+
 void exit_impl(struct VM_t* vm);
 void jump_impl(struct VM_t* vm);
 void cjump_impl(struct VM_t* vm);

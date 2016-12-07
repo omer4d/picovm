@@ -47,7 +47,7 @@ symbol.o: symbol.c symbol.h object.h map.h value.h vm.h tokenizer.h   C:/Dev-Cpp
 func.o: func.c func.h object.h map.h value.h vm.h tokenizer.h
 	$(CC) -c func.c -o func.o $(CFLAGS)
 
-primitives.o: primitives.c vm.h tokenizer.h value.h object.h map.h   primitives.h func.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/assert.h
+primitives.o: primitives.c vm.h tokenizer.h value.h object.h map.h   primitives.h func.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/math.h
 	$(CC) -c primitives.c -o primitives.o $(CFLAGS)
 
 tokenizer.o: tokenizer.c tokenizer.h C:/Dev-Cpp/include/ctype.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/assert.h
