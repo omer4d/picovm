@@ -11,6 +11,7 @@
 #include "tokenizer.h"
 #include "func.h"
 
+char const* lookup_debug_info(VM* vm, PNODE* pnode);
 void print_debug_info(VM* vm);
 char* value_to_string(char* str, VALUE* sp);
 void set_debug_info(VM* vm, PNODE* node, char const* debug);
@@ -20,9 +21,9 @@ PNODE* ncons(VM* vm, PNODE* n);
 PNODE* fcons(VM* vm, CFUN fp);
 PNODE* fcons_deb(VM* vm, CFUN fp, char const* name);
 void push(VM* vm, VALUE v);
-void mark(VM* vm);
-void resolve(VM* vm, int n);
-void drop_marks(VM* vm, int n);
+void mark_helper(VM* vm);
+void resolve_helper(VM* vm, int n);
+void drop_marks_helper(VM* vm, int n);
 VALUE lookup(VM* vm, char const* name);
 PNODE* defun(VM* vm, int n, ...);
 void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func);
@@ -70,7 +71,7 @@ VALUE program_read(VM* vm) {
     }
 }
 
-void compile_literal(VM* vm, VALUE val) {
+void compile_literal_helper(VM* vm, VALUE val) {
     ncons(vm, &vm->program[PUSH]);
     PNODE* tmp = ncons(vm, NULL);
     tmp->value = val;
@@ -84,7 +85,67 @@ void program_read_impl(VM* vm) {
 
 void compile_literal_impl(VM* vm) {
     VALUE v = pop(vm);
-    compile_literal(vm, v);
+    compile_literal_helper(vm, v);
+    next(vm);
+}
+
+void compile_call_impl(VM* vm) {
+    VALUE func_name = pop(vm), func_val;
+    FUNC* func;
+    assert(func_name.type == SYMBOL_TYPE);
+    
+    map_get(&func_val, &vm->global_scope->map, &func_name);
+    
+    assert(!value_is_nil(&func_val));
+    
+    ncons(vm, ((FUNC*)func_val.data.obj)->pnode);
+    next(vm);   
+}
+
+void mark_impl(VM* vm) {
+    mark_helper(vm);
+    next(vm);
+}
+
+void resolve_impl(VM* vm) {
+    VALUE n = pop(vm);
+    assert(n.type == NUM_TYPE);
+    resolve_helper(vm, n.data.num);
+    next(vm);
+}
+
+void drop_marks_impl(VM* vm) {
+    VALUE n = pop(vm);
+    assert(n.type == NUM_TYPE);
+    drop_marks_helper(vm, n.data.num);
+    next(vm);
+}
+
+void type_impl(VM* vm) {
+    VALUE v = pop(vm);
+    switch(v.type) {
+        case BOOL_TYPE:
+            push(vm, symbol_value(vm, "boolean"));
+            break;
+        case NUM_TYPE:
+            push(vm, symbol_value(vm, "number"));
+            break;
+        case FUNC_TYPE:
+            push(vm, symbol_value(vm, "function"));
+            break;
+        case STRING_TYPE:
+            push(vm, symbol_value(vm, "string"));
+            break;
+        case SYMBOL_TYPE:
+            push(vm, symbol_value(vm, "symbol"));
+            break;
+        case OBJECT_TYPE:
+            push(vm, symbol_value(vm, "object"));
+            break;
+        default:
+            assert(0);
+    }
+    
     next(vm);
 }
 
@@ -97,18 +158,35 @@ void compile_impl(VM* vm) {
         case SYMBOL_TYPE:
             map_get(&item, &vm->global_scope->map, &v);
             f = (FUNC*)item.data.obj;
-            if(f->is_macro)
-                vm->instr = f->pnode->fp;
+            if(f->is_macro) {
+                //assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
+                //*vm->ret_sp = vm->curr;
+                //++vm->ret_sp;
+                
+                vm->instr = (f->pnode + 1)->fp;
+                printf("zomg! %s, %x %x", lookup_debug_info(vm, f->pnode), f->pnode->fp, enter_impl);
+            }
             else {
                 ncons(vm, f->pnode);
                 next(vm);
             }   
             break;
         default:
-            compile_literal(vm, v);
+            compile_literal_helper(vm, v);
             next(vm);
             break;
     }
+}
+
+void macro_qm_impl(VM* vm) {
+    //VALUE func_name = pop(vm);
+    VALUE func_val = pop(vm);
+    //assert(func_name.type == SYMBOL_TYPE);
+    //map_get(&func_val, &vm->global_scope->map, &func_name);
+    assert(func_val.type == FUNC_TYPE);
+    assert(!value_is_nil(&func_val));
+    push(vm, (VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->is_macro});
+    next(vm);
 }
 
 void start_defun_impl(VM* vm) {
@@ -166,10 +244,17 @@ void init_global_scope(VM* vm) {
     PNODE* fpush = &vm->program[PUSH];
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
+    PNODE* macro_qm = register_func(vm, fcons(vm, macro_qm_impl), "macro?", 1);
     PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), ">>", 1);
-    PNODE* cl = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
-    PNODE* compile = register_macro(vm, fcons(vm, compile_impl), "compile", 1);
-    PNODE* quote = register_macro(vm, defun(vm, 2, program_read, cl), "'", 0);
+    PNODE* compile_literal = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
+    PNODE* compile_call = register_macro(vm, fcons(vm, compile_call_impl), "compile-call", 1);
+
+    PNODE* mark = register_macro(vm, fcons(vm, mark_impl), "mark", 1);
+    PNODE* resolve = register_macro(vm, fcons(vm, resolve_impl), "resolve", 1);
+    PNODE* drop_marks = register_macro(vm, fcons(vm, drop_marks_impl), "drop-marks", 1);
+
+    PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
+    PNODE* type = register_func(vm, fcons(vm, type_impl), "type", 0);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
     
@@ -207,7 +292,7 @@ void init_global_scope(VM* vm) {
     ncons(vm, eq);
     
     ncons(vm, cjump);
-    mark(vm);
+    mark_helper(vm);
         ncons(vm, fpush);
         tmp = ncons(vm, NULL);
         tmp->value = symbol_value(vm, "index");
@@ -215,12 +300,12 @@ void init_global_scope(VM* vm) {
         ncons(vm, getf);
         ncons(vm, call);
         ncons(vm, jump);
-    mark(vm);
-    resolve(vm, 2);
+    mark_helper(vm);
+    resolve_helper(vm, 2);
         ncons(vm, drop);
         ncons(vm, dgetf);
-    resolve(vm, 1);
-    drop_marks(vm, 2);
+    resolve_helper(vm, 1);
+    drop_marks_helper(vm, 2);
     
     ncons(vm, leave);
     
@@ -235,7 +320,7 @@ void init_global_scope(VM* vm) {
     ncons(vm, eq);
     
     ncons(vm, cjump);
-    mark(vm);
+    mark_helper(vm);
         ncons(vm, dup);
         ncons(vm, meta);
         
@@ -246,12 +331,48 @@ void init_global_scope(VM* vm) {
         ncons(vm, getf);
         ncons(vm, call);
         ncons(vm, jump);
-    mark(vm);
-    resolve(vm, 2);
+    mark_helper(vm);
+    resolve_helper(vm, 2);
         ncons(vm, pcall);
-    resolve(vm, 1);
-    drop_marks(vm, 2);
+    resolve_helper(vm, 1);
+    drop_marks_helper(vm, 2);
     
+    ncons(vm, leave);
+    
+    // **** compile ****
+    
+    PNODE* compile = fcons(vm, enter_impl);
+    register_macro(vm, compile, "compile", 1);
+    
+    ncons(vm, dup);
+    ncons(vm, type);
+    compile_literal_helper(vm, symbol_value(vm, "symbol"));
+    ncons(vm, eq);
+    ncons(vm, cjump); mark_helper(vm);
+        //not symbol
+        ncons(vm, compile_literal);
+        ncons(vm, jump); mark_helper(vm);
+    
+        //is symbol
+        resolve_helper(vm, 2);
+        ncons(vm, dup);
+        ncons(vm, get);
+        ncons(vm, macro_qm);
+        ncons(vm, cjump); mark_helper(vm);
+            // not macro
+            ncons(vm, compile_call);
+            ncons(vm, jump); mark_helper(vm);
+    
+            // is macro
+            resolve_helper(vm, 2);
+            ncons(vm, get);
+            ncons(vm, call);
+    
+    resolve_helper(vm, 1);
+    drop_marks_helper(vm, 2);
+    
+    resolve_helper(vm, 1);
+    drop_marks_helper(vm, 2);
     ncons(vm, leave);
     
     // **** defun ****
@@ -270,20 +391,20 @@ void init_global_scope(VM* vm) {
     ncons(vm, start_defun);
     loop = ncons(vm, program_read);
     ncons(vm, dup);
-    compile_literal(vm, symbol_value(vm, "end"));
+    compile_literal_helper(vm, symbol_value(vm, "end"));
     ncons(vm, eq);
     ncons(vm, cjump);
-    mark(vm);
+    mark_helper(vm);
     // if false
         ncons(vm, compile);
         ncons(vm, jump);
         ncons(vm, loop);
     // if true
-        resolve(vm, 1);
+        resolve_helper(vm, 1);
         ncons(vm, drop);
         ncons(vm, end_defun);
         ncons(vm, leave);
-    drop_marks(vm, 1);
+    drop_marks_helper(vm, 1);
     
     // **** run ****
     
@@ -423,19 +544,20 @@ VALUE pop(VM* vm) {
 
 
 
-void mark(VM* vm) {
+void mark_helper(VM* vm) {
     assert(vm->mark_sp < vm->mark_stack + MARK_STACK_SIZE);
     PNODE* pn = ncons(vm, vm->mark_sp);
     vm->mark_sp->into = pn;
     ++vm->mark_sp;
 }
 
-void resolve(VM* vm, int n) {
+void resolve_helper(VM* vm, int n) {
     assert(vm->mark_sp - n >= vm->mark_stack);
     (vm->mark_sp - n)->into->into = vm->program_write_pos;
 }
 
-void drop_marks(VM* vm, int n) {
+void drop_marks_helper(VM* vm, int n) {
+    assert(vm->mark_sp - n >= vm->mark_stack);
     vm->mark_sp -= n;
 }
 
@@ -567,7 +689,7 @@ void eval_str(VM* vm, char const* str) {
                 break;
             case TOK_NUM:
                 //push(vm, parse_num(tok));
-                compile_literal(vm, parse_num(tok));
+                compile_literal_helper(vm, parse_num(tok));
                 break;
         }
         
