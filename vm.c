@@ -225,6 +225,14 @@ void set_impl(VM* vm) {
     next(vm);
 }
 
+void setmac_impl(VM* vm) {
+    VALUE func_val = pop(vm);
+    assert(func_val.type == FUNC_TYPE);
+    assert(!value_is_nil(&func_val));
+    ((FUNC*)func_val.data.obj)->is_macro = 1;
+    next(vm);
+}
+
 void init_global_scope(VM* vm) {
     PNODE* dup = register_func(vm, fcons(vm, dup_impl), "dup", 1);
     PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
@@ -245,6 +253,7 @@ void init_global_scope(VM* vm) {
     PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
     PNODE* macro_qm = register_func(vm, fcons(vm, macro_qm_impl), "macro?", 1);
+    PNODE* setmac = register_func(vm, fcons(vm, setmac_impl), "setmac", 1);
     PNODE* program_read = register_macro(vm, fcons(vm, program_read_impl), ">>", 1);
     PNODE* compile_literal = register_macro(vm, fcons(vm, compile_literal_impl), "compile-literal", 1);
     PNODE* compile_call = register_macro(vm, fcons(vm, compile_call_impl), "compile-call", 1);
