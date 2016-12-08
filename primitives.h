@@ -24,10 +24,16 @@ void mod_impl(struct VM_t* vm);
 
 
 void eq_impl(struct VM_t* vm);
+void not_eq_impl(struct VM_t* vm);
 void gt_impl(struct VM_t* vm);
 void lt_impl(struct VM_t* vm);
 void gte_impl(struct VM_t* vm);
 void lte_impl(struct VM_t* vm);
+
+
+void and_impl(struct VM_t* vm);
+void or_impl(struct VM_t* vm);
+void not_impl(struct VM_t* vm);
 
 
 void exit_impl(struct VM_t* vm);

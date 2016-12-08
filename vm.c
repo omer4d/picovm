@@ -190,6 +190,13 @@ void init_global_scope(VM* vm) {
     PNODE* lt = register_func(vm, fcons(vm, lt_impl), "<", 1);
     PNODE* gte = register_func(vm, fcons(vm, gte_impl), ">=", 1);
     PNODE* lte = register_func(vm, fcons(vm, lte_impl), "<=", 1);
+    PNODE* eq = register_func(vm, fcons(vm, eq_impl), "=", 1);
+    PNODE* not_eq = register_func(vm, fcons(vm, not_eq_impl), "not=", 1);
+    
+    PNODE* and = register_func(vm, fcons(vm, and_impl), "and", 1);
+    PNODE* or = register_func(vm, fcons(vm, or_impl), "or", 1);
+    PNODE* not = register_func(vm, fcons(vm, not_impl), "not", 1);
+    
     
     PNODE* get = register_func(vm, fcons(vm, get_impl), "get", 1);
     PNODE* set = register_func(vm, fcons(vm, set_impl), "set", 1);
@@ -202,7 +209,6 @@ void init_global_scope(VM* vm) {
     
     PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
     PNODE* fpush = &vm->program[PUSH];
-    PNODE* eq = register_func(vm, fcons(vm, eq_impl), "eq", 1);
     
     PNODE* macro_qm = register_func(vm, fcons(vm, macro_qm_impl), "macro?", 1);
     PNODE* setmac = register_func(vm, fcons(vm, setmac_impl), "setmac", 1);

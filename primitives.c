@@ -135,8 +135,41 @@ void lte_impl(VM* vm) {
 void eq_impl(VM* vm) {
     VALUE a = pop(vm);
     VALUE b = pop(vm);
-    VALUE c = {.type = BOOL_TYPE, .data.boolean = values_equal(&a, &b) ? 1 : 0};
+    VALUE c = {.type = BOOL_TYPE, .data.boolean = values_equal(&a, &b)};
     push(vm, c);
+    next(vm);
+}
+
+void not_eq_impl(VM* vm) {
+    VALUE a = pop(vm);
+    VALUE b = pop(vm);
+    VALUE c = {.type = BOOL_TYPE, .data.boolean = !values_equal(&a, &b)};
+    push(vm, c);
+    next(vm);
+}
+
+// *************
+// * Logic Ops *
+// *************
+
+void and_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == BOOL_TYPE && b.type == BOOL_TYPE);
+    push(vm, (VALUE){.type = BOOL_TYPE, .data.boolean = b.data.boolean && a.data.boolean});
+    next(vm);
+}
+
+void or_impl(VM* vm) {
+    VALUE a = pop(vm), b = pop(vm);
+    assert(a.type == BOOL_TYPE && b.type == BOOL_TYPE);
+    push(vm, (VALUE){.type = BOOL_TYPE, .data.boolean = b.data.boolean || a.data.boolean});
+    next(vm);
+}
+
+void not_impl(VM* vm) {
+    VALUE a = pop(vm);
+    assert(a.type == BOOL_TYPE);
+    push(vm, (VALUE){.type = BOOL_TYPE, .data.boolean = !a.data.boolean});
     next(vm);
 }
 
