@@ -13,7 +13,7 @@ int main() {
     
     while(1) {
         //gets(str);
-        eval_str(vm, stdin);
+        eval_str(vm);
     }
     
     destroy_vm(vm);

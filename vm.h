@@ -57,6 +57,6 @@ VM* create_vm();
 void destroy_vm(VM* vm);
 void push(VM* vm, VALUE x);
 VALUE pop(VM* vm);
-void eval_str(VM* vm, FILE* stream);
+void eval_str(VM* vm);
 
 #endif

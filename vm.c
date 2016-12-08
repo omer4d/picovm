@@ -28,6 +28,7 @@ void drop_marks_helper(VM* vm, int n);
 VALUE lookup(VM* vm, char const* name);
 PNODE* defun(VM* vm, int n, ...);
 void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func);
+void eval_str(VM* vm);
 
 enum {
     PUSH, INTERNAL_FUNC_NUM
@@ -144,7 +145,7 @@ void end_defun_impl(VM* vm) {
     PNODE* leave = ((FUNC*)lookup(vm, "leave").data.obj)->pnode; //fcons(vm, leave_impl);
     ncons(vm, leave);
     program_flush(vm);
-    fcons(vm, enter_impl);
+    //fcons(vm, enter_impl);
     next(vm);
 }
 
@@ -170,8 +171,41 @@ void read_string_impl(VM* vm) {
     }while(buff[buff_used - 1] != '"');
     
     data[len - 1] = 0;
-    push(vm, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
+    compile_literal_helper(vm, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
     next(vm);
+}
+
+void load_impl(VM* vm) {
+    PNODE* ps = vm->program_write_start;
+    
+    //printf("entered");
+    VALUE fn = pop(vm);
+    assert(fn.type == STRING_TYPE);
+    FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
+    FILE* tmp = vm->in;
+    vm->in = fp;
+    PNODE* curr = vm->curr;
+    
+    printf("zomg! %x", vm->curr);
+    
+    eval_str(vm);
+    //assert(0);
+    printf("omg! %x %x %x %x", ps, vm->program_write_start, vm->program_write_pos, vm->curr);
+    vm->in = tmp;
+    fclose(fp);
+    
+    
+    //vm->curr = curr;
+    PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
+    
+    
+    //fcons(vm, enter_impl);
+    PNODE* pn = ncons(vm, exit);
+    vm->curr = curr; //pn - 1;
+    printf("zomg! %x %x", vm->curr, pn);
+    
+    //vm->instr = vm->curr->fp;
+    //next(vm);
 }
 
 void init_global_scope(VM* vm) {
@@ -225,7 +259,9 @@ void init_global_scope(VM* vm) {
 
     PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
     PNODE* read_string = register_macro(vm, fcons(vm, read_string_impl), "\"", 1);
-    PNODE* type = register_func(vm, fcons(vm, type_impl), "type", 0);
+    PNODE* type = register_func(vm, fcons(vm, type_impl), "type", 1);
+    
+    PNODE* load = register_func(vm, fcons(vm, load_impl), "load", 1);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
     
@@ -627,16 +663,17 @@ int check_nl(FILE* stream) {
     return c == '\n';
 }
 
-void eval_str(VM* vm, FILE* stream) {
+void eval_str(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     //PNODE* old_program_pos = vm->program_write_pos;
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
-    /*PNODE* func_start = */fcons(vm, enter_impl);
-    vm->in = stream;
+    /*PNODE* func_start = *///fcons(vm, NULL);
     
-    for(tt = next_tok(stream, tok); tt != TOK_END; tt = next_tok(stream, tok)) {
+    for(tt = next_tok(vm->in, tok); tt != TOK_END; tt = next_tok(vm->in, tok)) {
+        //printf("%s ", tok);
+        
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);
@@ -677,10 +714,12 @@ void eval_str(VM* vm, FILE* stream) {
     //printf("end!");
     PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
     ncons(vm, exit);
-    vm->curr = vm->program_write_start;//old_program_pos;//func_start;
+    vm->curr = vm->program_write_start - 1;//old_program_pos;//func_start;
+    program_rewind(vm);
     next(vm);
     loop(vm);
-    program_rewind(vm);
+    
+    
     print_debug_info(vm);
 }
 
