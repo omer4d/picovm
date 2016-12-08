@@ -60,15 +60,20 @@ VALUE parse_word(VM* vm, char const* str) {
 
 VALUE program_read(VM* vm) {
     char tok[256];
-    TOK_TYPE tt = next_tok(&vm->tokenizer, tok);
-    switch(tt) {
-        case TOK_WORD:
-            return parse_word(vm, tok);
-        case TOK_NUM:
-            return parse_num(tok);
-        default:
-            assert(0);
+    TOK_TYPE tt;
+    
+    for(tt = next_tok(vm->in, tok); !feof(vm->in); tt = next_tok(vm->in, tok)) {
+        switch(tt) {
+            case TOK_WORD:
+                return parse_word(vm, tok);
+            case TOK_NUM:
+                return parse_num(tok);
+            default:
+                break;
+        }
     }
+    
+    assert(!"unexpected eof");
 }
 
 void compile_literal_helper(VM* vm, VALUE val) {
@@ -388,8 +393,9 @@ void init_global_scope(VM* vm) {
 
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
-    init_tokenizer(&vm->tokenizer, "");
     int cell_num = 3 * 1000 * 1000;
+    
+    vm->in = stdin;
     
     vm->program = calloc(cell_num, sizeof(PNODE));
     vm->debug_info = calloc(cell_num, sizeof(char*));
@@ -616,17 +622,22 @@ void loop(VM* vm) {
     //print_debug_info();
 }
 
+int check_nl(FILE* stream) {
+    char c = fgetc(stream);
+    ungetc(c, stream);
+    return c == '\n';
+}
 
-void eval_str(VM* vm, char const* str) {
-    init_tokenizer(&vm->tokenizer, str);
+void eval_str(VM* vm, FILE* stream) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     //PNODE* old_program_pos = vm->program_write_pos;
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
     /*PNODE* func_start = */fcons(vm, enter_impl);
+    vm->in = stream;
     
-    for(tt = next_tok(&vm->tokenizer, tok); tt != TOK_END; tt = next_tok(&vm->tokenizer, tok)) {
+    for(tt = next_tok(stream, tok); tt != TOK_END; tt = next_tok(stream, tok)) {
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);

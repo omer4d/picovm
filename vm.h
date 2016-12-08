@@ -23,8 +23,7 @@ typedef union PNODE_t {
 }PNODE;
 
 typedef struct VM_t {
-    TOKENIZER tokenizer;
-    
+    FILE* in;
     PNODE* program;
     char const** debug_info;
     PNODE* program_write_start;
@@ -58,5 +57,6 @@ VM* create_vm();
 void destroy_vm(VM* vm);
 void push(VM* vm, VALUE x);
 VALUE pop(VM* vm);
+void eval_str(VM* vm, FILE* stream);
 
 #endif

@@ -2,79 +2,88 @@
 #include <ctype.h>
 #include <assert.h>
 
-void init_tokenizer(TOKENIZER* tokenizer, char const* str) {
-    tokenizer->pos = str;
-}
+#include "tokenizer.h"
+#include <ctype.h>
+#include <assert.h>
 
-TOK_TYPE next_tok(TOKENIZER* tokenizer, char* tok) {
+TOK_TYPE next_tok(FILE* stream, char* tok) {
     char* tok_pos = tok;
+    char c;
     
     start:
-        if(*tokenizer->pos == 0)
+        c = fgetc(stream);
+        if(c == EOF || c == '\n')
             return TOK_END;
-        else if(isspace(*tokenizer->pos)) {
-            ++tokenizer->pos;
+        else if(isspace(c)) {
             goto start;
-        }else if(isdigit(*tokenizer->pos)) {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(isdigit(c)) {
+            *(tok_pos++) = c;
             goto integer_part;
-        }else if(*tokenizer->pos == '-' || *tokenizer->pos == '+') {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(c == '-' || c == '+') {
+            *(tok_pos++) = c;
             goto signed_num;
         }else {
-            assert(isprint(*tokenizer->pos));
-            *(tok_pos++) = *(tokenizer->pos++);
+            assert(isprint(c));
+            *(tok_pos++) = c;
             goto word;
         }
     word:
-        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+        c = fgetc(stream);
+        if(c == EOF || isspace(c)) {
+            ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_WORD;
         }else {
-            assert(isprint(*tokenizer->pos));
-            *(tok_pos++) = *(tokenizer->pos++);
+            assert(isprint(c));
+            *(tok_pos++) = c;
             goto word;
         }
     signed_num:
-        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+        c = fgetc(stream);
+        if(c == EOF || isspace(c)) {
+            ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_WORD;
-        }else if(isdigit(*tokenizer->pos)) {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(isdigit(c)) {
+            *(tok_pos++) = c;
             goto integer_part;
-        }else if(*tokenizer->pos == '.') {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(c == '.') {
+            *(tok_pos++) = c;
             goto fractional_part;
         }else {
-            assert(isprint(*tokenizer->pos));
-            *(tok_pos++) = *(tokenizer->pos++);
+            assert(isprint(c));
+            *(tok_pos++) = c;
             goto word;
         }
     integer_part:
-        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+        c = fgetc(stream);
+        if(c == EOF || isspace(c)) {
+            ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_NUM;
-        }else if(isdigit(*tokenizer->pos)) {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(isdigit(c)) {
+            *(tok_pos++) = c;
             goto integer_part;
-        }else if(*tokenizer->pos == '.') {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(c == '.') {
+            *(tok_pos++) = c;
             goto fractional_part;
         }else {
-            assert(isprint(*tokenizer->pos));
-            *(tok_pos++) = *(tokenizer->pos++);
+            assert(isprint(c));
+            *(tok_pos++) = c;
             goto word;
         }
     fractional_part:
-        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+        c = fgetc(stream);
+        if(c == EOF || isspace(c)) {
+            ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_NUM;
-        }else if(isdigit(*tokenizer->pos)) {
-            *(tok_pos++) = *(tokenizer->pos++);
+        }else if(isdigit(c)) {
+            *(tok_pos++) = c;
             goto fractional_part;
         }else {
-            assert(isprint(*tokenizer->pos));
-            *(tok_pos++) = *(tokenizer->pos++);
+            assert(isprint(c));
+            *(tok_pos++) = c;
             goto word;
         }
 }

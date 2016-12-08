@@ -12,8 +12,8 @@ int main() {
     char str[256];
     
     while(1) {
-        gets(str);
-        eval_str(vm, str);
+        //gets(str);
+        eval_str(vm, stdin);
     }
     
     destroy_vm(vm);
