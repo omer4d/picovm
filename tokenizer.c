@@ -17,7 +17,10 @@ TOK_TYPE next_tok(TOKENIZER* tokenizer, char* tok) {
             goto start;
         }else if(isdigit(*tokenizer->pos)) {
             *(tok_pos++) = *(tokenizer->pos++);
-            goto word_or_num;
+            goto integer_part;
+        }else if(*tokenizer->pos == '-' || *tokenizer->pos == '+') {
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto signed_num;
         }else {
             assert(isprint(*tokenizer->pos));
             *(tok_pos++) = *(tokenizer->pos++);
@@ -32,13 +35,43 @@ TOK_TYPE next_tok(TOKENIZER* tokenizer, char* tok) {
             *(tok_pos++) = *(tokenizer->pos++);
             goto word;
         }
-    word_or_num:
+    signed_num:
+        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+            *(tok_pos++) = 0;
+            return TOK_WORD;
+        }else if(isdigit(*tokenizer->pos)) {
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto integer_part;
+        }else if(*tokenizer->pos == '.') {
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto fractional_part;
+        }else {
+            assert(isprint(*tokenizer->pos));
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto word;
+        }
+    integer_part:
         if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
             *(tok_pos++) = 0;
             return TOK_NUM;
         }else if(isdigit(*tokenizer->pos)) {
             *(tok_pos++) = *(tokenizer->pos++);
-            goto word_or_num;
+            goto integer_part;
+        }else if(*tokenizer->pos == '.') {
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto fractional_part;
+        }else {
+            assert(isprint(*tokenizer->pos));
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto word;
+        }
+    fractional_part:
+        if(*tokenizer->pos == 0 || isspace(*tokenizer->pos)) {
+            *(tok_pos++) = 0;
+            return TOK_NUM;
+        }else if(isdigit(*tokenizer->pos)) {
+            *(tok_pos++) = *(tokenizer->pos++);
+            goto fractional_part;
         }else {
             assert(isprint(*tokenizer->pos));
             *(tok_pos++) = *(tokenizer->pos++);
