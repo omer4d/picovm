@@ -6,6 +6,7 @@
 #include "value.h"
 #include "object.h"
 #include "symbol.h"
+#include "string.h"
 #include "primitives.h"
 #include "vm.h"
 #include "tokenizer.h"
@@ -126,35 +127,6 @@ void drop_marks_impl(VM* vm) {
     next(vm);
 }
 
-void compile_impl(VM* vm) {
-    VALUE v = pop(vm);
-    VALUE item;
-    FUNC* f;
-    
-    switch(v.type) {
-        case SYMBOL_TYPE:
-            map_get(&item, &vm->global_scope->map, &v);
-            f = (FUNC*)item.data.obj;
-            if(f->is_macro) {
-                //assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
-                //*vm->ret_sp = vm->curr;
-                //++vm->ret_sp;
-                
-                vm->instr = (f->pnode + 1)->fp;
-                printf("zomg! %s, %x %x", lookup_debug_info(vm, f->pnode), f->pnode->fp, enter_impl);
-            }
-            else {
-                ncons(vm, f->pnode);
-                next(vm);
-            }   
-            break;
-        default:
-            compile_literal_helper(vm, v);
-            next(vm);
-            break;
-    }
-}
-
 void start_defun_impl(VM* vm) {
     program_rewind(vm);
     VALUE func_name = pop(vm);
@@ -173,6 +145,32 @@ void end_defun_impl(VM* vm) {
     ncons(vm, leave);
     program_flush(vm);
     fcons(vm, enter_impl);
+    next(vm);
+}
+
+void read_string_impl(VM* vm) {
+    char* data = NULL;
+    int len = 0;
+    
+    char buff[256] = {0};
+    int i, buff_used;
+    char c = 0;
+    
+    fgetc(vm->in);
+    do {
+        for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
+            c = fgetc(vm->in);
+            assert(c != EOF);
+            buff[buff_used] = c;
+        }
+        
+        len += buff_used;
+        data = realloc(data, sizeof(char) * len);
+        memcpy(data + len - buff_used, buff, buff_used);
+    }while(buff[buff_used - 1] != '"');
+    
+    data[len - 1] = 0;
+    push(vm, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
     next(vm);
 }
 
@@ -226,6 +224,7 @@ void init_global_scope(VM* vm) {
     PNODE* drop_marks = register_macro(vm, fcons(vm, drop_marks_impl), "drop-marks", 1);
 
     PNODE* quote = register_macro(vm, defun(vm, 2, program_read, compile_literal), "'", 0);
+    PNODE* read_string = register_macro(vm, fcons(vm, read_string_impl), "\"", 1);
     PNODE* type = register_func(vm, fcons(vm, type_impl), "type", 0);
     
     PNODE* dbl = register_func(vm, defun(vm, 2, dup, plus), "dbl", 0);
@@ -575,7 +574,7 @@ char* value_to_string(char* str, VALUE* sp) {
             sprintf(str, "<function %s>", "unknown");
             break;
         case STRING_TYPE:
-            sprintf(str, "<string>");
+            sprintf(str, "\"%s\"", ((STRING*)sp->data.obj)->data);
             break;
         case SYMBOL_TYPE:
             sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
