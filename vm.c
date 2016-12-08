@@ -121,34 +121,6 @@ void drop_marks_impl(VM* vm) {
     next(vm);
 }
 
-void type_impl(VM* vm) {
-    VALUE v = pop(vm);
-    switch(v.type) {
-        case BOOL_TYPE:
-            push(vm, symbol_value(vm, "boolean"));
-            break;
-        case NUM_TYPE:
-            push(vm, symbol_value(vm, "number"));
-            break;
-        case FUNC_TYPE:
-            push(vm, symbol_value(vm, "function"));
-            break;
-        case STRING_TYPE:
-            push(vm, symbol_value(vm, "string"));
-            break;
-        case SYMBOL_TYPE:
-            push(vm, symbol_value(vm, "symbol"));
-            break;
-        case OBJECT_TYPE:
-            push(vm, symbol_value(vm, "object"));
-            break;
-        default:
-            assert(0);
-    }
-    
-    next(vm);
-}
-
 void compile_impl(VM* vm) {
     VALUE v = pop(vm);
     VALUE item;
@@ -178,17 +150,6 @@ void compile_impl(VM* vm) {
     }
 }
 
-void macro_qm_impl(VM* vm) {
-    //VALUE func_name = pop(vm);
-    VALUE func_val = pop(vm);
-    //assert(func_name.type == SYMBOL_TYPE);
-    //map_get(&func_val, &vm->global_scope->map, &func_name);
-    assert(func_val.type == FUNC_TYPE);
-    assert(!value_is_nil(&func_val));
-    push(vm, (VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->is_macro});
-    next(vm);
-}
-
 void start_defun_impl(VM* vm) {
     program_rewind(vm);
     VALUE func_name = pop(vm);
@@ -210,38 +171,25 @@ void end_defun_impl(VM* vm) {
     next(vm);
 }
 
-void get_impl(VM* vm) {
-    VALUE key = pop(vm);
-    VALUE item;
-    map_get(&item, &vm->global_scope->map, &key);
-    push(vm, item);
-    next(vm);
-}
-
-void set_impl(VM* vm) {
-    VALUE item = pop(vm);
-    VALUE key = pop(vm);
-    map_put(&vm->global_scope->map, &key, &item);
-    next(vm);
-}
-
-void setmac_impl(VM* vm) {
-    VALUE func_val = pop(vm);
-    assert(func_val.type == FUNC_TYPE);
-    assert(!value_is_nil(&func_val));
-    ((FUNC*)func_val.data.obj)->is_macro = 1;
-    next(vm);
-}
-
 void init_global_scope(VM* vm) {
+    PNODE* true_lit = register_func(vm, fcons(vm, true_impl), "true", 1);
+    PNODE* false_lit = register_func(vm, fcons(vm, false_impl), "false", 1);
+    PNODE* nil_lit = register_func(vm, fcons(vm, nil_impl), "nil", 1);
+    
     PNODE* dup = register_func(vm, fcons(vm, dup_impl), "dup", 1);
     PNODE* swap = register_func(vm, fcons(vm, swap_impl), "swap", 1);
     PNODE* drop = register_func(vm, fcons(vm, drop_impl), "drop", 1);
+    
     PNODE* plus = register_func(vm, fcons(vm, plus_impl), "+", 1);
     PNODE* minus = register_func(vm, fcons(vm, minus_impl), "-", 1);
     PNODE* mul = register_func(vm, fcons(vm, mul_impl), "*", 1);
     PNODE* div = register_func(vm, fcons(vm, div_impl), "/", 1);
     PNODE* mod = register_func(vm, fcons(vm, mod_impl), "mod", 1);
+    
+    PNODE* gt = register_func(vm, fcons(vm, gt_impl), ">", 1);
+    PNODE* lt = register_func(vm, fcons(vm, lt_impl), "<", 1);
+    PNODE* gte = register_func(vm, fcons(vm, gte_impl), ">=", 1);
+    PNODE* lte = register_func(vm, fcons(vm, lte_impl), "<=", 1);
     
     PNODE* get = register_func(vm, fcons(vm, get_impl), "get", 1);
     PNODE* set = register_func(vm, fcons(vm, set_impl), "set", 1);

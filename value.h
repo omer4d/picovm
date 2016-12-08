@@ -4,6 +4,12 @@
 #define PVM_NIL_INIT { .type = OBJECT_TYPE, .data.obj = ((void*)0) }
 #define PVM_NIL (VALUE)PVM_NIL_INIT
 
+#define PVM_TRUE_INIT { .type = BOOL_TYPE, .data.boolean = 1 }
+#define PVM_TRUE (VALUE)PVM_TRUE_INIT
+
+#define PVM_FALSE_INIT { .type = BOOL_TYPE, .data.boolean = 0 }
+#define PVM_FALSE (VALUE)PVM_FALSE_INIT
+
 struct OBJECT_BASE_t;
 
 typedef enum {
