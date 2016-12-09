@@ -4,6 +4,7 @@
 #include "tokenizer.h"
 #include "value.h"
 #include "object.h"
+#include "program.h"
 
 #define ARG_STACK_SIZE 1024
 #define RET_STACK_SIZE 1024
@@ -12,22 +13,18 @@
 struct SYMBOL_t;
 struct OBJECT_t;
 
-struct VM_t;
-
-typedef void (*CFUN)(struct VM_t*);
-
-typedef union PNODE_t {
-    union PNODE_t* into;
-    CFUN fp;
-    VALUE value;
-}PNODE;
-
 typedef struct VM_t {
     FILE* in;
-    PNODE* program;
+    //PNODE* program;
+    
+    PROGRAM default_program;
+    PROGRAM* curr_program;
+    PROGRAM* program_stack;
+    
+    /*
     char const** debug_info;
     PNODE* program_write_start;
-    PNODE* program_write_pos;
+    PNODE* program_write_pos;*/
 
     VALUE* arg_stack;
     VALUE* arg_sp;

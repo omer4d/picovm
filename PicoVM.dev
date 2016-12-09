@@ -1,7 +1,7 @@
 [Project]
 FileName=PicoVM.dev
 Name=PicoVM
-UnitCount=19
+UnitCount=21
 Type=1
 Ver=1
 ObjFiles=
@@ -229,6 +229,26 @@ BuildCmd=
 
 [Unit19]
 FileName=string.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit20]
+FileName=program.h
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit21]
+FileName=program.c
 CompileCpp=0
 Folder=
 Compile=1

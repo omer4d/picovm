@@ -34,20 +34,10 @@ enum {
     PUSH, INTERNAL_FUNC_NUM
 };
 
-void program_flush(VM* vm) {
-    vm->program_write_start = vm->program_write_pos;
-}
-
-void program_rewind(VM* vm) {
-    vm->program_write_pos = vm->program_write_start;
-}
-
 void init_private_funcs(VM* vm) {
-    vm->program[PUSH].fp = push_impl;
-    set_debug_info(vm, &vm->program[PUSH], "push");
-    
-    vm->program_write_pos = vm->program + INTERNAL_FUNC_NUM;
-    program_flush(vm);
+    vm->default_program.data[PUSH].fp = push_impl;
+    set_debug_info(vm, &vm->default_program.data[PUSH], "push");
+    vm->default_program.write_pos = vm->default_program.data + INTERNAL_FUNC_NUM;
 }
 
 VALUE parse_num(char const* str) {
@@ -79,7 +69,7 @@ VALUE program_read(VM* vm) {
 }
 
 void compile_literal_helper(VM* vm, VALUE val) {
-    ncons(vm, &vm->program[PUSH]);
+    ncons(vm, &vm->default_program.data[PUSH]);
     PNODE* tmp = ncons(vm, NULL);
     tmp->value = val;
 }
@@ -129,7 +119,7 @@ void drop_marks_impl(VM* vm) {
 }
 
 void start_defun_impl(VM* vm) {
-    program_rewind(vm);
+    //program_rewind(vm);
     VALUE func_name = pop(vm);
     assert(func_name.type == SYMBOL_TYPE);
     PNODE* stub = fcons(vm, enter_impl);
@@ -144,7 +134,7 @@ void start_defun_impl(VM* vm) {
 void end_defun_impl(VM* vm) {
     PNODE* leave = ((FUNC*)lookup(vm, "leave").data.obj)->pnode; //fcons(vm, leave_impl);
     ncons(vm, leave);
-    program_flush(vm);
+    //program_flush(vm);
     //fcons(vm, enter_impl);
     next(vm);
 }
@@ -176,6 +166,8 @@ void read_string_impl(VM* vm) {
 }
 
 void load_impl(VM* vm) {
+    /*
+    
     PNODE* ps = vm->program_write_start;
     
     //printf("entered");
@@ -205,7 +197,7 @@ void load_impl(VM* vm) {
     printf("zomg! %x %x", vm->curr, pn);
     
     //vm->instr = vm->curr->fp;
-    //next(vm);
+    //next(vm);*/
 }
 
 void init_global_scope(VM* vm) {
@@ -245,7 +237,7 @@ void init_global_scope(VM* vm) {
     PNODE* exit = register_func(vm, fcons(vm, exit_impl), "exit", 1);
     
     PNODE* leave = register_func(vm, fcons(vm, leave_impl), "leave", 1);
-    PNODE* fpush = &vm->program[PUSH];
+    PNODE* fpush = &vm->default_program.data[PUSH];
     
     PNODE* macro_qm = register_func(vm, fcons(vm, macro_qm_impl), "macro?", 1);
     PNODE* setmac = register_func(vm, fcons(vm, setmac_impl), "setmac", 1);
@@ -423,7 +415,7 @@ void init_global_scope(VM* vm) {
     set_method(vm, vm->func_meta, "call", dcall_func);
     set_method(vm, vm->primitive_func_meta, "call", pcall_func);
     
-    program_flush(vm);
+    //program_flush(vm);
 }
 
 VM* create_vm() {
@@ -431,11 +423,12 @@ VM* create_vm() {
     int cell_num = 3 * 1000 * 1000;
     
     vm->in = stdin;
+    init_program(&vm->default_program, calloc(cell_num, sizeof(PNODE)));
+    vm->curr_program = &vm->default_program;
     
-    vm->program = calloc(cell_num, sizeof(PNODE));
-    vm->debug_info = calloc(cell_num, sizeof(char*));
-    vm->program_write_start = vm->program;
-    vm->program_write_pos = vm->program;
+    //vm->debug_info = calloc(cell_num, sizeof(char*));
+    //vm->program_write_start = vm->program;
+    //vm->program_write_pos = vm->program;
     
     vm->arg_stack = calloc(ARG_STACK_SIZE, sizeof(VALUE));
     vm->arg_sp = vm->arg_stack;
@@ -467,8 +460,8 @@ VM* create_vm() {
 }
 
 void destroy_vm(VM* vm) {
-    free(vm->program);
-    free(vm->debug_info);
+    cleanup_program(&vm->default_program);
+    //free(vm->debug_info);
     free(vm->arg_stack);
     free(vm->ret_stack);
     free(vm->mark_stack);
@@ -491,7 +484,7 @@ void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func) {
 }
 
 void set_debug_info(VM* vm, PNODE* node, char const* debug) {
-    vm->debug_info[node - vm->program] = debug;
+    //vm->debug_info[node - vm->program] = debug;
 }
 
 VALUE lookup(VM* vm, char const* name) {
@@ -519,15 +512,13 @@ PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive) {
 }
 
 PNODE* ncons(VM* vm, PNODE* n) {
-    PNODE* node = vm->program_write_pos;
-    ++vm->program_write_pos;
+    PNODE* node = next_pnode(vm->curr_program);
     node->into = n;
     return node;
 }
 
 PNODE* fcons(VM* vm, CFUN fp) {
-    PNODE* node = vm->program_write_pos;
-    ++vm->program_write_pos;
+    PNODE* node = next_pnode(vm->curr_program);
     node->fp = fp;
     return node;
 }
@@ -561,7 +552,7 @@ void mark_helper(VM* vm) {
 
 void resolve_helper(VM* vm, int n) {
     assert(vm->mark_sp - n >= vm->mark_stack);
-    (vm->mark_sp - n)->into->into = vm->program_write_pos;
+    (vm->mark_sp - n)->into->into = vm->curr_program->write_pos;
 }
 
 void drop_marks_helper(VM* vm, int n) {
@@ -594,8 +585,8 @@ PNODE* defun(VM* vm, int n, ...) {
 }
 
 char const* lookup_debug_info(VM* vm, PNODE* pnode) {
-    int idx = pnode - vm->program;
-    return idx >= 0 ? (vm->debug_info[idx] ? vm->debug_info[idx] : "<no-info>") : "<invalid>";
+    //int idx = pnode - vm->program;
+    return "<no-info>"; //idx >= 0 ? (vm->debug_info[idx] ? vm->debug_info[idx] : "<no-info>") : "<invalid>";
 }
 
 char* value_to_string(char* str, VALUE* sp) {
@@ -667,7 +658,11 @@ void eval_str(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
-    //PNODE* old_program_pos = vm->program_write_pos;
+    PNODE program_data[1024];
+    PROGRAM prog;
+    init_program(&prog, program_data);
+    
+    vm->curr_program = &prog;
     PNODE* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
     /*PNODE* func_start = *///fcons(vm, NULL);
     
@@ -711,11 +706,11 @@ void eval_str(VM* vm) {
         
     }
     
-    //printf("end!");
+    printf("end!");
     PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
     ncons(vm, exit);
-    vm->curr = vm->program_write_start - 1;//old_program_pos;//func_start;
-    program_rewind(vm);
+    vm->curr = program_data - 1;
+    //program_rewind(vm);
     next(vm);
     loop(vm);
     
