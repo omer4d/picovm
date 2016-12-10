@@ -1,60 +1,73 @@
 #ifndef __PRIMITIVES_H__
 #define __PRIMITIVES_H__
 
+#include "pnode.h"
+
+#define PRIMITIVE_LIST(T, S)\
+T(true)         S \
+T(false)        S \
+T(nil)          S \
+                  \
+                  \
+T(dup)          S \
+T(swap)         S \
+T(drop)         S \
+T(push)         S \
+                  \
+                  \
+T(plus)         S \
+T(minus)        S \
+T(mul)          S \
+T(div)          S \
+T(mod)          S \
+                  \
+                  \
+T(eq)           S \
+T(not_eq)       S \
+T(gt)           S \
+T(lt)           S \
+T(gte)          S \
+T(lte)          S \
+                  \
+                  \
+T(and)          S \
+T(or)           S \
+T(not)          S \
+                  \
+                  \
+T(exit)         S \
+T(jump)         S \
+T(cjump)        S \
+                  \
+                  \
+T(enter)        S \
+T(leave)        S \
+T(pcall)        S \
+T(dcall)        S \
+                  \
+                  \
+T(meta)         S \
+T(dgetf)        S \
+                  \
+                  \
+T(get)          S \
+T(set)          S \
+T(setmac)       S \
+T(macro_qm)     S \
+T(type)
+
+#define PLIST_COMMA ,
+#define PLIST_SEMICOL ;
+#define PLIST_LOC(X) X ## _loc
+#define PLIST_STR(X) #X
+
+enum {
+    PRIMITIVE_LIST(PLIST_LOC, PLIST_COMMA), PRIMITIVE_NUM
+};
+
 struct VM_t;
 
-void next(struct VM_t* vm);
-
-void true_impl(struct VM_t* vm);
-void false_impl(struct VM_t* vm);
-void nil_impl(struct VM_t* vm);
-
-
-void dup_impl(struct VM_t* vm);
-void swap_impl(struct VM_t* vm);
-void drop_impl(struct VM_t* vm);
-void push_impl(struct VM_t* vm);
-
-
-void plus_impl(struct VM_t* vm);
-void minus_impl(struct VM_t* vm);
-void mul_impl(struct VM_t* vm);
-void div_impl(struct VM_t* vm);
-void mod_impl(struct VM_t* vm);
-
-
-void eq_impl(struct VM_t* vm);
-void not_eq_impl(struct VM_t* vm);
-void gt_impl(struct VM_t* vm);
-void lt_impl(struct VM_t* vm);
-void gte_impl(struct VM_t* vm);
-void lte_impl(struct VM_t* vm);
-
-
-void and_impl(struct VM_t* vm);
-void or_impl(struct VM_t* vm);
-void not_impl(struct VM_t* vm);
-
-
-void exit_impl(struct VM_t* vm);
-void jump_impl(struct VM_t* vm);
-void cjump_impl(struct VM_t* vm);
-
-
-void enter_impl(struct VM_t* vm);
-void leave_impl(struct VM_t* vm);
-void pcall_impl(struct VM_t* vm);
-void dcall_impl(struct VM_t* vm);
-
-
-void meta_impl(struct VM_t* vm);
-void dgetf_impl(struct VM_t* vm);
-
-
-void get_impl(struct VM_t* vm);
-void set_impl(struct VM_t* vm);
-void setmac_impl(struct VM_t* vm);
-void macro_qm_impl(struct VM_t* vm);
-void type_impl(struct VM_t* vm);
+extern const char const* primitive_names[];
+extern const PNODE primitives[];
 
 #endif

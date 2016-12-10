@@ -3,9 +3,14 @@
 #include "object.h"
 #include "func.h"
 #include "symbol.h"
+#include "compiler.h"
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+
+const char const* primitive_names[] = {
+    PRIMITIVE_LIST(PLIST_STR, PLIST_COMMA)
+};
 
 void next(VM* vm) {
     ++vm->curr;
@@ -328,3 +333,140 @@ void type_impl(VM* vm) {
     
     next(vm);
 }
+
+
+// ************
+// * Compiler *
+// ************
+
+//void program_read_impl(VM* vm) {
+//    VALUE v = program_read(vm);
+//    push(vm, v);
+//    next(vm);
+//}
+//
+//void compile_literal_impl(VM* vm) {
+//    VALUE v = pop(vm);
+//    compile_literal_helper(vm, v);
+//    next(vm);
+//}
+//
+//void compile_call_impl(VM* vm) {
+//    VALUE func_name = pop(vm), func_val;
+//    FUNC* func;
+//    assert(func_name.type == SYMBOL_TYPE);
+//    
+//    map_get(&func_val, &vm->global_scope->map, &func_name);
+//    
+//    assert(!value_is_nil(&func_val));
+//    
+//    ncons(vm, ((FUNC*)func_val.data.obj)->pnode);
+//    next(vm);   
+//}
+//
+//void mark_impl(VM* vm) {
+//    mark_helper(vm);
+//    next(vm);
+//}
+//
+//void resolve_impl(VM* vm) {
+//    VALUE n = pop(vm);
+//    assert(n.type == NUM_TYPE);
+//    resolve_helper(vm, n.data.num);
+//    next(vm);
+//}
+//
+//void drop_marks_impl(VM* vm) {
+//    VALUE n = pop(vm);
+//    assert(n.type == NUM_TYPE);
+//    drop_marks_helper(vm, n.data.num);
+//    next(vm);
+//}
+//
+//void start_defun_impl(VM* vm) {
+//    //program_rewind(vm);
+//    VALUE func_name = pop(vm);
+//    assert(func_name.type == SYMBOL_TYPE);
+//    PNODE* stub = fcons(vm, enter_impl);
+//    FUNC* func = create_func(stub, vm->func_meta);
+//    VALUE func_value = {.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)func};
+//    map_put(&vm->global_scope->map, &func_name, &func_value);
+//    set_debug_info(vm, stub, ((SYMBOL*)func_name.data.obj)->name);
+//    //push(vm, func_value);
+//    next(vm);
+//}
+//
+//void end_defun_impl(VM* vm) {
+//    PNODE* leave = ((FUNC*)lookup(vm, "leave").data.obj)->pnode; //fcons(vm, leave_impl);
+//    ncons(vm, leave);
+//    //program_flush(vm);
+//    //fcons(vm, enter_impl);
+//    next(vm);
+//}
+//
+//void read_string_impl(VM* vm) {
+//    char* data = NULL;
+//    int len = 0;
+//    
+//    char buff[256] = {0};
+//    int i, buff_used;
+//    char c = 0;
+//    
+//    fgetc(vm->in);
+//    do {
+//        for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
+//            c = fgetc(vm->in);
+//            assert(c != EOF);
+//            buff[buff_used] = c;
+//        }
+//        
+//        len += buff_used;
+//        data = realloc(data, sizeof(char) * len);
+//        memcpy(data + len - buff_used, buff, buff_used);
+//    }while(buff[buff_used - 1] != '"');
+//    
+//    data[len - 1] = 0;
+//    compile_literal_helper(vm, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
+//    next(vm);
+//}
+//
+//void load_impl(VM* vm) {
+//    /*
+//    
+//    PNODE* ps = vm->program_write_start;
+//    
+//    //printf("entered");
+//    VALUE fn = pop(vm);
+//    assert(fn.type == STRING_TYPE);
+//    FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
+//    FILE* tmp = vm->in;
+//    vm->in = fp;
+//    PNODE* curr = vm->curr;
+//    
+//    printf("zomg! %x", vm->curr);
+//    
+//    eval_str(vm);
+//    //assert(0);
+//    printf("omg! %x %x %x %x", ps, vm->program_write_start, vm->program_write_pos, vm->curr);
+//    vm->in = tmp;
+//    fclose(fp);
+//    
+//    
+//    //vm->curr = curr;
+//    PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
+//    
+//    
+//    //fcons(vm, enter_impl);
+//    PNODE* pn = ncons(vm, exit);
+//    vm->curr = curr; //pn - 1;
+//    printf("zomg! %x %x", vm->curr, pn);
+//    
+//    //vm->instr = vm->curr->fp;
+//    //next(vm);*/
+//}
+
+#define PLIST_PROGRAM_SET(X) {.fp = &X ## _impl}
+
+const PNODE primitives[] = {
+    PRIMITIVE_LIST(PLIST_PROGRAM_SET, PLIST_COMMA)
+};
