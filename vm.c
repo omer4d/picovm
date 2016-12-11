@@ -210,7 +210,7 @@ void loop(VM* vm) {
     
     while(vm->instr) {
         print_debug_info(vm);
-        getch();
+        //getch();
         vm->instr(vm);
     }
     

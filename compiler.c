@@ -4,28 +4,74 @@
 #include "tokenizer.h"
 #include "primitives.h"
 
-PROGRAM_WRITER* curr_pw(COMPILER* c) {
-    assert(c->pw_sp > c->pw_stack);
-    return c->pw_sp - 1;
+PROGRAM* curr_program(COMPILER* c) {
+    assert(c->program_sp > c->program_stack);
+    return c->program_sp - 1;
 }
 
+void init_program(PROGRAM* p) {
+    p->first = NULL;
+    p->last = NULL;
+    p->size = 0;
+}
+
+void cleanup_program(PROGRAM* p) {
+    ANODE* n;
+    for(n = p->first; n != NULL;) {
+        ANODE* next = n->next;
+        free(n);
+        n = next;
+    }
+}
+
+ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
+    ANODE* n = malloc(sizeof(ANODE));
+    PROGRAM* p = curr_program(c);
+    n->type = type;
+    n->next = NULL;
+    n->data_dest = NULL;
+    
+    if(!p->last) {
+        p->first = n;
+        p->last = n;
+    }else {
+        p->last->next = n;
+        p->last = n;
+    }
+    
+    p->size += (type == ANODE_JUMP || ANODE_CJUMP || ANODE_LITERAL ? 2 : 1);
+    
+    if(c->last_resolve_request) {
+        c->last_resolve_request->data.target->data.target = n;
+        c->last_resolve_request->data.target = NULL; // Invalidate to prevent multiple resolve attempts
+        c->last_resolve_request = NULL;
+    }
+    
+    return n;
+}
 
 void init_compiler(COMPILER* c) {
     c->in = stdin;
-    c->pw_stack = malloc(sizeof(PROGRAM_WRITER) * PW_STACK_SIZE);
-    c->pw_sp = c->pw_stack;
+    
+    c->mark_stack = calloc(MARK_STACK_SIZE, sizeof(ANODE));
+    c->mark_sp = c->mark_stack;
+    
+    c->last_resolve_request = NULL;
+    
+    c->program_stack = malloc(sizeof(PROGRAM) * PROGRAM_STACK_SIZE);
+    c->program_sp = c->program_stack;
 }
 
 void cleanup_compiler(COMPILER* c) {
-    PROGRAM_WRITER* pw;
-    for(pw = c->pw_stack; pw < c->pw_sp; ++pw)
-        cleanup_program_writer(pw);
-    free(c->pw_stack);
+    PROGRAM* p;
+    for(p = c->program_stack; p < c->program_sp; ++p)
+        cleanup_program(p);
+    free(c->program_stack);
 }
 
 void begin_compilation(COMPILER* c) {
-    ASSERT_PUSH(c->pw_stack, c->pw_sp, PW_STACK_SIZE);
-    init_program_writer(c->pw_sp++);
+    ASSERT_PUSH(c->program_stack, c->program_sp, PROGRAM_STACK_SIZE);
+    init_program(c->program_sp++);
 }
 
 int is_special_primitive(PNODE const* pnode) {
@@ -38,61 +84,80 @@ int is_primitive(PNODE const* pnode) {
     return pnode >= primitives && pnode < primitives + PRIMITIVE_NUM;
 }
 
-PNODE* perform_tco(PROGRAM prog) {
-    // Assumption: program either ends with 'leave' or (in case of a stub) 'jump'
-    /*
-    int i = 0;    
-    while(i < prog.len - 1) {
-        PNODE const* into = prog.data[i].into;
-        if(is_special_primitive(into))
-            i += 2;
-        else {
-            if(!is_primitive(into) && prog.data[i + 1].into == &primitives[leave_loc]) {
-                printf("WTF!");
-                prog.data[i].into = &primitives[jump_loc];
-                prog.data[i + 1].into = into + 1;
-            }
-            ++i;
-        }  
-    }*/   
-    
-    return prog.data;
-}
-
 PNODE* end_compilation(COMPILER* c) {
-    ASSERT_POP(c->pw_stack, c->pw_sp);
-    PROGRAM prog = acquire_program(curr_pw(c));
-    cleanup_program_writer(--c->pw_sp);
-    return perform_tco(prog);
-}
-
-void compile_func_enter(COMPILER* c) {
-    write_cfun(curr_pw(c), primitives[enter_loc].fp);
+    ASSERT_POP(c->program_stack, c->program_sp);
+    PROGRAM* prog = curr_program(c);
+    PNODE* out = malloc(sizeof(PNODE) * prog->size + 1);
+    PNODE* write_pos = out + 1;
+    
+    out[0].fp = primitives[enter_loc].fp;
+    ANODE* n;
+    for(n = prog->first; n != NULL; n = n->next) {
+        n->data_dest = write_pos;
+        switch(n->type) {
+            case ANODE_CALL_FUNC: case ANODE_CALL_PRIMITIVE: case ANODE_RECUR:
+                (write_pos++)->into = n->data.into;
+                break;
+            case ANODE_JUMP:
+                (write_pos++)->into = &primitives[jump_loc];
+                (write_pos++)->into = NULL;
+                break;
+            case ANODE_CJUMP:
+                (write_pos++)->into = &primitives[cjump_loc];
+                (write_pos++)->into = NULL;
+                break;
+            case ANODE_LITERAL:
+                (write_pos++)->into = &primitives[push_loc];
+                (write_pos++)->value = n->data.value;
+                break;
+            default:
+                assert("unidentified ANODE type!" && 0);
+        }
+    }
+    
+    for(n = prog->first; n != NULL; n = n->next) {
+        if(n->type == ANODE_JUMP || n->type == ANODE_CJUMP) {
+            (n->data_dest + 1)->into = n->data.target->data_dest;
+        }else if(n->type == ANODE_RECUR) {
+            n->data_dest->into = out;
+        }
+    }
+    
+    cleanup_program(--c->program_sp);
+    return out;
 }
 
 void compile_call(COMPILER* c, PNODE const* into) {
-    write_pnode(curr_pw(c), into);
+    ANODE* n = next_anode(c, is_primitive(into) ? ANODE_CALL_PRIMITIVE : ANODE_CALL_FUNC);
+    n->data.into = into;
 }
 
 void compile_literal(COMPILER* c, VALUE v) {
-    write_pnode(curr_pw(c), &primitives[push_loc]);
-    write_value(curr_pw(c), v);
+    ANODE* n = next_anode(c, ANODE_LITERAL);
+    n->data.value = v;
+}
+
+void compile_generic_jump(COMPILER* c, ANODE_TYPE type) {
+    ANODE* n = next_anode(c, type);
+    
+    ASSERT_PUSH(c->mark_stack, c->mark_sp, MARK_STACK_SIZE);
+    
+    n->data.target = c->mark_sp;
+    c->mark_sp->data.target = n;
+    ++c->mark_sp;
 }
 
 void compile_cjump(COMPILER* c) {
-    write_pnode(curr_pw(c), &primitives[cjump_loc]);
-    program_writer_mark(curr_pw(c));
+    compile_generic_jump(c, ANODE_CJUMP);
 }
 
 void compile_jump(COMPILER* c) {
-    write_pnode(curr_pw(c), &primitives[jump_loc]);
-    program_writer_mark(curr_pw(c));
+    compile_generic_jump(c, ANODE_JUMP);
 }
 
 void compile_recur(COMPILER* c) {
-    write_pnode(curr_pw(c), &primitives[jump_loc]);
-    write_rel_addr(curr_pw(c), 1);
-    //program_writer_mark(curr_pw(c));
+    ANODE* n = next_anode(c, ANODE_RECUR);
+    n->data.into = NULL;
 }
 
 void compile_stub(COMPILER* c) {
@@ -100,11 +165,16 @@ void compile_stub(COMPILER* c) {
 }
 
 void compiler_resolve(COMPILER* c, int mark_id) {
-    program_writer_resolve(curr_pw(c), mark_id);
+    assert(mark_id < 0);
+    assert(c->mark_sp + mark_id >= c->mark_stack);
+    assert(curr_program(c)->size > 0);
+    assert((c->mark_sp + mark_id)->data.target); // protect against multiple resolve attempts
+    c->last_resolve_request = c->mark_sp + mark_id;
 }
 
 void compiler_drop_marks(COMPILER* c, int n) {
-    program_writer_drop_marks(curr_pw(c), n);
+    assert(c->mark_sp - n >= c->mark_stack);
+    c->mark_sp -= n;
 }
 
 //PNODE* ncons(COMPILER* c, PNODE const* n) {
