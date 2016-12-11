@@ -11,6 +11,8 @@
 #include "primitives.h"
 #include "vm.h"
 #include "func.h"
+#include "tokenizer.h"
+#include "compiler.h"
 
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
@@ -217,6 +219,82 @@ void loop(VM* vm) {
     //print_debug_info(vm);
 }
 
-void vm_run() {
+void pvm_eval(VM* vm) {
+    char tok[256];
+    TOK_TYPE tt;
+    VALUE key, item;
+    COMPILER* c = &vm->compiler;
+    VALUE baz;
     
+    //PNODE* run = ((FUNC*)lookup(c, "run").data.obj)->pnode;
+    /*PNODE* func_start = *///fcons(c, NULL);
+    
+    //baz = parse_num("577");
+    printf("\nNUM=%f\n", baz.data.num);
+    
+    begin_compilation(c);
+    for(tt = next_tok(c->in, tok); tt != TOK_END; tt = next_tok(c->in, tok)) {
+        printf("<%s>", tok);
+        
+        switch(tt) {
+            case TOK_WORD:
+                key = symbol_value(vm, tok);
+                map_get(&item, &vm->global_scope->map, &key);
+                
+                if(value_is_nil(&item)) {
+                    printf("Undefined function '%s'.\n", tok);
+                }else if(item.type != FUNC_TYPE) {
+                    printf("'%s' is not a function.\n", tok);
+                }else {
+                    FUNC* f = (FUNC*)item.data.obj;
+                    
+                    if(f->is_macro) {
+                        //push(c, item);
+                        //c->curr = run;
+                        //next(c);
+                        //loop(c);
+                    }
+                    
+                    else {
+                        compile_call(c, f->pnode);
+                    }
+                    /*
+                    push(c, item);
+                    c->curr = run;
+                    next(c);
+                    loop(c);*/
+                    
+                }
+                break;
+            case TOK_NUM:
+                //push(c, parse_num(tok));
+                //compile_literal_helper(c, parse_num(tok));
+                //baz = parse_num("577");
+                printf("\nNUM=%f\n", baz.data.num);
+                
+                compile_literal(c, baz); //(VALUE){.type = NUM_TYPE, .data.num = strtod(tok, NULL)}); //parse_num("577"));
+                break;
+        }
+        
+        
+    }
+    
+    compile_call(c, &primitives[exit_loc]);
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* f = end_compilation(c);
+    
+    vm->curr = f;
+    next(vm);
+    loop(vm);
+    
+    /*printf("end!");
+    PNODE* exit = ((FUNC*)lookup(c, "exit").data.obj)->pnode;
+    ncons(c, exit);
+    c->curr = program_data - 1;
+    //program_rewind(c);
+    next(c);
+    loop(c);*/
+    
+    
+    print_debug_info(vm);
 }
