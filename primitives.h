@@ -67,6 +67,8 @@ enum {
 
 struct VM_t;
 
+void next(struct VM_t* vm);
+
 extern const char const* primitive_names[];
 extern const PNODE primitives[];
 

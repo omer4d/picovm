@@ -4,6 +4,8 @@
 #include "tokenizer.h"
 #include "primitives.h"
 
+#include <malloc.h>
+
 PROGRAM* curr_program(COMPILER* c) {
     assert(c->program_sp > c->program_stack);
     return c->program_sp - 1;
@@ -225,17 +227,8 @@ void compiler_drop_marks(COMPILER* c, int n) {
 //    return node;
 //}
 //
-VALUE parse_num(char const* str) {
-    double d = strtod(str, NULL);
-    printf("%f\n", d);
-    VALUE v = {.type = NUM_TYPE, .data.num = d};
-    return v;
-}
 
-VALUE parse_word(COMPILER* c, char const* str) {
-    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(c, str)};
-    return v;
-}
+
 
 //
 //VALUE program_read(COMPILER* c) {

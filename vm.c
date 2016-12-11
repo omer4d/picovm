@@ -16,7 +16,6 @@
 
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
-    int cell_num = 3 * 1000 * 1000;
     
     vm->arg_stack = calloc(ARG_STACK_SIZE, sizeof(VALUE));
     vm->arg_sp = vm->arg_stack;
@@ -219,23 +218,26 @@ void loop(VM* vm) {
     //print_debug_info(vm);
 }
 
+VALUE parse_num(char const* str) {
+    double d = strtod(str, NULL);
+    printf("%f\n", d);
+    VALUE v = {.type = NUM_TYPE, .data.num = d};
+    return v;
+}
+
+VALUE parse_word(VM* vm, char const* str) {
+    VALUE v = {.type = SYMBOL_TYPE, .data.obj = (OBJECT_BASE*)get_symbol(vm, str)};
+    return v;
+}
+
 void pvm_eval(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    VALUE baz;
-    
-    //PNODE* run = ((FUNC*)lookup(c, "run").data.obj)->pnode;
-    /*PNODE* func_start = *///fcons(c, NULL);
-    
-    //baz = parse_num("577");
-    printf("\nNUM=%f\n", baz.data.num);
     
     begin_compilation(c);
     for(tt = next_tok(c->in, tok); tt != TOK_END; tt = next_tok(c->in, tok)) {
-        printf("<%s>", tok);
-        
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);
@@ -267,12 +269,10 @@ void pvm_eval(VM* vm) {
                 }
                 break;
             case TOK_NUM:
-                //push(c, parse_num(tok));
-                //compile_literal_helper(c, parse_num(tok));
-                //baz = parse_num("577");
-                printf("\nNUM=%f\n", baz.data.num);
-                
-                compile_literal(c, baz); //(VALUE){.type = NUM_TYPE, .data.num = strtod(tok, NULL)}); //parse_num("577"));
+                compile_literal(c, parse_num(tok));
+                break;
+            default:
+                assert(0);
                 break;
         }
         

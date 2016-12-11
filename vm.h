@@ -47,5 +47,6 @@ PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int pri
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive);
 VALUE lookup(VM* vm, char const* name);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
+void pvm_eval(VM* vm);
 
 #endif

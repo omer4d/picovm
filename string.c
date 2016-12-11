@@ -1,5 +1,7 @@
 #include "string.h"
 
+#include <malloc.h>
+
 STRING* create_string(char const* data, int len, OBJECT* meta) {
     STRING* str = malloc(sizeof(STRING));
     str->base.meta = meta;

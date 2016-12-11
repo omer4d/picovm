@@ -1,5 +1,7 @@
 #include "object.h"
 
+#include <malloc.h>
+
 OBJECT* create_object(OBJECT* meta) {
     OBJECT* obj = malloc(sizeof(OBJECT));
     obj->base.meta = meta;

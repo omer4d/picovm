@@ -1,5 +1,6 @@
 #include "func.h"
 #include "vm.h"
+#include <malloc.h>
 
 FUNC* create_func(PNODE const* pnode, OBJECT* meta) {
     FUNC* f = malloc(sizeof(FUNC));

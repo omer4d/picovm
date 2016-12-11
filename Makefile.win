@@ -11,8 +11,8 @@ LIBS =  -L"C:/Dev-Cpp/lib" -lalleg  -g3
 INCS =  -I"C:/Dev-Cpp/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
 BIN  = pvm.exe
-CXXFLAGS = $(CXXINCS)   -fexpensive-optimizations -O3 -g3
-CFLAGS = $(INCS)   -fexpensive-optimizations -O3 -g3
+CXXFLAGS = $(CXXINCS)   -Wall -fexpensive-optimizations -O3 -g3
+CFLAGS = $(INCS)   -Wall -fexpensive-optimizations -O3 -g3
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -26,13 +26,13 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o "pvm.exe" $(LIBS)
 
-main.o: main.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/ctype.h vm.h pnode.h   value.h object.h map.h compiler.h
+main.o: main.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/ctype.h vm.h pnode.h   value.h object.h map.h compiler.h symbol.h primitives.h lib.h
 	$(CC) -c main.c -o main.o $(CFLAGS)
 
 map.o: map.c C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/assert.h map.h value.h
 	$(CC) -c map.c -o map.o $(CFLAGS)
 
-object.o: object.c object.h map.h value.h
+object.o: object.c object.h map.h value.h C:/Dev-Cpp/include/malloc.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/stddef.h
 	$(CC) -c object.c -o object.o $(CFLAGS)
 
 value.o: value.c value.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h
@@ -41,10 +41,10 @@ value.o: value.c value.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/_mingw
 vm.o: vm.c C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/stdlib.h macros.h value.h object.h map.h symbol.h   string.h primitives.h pnode.h vm.h compiler.h func.h tokenizer.h
 	$(CC) -c vm.c -o vm.o $(CFLAGS)
 
-symbol.o: symbol.c symbol.h object.h map.h value.h vm.h pnode.h   compiler.h C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/malloc.h   C:/Dev-Cpp/include/stdlib.h
+symbol.o: symbol.c symbol.h object.h map.h value.h vm.h pnode.h   compiler.h C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/malloc.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/string.h
 	$(CC) -c symbol.c -o symbol.o $(CFLAGS)
 
-func.o: func.c func.h object.h map.h value.h vm.h pnode.h compiler.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h
+func.o: func.c func.h object.h map.h value.h vm.h pnode.h compiler.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/malloc.h   C:/Dev-Cpp/include/stdlib.h
 	$(CC) -c func.c -o func.o $(CFLAGS)
 
 primitives.o: primitives.c vm.h pnode.h value.h object.h map.h compiler.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h primitives.h func.h symbol.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/math.h
@@ -53,10 +53,10 @@ primitives.o: primitives.c vm.h pnode.h value.h object.h map.h compiler.h   C:/D
 tokenizer.o: tokenizer.c tokenizer.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/ctype.h C:/Dev-Cpp/include/assert.h
 	$(CC) -c tokenizer.c -o tokenizer.o $(CFLAGS)
 
-string.o: string.c string.h object.h map.h value.h
+string.o: string.c string.h object.h map.h value.h   C:/Dev-Cpp/include/malloc.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/stddef.h
 	$(CC) -c string.c -o string.o $(CFLAGS)
 
-compiler.o: compiler.c compiler.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h value.h   pnode.h macros.h C:/Dev-Cpp/include/assert.h object.h map.h tokenizer.h   primitives.h
+compiler.o: compiler.c compiler.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h value.h   pnode.h macros.h C:/Dev-Cpp/include/assert.h object.h map.h tokenizer.h   primitives.h C:/Dev-Cpp/include/malloc.h C:/Dev-Cpp/include/stdlib.h
 	$(CC) -c compiler.c -o compiler.o $(CFLAGS)
 
 lib.o: lib.c lib.h vm.h pnode.h value.h object.h map.h compiler.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h func.h primitives.h symbol.h

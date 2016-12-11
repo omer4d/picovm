@@ -1,6 +1,7 @@
 #include "symbol.h"
 #include "vm.h"
 #include <malloc.h>
+#include <string.h>
 
 SYMBOL* get_symbol(VM* vm, char const* name) {
     int i;

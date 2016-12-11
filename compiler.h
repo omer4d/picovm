@@ -51,8 +51,6 @@ void compile_jump(COMPILER* c);
 void compile_recur(COMPILER* c);
 void compile_stub(COMPILER* c);
 void compiler_resolve(COMPILER* c, int mark_id);
-
-VALUE parse_num(char const* str);
-VALUE parse_word(COMPILER* c, char const* str);
+void compiler_drop_marks(COMPILER* c, int n);
 
 #endif
