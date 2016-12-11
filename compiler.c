@@ -103,15 +103,12 @@ void perform_tco(PROGRAM* prog) {
             n->type = ANODE_LONGJUMP;
             ++n->data.into;
             ++prog->size;
-            printf("zomg1");
         }
         
         if(n->type == ANODE_RECUR && is_leave(n->next)) {
             n->type = ANODE_JUMP;
             n->data.target = prog->first;
             ++prog->size;
-            
-            printf("zomg2");
         }
     }
 }
