@@ -214,7 +214,7 @@ void loop(VM* vm) {
         vm->instr(vm);
     }
     
-    //print_debug_info();
+    //print_debug_info(vm);
 }
 
 void vm_run() {

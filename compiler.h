@@ -9,7 +9,7 @@
 #define MARK_STACK_SIZE 256
 
 typedef enum {
-    ANODE_CALL_FUNC, ANODE_CALL_PRIMITIVE, ANODE_RECUR, ANODE_JUMP, ANODE_CJUMP, ANODE_LITERAL,
+    ANODE_CALL_FUNC, ANODE_CALL_PRIMITIVE, ANODE_RECUR, ANODE_JUMP, ANODE_CJUMP, ANODE_LONGJUMP, ANODE_LITERAL,
 }ANODE_TYPE;
 
 typedef struct ANODE_t {
@@ -26,7 +26,7 @@ typedef struct ANODE_t {
 typedef struct PROGRAM_t {
     ANODE* first;
     ANODE* last;
-    int size; // number of PNODES (some ANODES translate into two)
+    int size; // number of PNODES (an ANODE may translate into more than one PNODE)
 }PROGRAM;
 
 typedef struct COMPILER_t {

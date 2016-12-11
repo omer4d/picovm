@@ -84,9 +84,44 @@ int is_primitive(PNODE const* pnode) {
     return pnode >= primitives && pnode < primitives + PRIMITIVE_NUM;
 }
 
+int is_leave(ANODE* n) {
+    if(n) {
+        if(n->type == ANODE_CALL_PRIMITIVE && n->data.into == &primitives[leave_loc])
+            return 1;
+        else if(n->type == ANODE_JUMP)
+            return is_leave(n->data.target);
+        else
+            return 0;
+    }
+    return 0;
+}
+
+void perform_tco(PROGRAM* prog) {
+    ANODE* n;
+    for(n = prog->first; n != NULL; n = n->next) {
+        if(n->type == ANODE_CALL_FUNC && is_leave(n->next)) {
+            n->type = ANODE_LONGJUMP;
+            ++n->data.into;
+            ++prog->size;
+            printf("zomg1");
+        }
+        
+        if(n->type == ANODE_RECUR && is_leave(n->next)) {
+            n->type = ANODE_JUMP;
+            n->data.target = prog->first;
+            ++prog->size;
+            
+            printf("zomg2");
+        }
+    }
+}
+
 PNODE* end_compilation(COMPILER* c) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);
+    
+    perform_tco(prog);
+    
     PNODE* out = malloc(sizeof(PNODE) * prog->size + 1);
     PNODE* write_pos = out + 1;
     
@@ -105,6 +140,10 @@ PNODE* end_compilation(COMPILER* c) {
             case ANODE_CJUMP:
                 (write_pos++)->into = &primitives[cjump_loc];
                 (write_pos++)->into = NULL;
+                break;
+            case ANODE_LONGJUMP:
+                (write_pos++)->into = &primitives[jump_loc];
+                (write_pos++)->into = n->data.into;
                 break;
             case ANODE_LITERAL:
                 (write_pos++)->into = &primitives[push_loc];
