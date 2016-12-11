@@ -63,7 +63,7 @@ void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func) {
     map_put(&object->map, &key, &item);
 }
 
-void set_debug_info(VM* vm, PNODE* node, char const* debug) {
+void set_debug_info(VM* vm, PNODE const* node, char const* debug) {
     //vm->debug_info[node - vm->program] = debug;
 }
 
@@ -74,7 +74,7 @@ VALUE lookup(VM* vm, char const* name) {
     return item;
 }
 
-PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
+PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
     VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
     map_put(&vm->global_scope->map, &key, &item);
@@ -82,7 +82,7 @@ PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive) {
     return pnode;
 }
 
-PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive) {
+PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
     VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
     ((FUNC*)item.data.obj)->is_macro = 1;

@@ -7,11 +7,12 @@
 #include "vm.h"
 #include "symbol.h"
 #include "primitives.h"
+#include "lib.h"
 
 int main() {
     VM* vm = create_vm();
     COMPILER* c = &vm->compiler;
-   
+    init_lib(vm);
 
 // BEGIN DBL
 begin_compilation(c);
@@ -87,6 +88,20 @@ compile_literal(c, num_value(4));
 compile_call(c, &primitives[true_loc]);
 compile_call(c, dbl_or_quad);
 compile_call(c, foobar);
+
+
+ register_func(vm, dbl, "dbl", 0);
+
+compile_literal(c, num_value(4));
+
+compile_literal(c, symbol_value(vm, "dbl"));
+compile_call(c, &primitives[get_loc]);
+
+compile_literal(c, symbol_value(vm, "call"));
+compile_call(c, &primitives[get_loc]);
+
+compile_call(c, &primitives[dcall_loc]);
+
 compile_call(c, &primitives[exit_loc]);
 compile_call(c, &primitives[leave_loc]);
 PNODE* pvm_main = end_compilation(c);

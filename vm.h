@@ -43,8 +43,8 @@ void push(VM* vm, VALUE x);
 VALUE pop(VM* vm);
 void print_debug_info(VM* vm);
 char* value_to_string(char* str, VALUE* sp);
-PNODE* register_func(VM* vm, PNODE* pnode, char const* name, int primitive);
-PNODE* register_macro(VM* vm, PNODE* pnode, char const* name, int primitive);
+PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive);
+PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive);
 VALUE lookup(VM* vm, char const* name);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 

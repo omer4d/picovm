@@ -1,0 +1,34 @@
+decl call
+
+defun getf
+	dup meta
+	dup
+	<(VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)vm->default_meta}>
+    eq
+    
+	if
+		drop
+		dgetf
+	else
+		' index
+		swap
+		getf
+		call
+	endif
+end
+
+defun call
+	dup
+	<(VALUE){.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)pcall_func}>
+    eq
+    
+	if
+		pcall
+	else
+		dup meta
+		' call
+		swap
+		getf
+		recur
+	endif
+end
