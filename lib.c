@@ -1,90 +1,97 @@
 #include "lib.h"
 
+#include "value.h"
 #include "func.h"
 #include "primitives.h"
+#include "symbol.h"
 
+//#define CC(name) compile_call(c, &primitives[name ## _loc])
+//#define CL(name) compile_call(c, (name))
+//#define CO(v) compile_literal(c, (VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)(v)});
+//#define CS(name) compile_literal(c, symbol_value(vm, (name)))
+//
 //void init_lib(VM* vm) {
 //    COMPILER* c = &vm->compiler;
 //    
 //    PNODE const* dcall = &primitives[dcall_loc];
+//    PNODE const* pcall = &primitives[pcall_loc];
 //    
 //    // **** methods ****
 //    
 //    FUNC* dcall_func = create_func(dcall, vm->primitive_func_meta);
 //    FUNC* pcall_func = create_func(pcall, vm->primitive_func_meta);
 //    
-//    PNODE* dgetf = fcons_deb(vm, dgetf_impl, "dgetf");
+//    PNODE const* dgetf = &primitives[dgetf_loc];
 //    FUNC* dgetf_func = create_func(dgetf, vm->primitive_func_meta);
 //    
 //    // **** call decl ****
 //    
-//    PNODE* call = fcons(vm, enter_impl);
-//    register_func(vm, call, "call", 0);
-//    ncons(vm, jump);
-//    PNODE* call_stub = ncons(vm, NULL);
+//    begin_compilation(c);
+//    compile_func_enter(c);
+//    compile_stub(c);
+//    
+//    register_func(vm, end_compilation(c), "call", 0);
 //    
 //    // **** getf ****
 //    
-//    PNODE* getf = fcons(vm, enter_impl);
-//    register_func(vm, getf, "getf", 0);
-//
-//    ncons(vm, dup);
-//    ncons(vm, meta);
+//    DEFUN
+//    (dgetf
+//        I(dup)
+//        I(meta)
+//        I(dup)
+//        OBJ(vm->default_meta)
+//        I(eq)
+//        CIF
+//        (
+//            SYM("index")
+//            I(swap)
+//            C(getf)
+//            I(call)
+//        )
+//        (
+//            I(drop),
+//            L(dgetf),
+//            DROP_MARKS(2),
+//            END_DEFUN(dgetf)
+//        )
+//    )
 //    
-//    ncons(vm, dup);
-//    ncons(vm, fpush);
-//    PNODE* tmp = ncons(vm, NULL);
-//    tmp->value.type = OBJECT_TYPE;
-//    tmp->value.data.obj = (OBJECT_BASE*)vm->default_meta;
-//    ncons(vm, eq);
 //    
-//    ncons(vm, cjump);
-//    mark_helper(vm);
-//        ncons(vm, fpush);
-//        tmp = ncons(vm, NULL);
-//        tmp->value = symbol_value(vm, "index");
-//        ncons(vm, swap);
-//        ncons(vm, getf);
-//        ncons(vm, call);
-//        ncons(vm, jump);
-//    mark_helper(vm);
-//    resolve_helper(vm, 2);
-//        ncons(vm, drop);
-//        ncons(vm, dgetf);
-//    resolve_helper(vm, 1);
-//    drop_marks_helper(vm, 2);
 //    
-//    ncons(vm, leave);
+//    //CC(leave);
+//    
+//    //PNODE* getf = end_compilation(c);
+//    //register_func(vm, getf, "getf", 0);
 //    
 //    // **** call def ****
 //    
-//    PNODE* call_rest = ncons(vm, dup);
+//    PNODE* call_rest = CC(dup);
 //    call_stub->into = call_rest;
 //    
-//    ncons(vm, fpush);
-//    tmp = ncons(vm, NULL);
+//    CC(fpush);
+//    tmp = CC(NULL);
 //    tmp->value = (VALUE){.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)pcall_func}; //lookup(vm, "pcall");
-//    ncons(vm, eq);
+//    CC(eq);
 //    
-//    ncons(vm, cjump);
+//    CC(cjump);
 //    mark_helper(vm);
-//        ncons(vm, dup);
-//        ncons(vm, meta);
+//        CC(dup);
+//        CC(meta);
 //        
-//        ncons(vm, fpush);
-//        tmp = ncons(vm, NULL);
+//        CC(fpush);
+//        tmp = CC(NULL);
 //        tmp->value = symbol_value(vm, "call");
-//        ncons(vm, swap);
-//        ncons(vm, getf);
-//        ncons(vm, call);
-//        ncons(vm, jump);
+//        CC(swap);
+//        CC(getf);
+//        CC(call);
+//        CC(jump);
 //    mark_helper(vm);
 //    resolve_helper(vm, 2);
-//        ncons(vm, pcall);
+//        CC(pcall);
 //    resolve_helper(vm, 1);
 //    drop_marks_helper(vm, 2);
 //    
-//    ncons(vm, leave);
+//    CC(leave);
 //    
 //    
 //    
@@ -96,36 +103,36 @@
 ////    PNODE* compile = fcons(vm, enter_impl);
 ////    register_macro(vm, compile, "compile", 1);
 ////    
-////    ncons(vm, dup);
-////    ncons(vm, type);
+////    CC(dup);
+////    CC(type);
 ////    compile_literal_helper(vm, symbol_value(vm, "symbol"));
-////    ncons(vm, eq);
-////    ncons(vm, cjump); mark_helper(vm);
+////    CC(eq);
+////    CC(cjump); mark_helper(vm);
 ////        //not symbol
-////        ncons(vm, compile_literal);
-////        ncons(vm, jump); mark_helper(vm);
+////        CC(compile_literal);
+////        CC(jump); mark_helper(vm);
 ////    
 ////        //is symbol
 ////        resolve_helper(vm, 2);
-////        ncons(vm, dup);
-////        ncons(vm, get);
-////        ncons(vm, macro_qm);
-////        ncons(vm, cjump); mark_helper(vm);
+////        CC(dup);
+////        CC(get);
+////        CC(macro_qm);
+////        CC(cjump); mark_helper(vm);
 ////            // not macro
-////            ncons(vm, compile_call);
-////            ncons(vm, jump); mark_helper(vm);
+////            CC(compile_call);
+////            CC(jump); mark_helper(vm);
 ////    
 ////            // is macro
 ////            resolve_helper(vm, 2);
-////            ncons(vm, get);
-////            ncons(vm, call);
+////            CC(get);
+////            CC(call);
 ////    
 ////    resolve_helper(vm, 1);
 ////    drop_marks_helper(vm, 2);
 ////    
 ////    resolve_helper(vm, 1);
 ////    drop_marks_helper(vm, 2);
-////    ncons(vm, leave);
+////    CC(leave);
 ////    
 ////    // **** defun ****
 ////    
@@ -139,23 +146,23 @@
 ////    PNODE* defn = fcons(vm, enter_impl);
 ////    register_macro(vm, defn, "defun", 0);
 ////    
-////    ncons(vm, program_read);
-////    ncons(vm, start_defun);
-////    loop = ncons(vm, program_read);
-////    ncons(vm, dup);
+////    CC(program_read);
+////    CC(start_defun);
+////    loop = CC(program_read);
+////    CC(dup);
 ////    compile_literal_helper(vm, symbol_value(vm, "end"));
-////    ncons(vm, eq);
-////    ncons(vm, cjump);
+////    CC(eq);
+////    CC(cjump);
 ////    mark_helper(vm);
 ////    // if false
-////        ncons(vm, compile);
-////        ncons(vm, jump);
-////        ncons(vm, loop);
+////        CC(compile);
+////        CC(jump);
+////        CC(loop);
 ////    // if true
 ////        resolve_helper(vm, 1);
-////        ncons(vm, drop);
-////        ncons(vm, end_defun);
-////        ncons(vm, leave);
+////        CC(drop);
+////        CC(end_defun);
+////        CC(leave);
 ////    drop_marks_helper(vm, 1);
 ////    
 ////    // **** run ****
@@ -170,4 +177,4 @@
 ////    
 ////    //program_flush(vm);
 //}
-
+//

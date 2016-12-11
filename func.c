@@ -1,7 +1,7 @@
 #include "func.h"
 #include "vm.h"
 
-FUNC* create_func(PNODE* pnode, OBJECT* meta) {
+FUNC* create_func(PNODE const* pnode, OBJECT* meta) {
     FUNC* f = malloc(sizeof(FUNC));
     
     f->base.meta = meta;
@@ -15,7 +15,7 @@ void destroy_func(FUNC* f) {
     free(f);
 }
 
-VALUE func_value(PNODE* pnode, OBJECT* meta) {
+VALUE func_value(PNODE const* pnode, OBJECT* meta) {
     VALUE v;
     v.type = FUNC_TYPE;
     v.data.obj = (OBJECT_BASE*)create_func(pnode, meta);

@@ -43,15 +43,15 @@ void relocate_branches(PROGRAM_WRITER* p, PNODE* old_start, int old_len) {
 }
 
 PNODE* next_pnode(PROGRAM_WRITER* p) {
-    int old_len = program_len(p);
+    int len = program_len(p);
     PNODE* old_data = p->data;
     
-    if(old_len == p->cap) {
+    if(len == p->cap - 1) {
         printf("wtf!");
         p->cap = p->cap * 3 / 2;
         p->data = realloc(p->data, p->cap);
-        relocate_branches(p, old_data, old_len);
-        p->write_pos = p->data + old_len;
+        relocate_branches(p, old_data, len);
+        p->write_pos = p->data + len;
     }
     
     return (p->write_pos)++;
@@ -106,7 +106,7 @@ void program_writer_resolve(PROGRAM_WRITER* p, int n) {
     assert(program_len(p) > 0);
     assert((p->mark_sp + n)->into);
     
-    ((PNODE*)(p->mark_sp + n)->into)->into = p->write_pos - 1;
+    ((PNODE*)(p->mark_sp + n)->into)->into = p->write_pos;
     (p->mark_sp + n)->into = NULL;
 }
 

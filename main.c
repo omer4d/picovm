@@ -28,14 +28,15 @@ int main() {
     compile_call(c, &primitives[plus_loc]);
     compile_call(c, dbl);
     
-    compile_literal(c, PVM_FALSE);
+    compile_literal(c, PVM_TRUE);
     
     compile_cjump(c);
     compile_call(c, &primitives[dup_loc]);
     //compile_call(c, &primitives[dup_loc]);
     
-    compile_call(c, &primitives[exit_loc]);
     compiler_resolve(c, -1);
+    compile_call(c, &primitives[exit_loc]);
+    
     
     PNODE* func = end_compilation(c);
     

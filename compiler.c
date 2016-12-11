@@ -61,6 +61,10 @@ void compile_jump(COMPILER* c) {
     program_writer_mark(curr_pw(c));
 }
 
+void compile_stub(COMPILER* c) {
+    
+}
+
 void compiler_resolve(COMPILER* c, int mark_id) {
     program_writer_resolve(curr_pw(c), mark_id);
 }
