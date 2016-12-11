@@ -25,6 +25,7 @@ void compile_call(COMPILER* c, PNODE const* into);
 void compile_literal(COMPILER* c, VALUE v);
 void compile_cjump(COMPILER* c);
 void compile_jump(COMPILER* c);
+void compile_recur(COMPILER* c);
 void compile_stub(COMPILER* c);
 void compiler_resolve(COMPILER* c, int mark_id);
 

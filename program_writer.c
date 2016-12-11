@@ -91,6 +91,13 @@ void write_value(PROGRAM_WRITER* p, VALUE value) {
     n->value = value;
 }
 
+void write_rel_addr(PROGRAM_WRITER* p, int offs) {
+    assert(offs >= 0);
+    assert(offs < program_len(p));
+    PNODE* n = next_pnode(p);
+    n->into = p->data + offs;
+}
+
 void program_writer_mark(PROGRAM_WRITER* p) {
     ASSERT_PUSH(p->mark_stack, p->mark_sp, MARK_STACK_SIZE);
     
@@ -115,8 +122,10 @@ void program_writer_drop_marks(PROGRAM_WRITER* p, int n) {
     p->mark_sp -= n;
 }
 
-PNODE* acquire_program(PROGRAM_WRITER* p) {
-    PNODE* tmp = p->data;
+PROGRAM acquire_program(PROGRAM_WRITER* p) {
+    PROGRAM prog;
+    prog.data = p->data;
+    prog.len = program_len(p);
     p->data = NULL;
-    return tmp;
+    return prog;
 }

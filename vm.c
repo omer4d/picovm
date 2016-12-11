@@ -155,8 +155,35 @@ char* value_to_string(char* str, VALUE* sp) {
     return str;
 }
 
+char const* lookup_debug_info(VM* vm, PNODE const* pnode) {
+    if(pnode >= primitives && pnode < primitives + PRIMITIVE_NUM)
+        return primitive_names[pnode - primitives];
+    else
+        return "<no-info>";
+}
+
+void print_debug_info(VM* vm) {
+    VALUE* asp;
+    PNODE const** rsp;
+    char tmp[256] = {};
+    
+    printf("Next instruction: %s\n\n", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
+    printf("%-30s %-30s\n", "ARG STACK", "CALL STACK");
+    printf("_________________________________________\n");
+    for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp || rsp < vm->ret_sp; ++rsp, ++asp) {
+        if(rsp < vm->ret_sp && asp < vm->arg_sp)
+            printf("%-30s %-30s\n", value_to_string(tmp, asp), lookup_debug_info(vm, (*rsp)->into));
+        else if(rsp < vm->ret_sp)
+            printf("%-30s %-30s\n", "", lookup_debug_info(vm, (*rsp)->into));
+        else
+            printf("%-30s %-30s\n", value_to_string(tmp, asp), "");
+    }
+    
+    printf("\n\n\n\n");
+}
 
 
+/*
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
@@ -175,7 +202,7 @@ void print_debug_info(VM* vm) {
     }
     
     printf("\n\n\n\n");
-}
+}*/
 
 void loop(VM* vm) {
     //printf("Initial state: ");
@@ -183,7 +210,7 @@ void loop(VM* vm) {
     
     while(vm->instr) {
         print_debug_info(vm);
-        //getch();
+        getch();
         vm->instr(vm);
     }
     

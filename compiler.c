@@ -28,15 +28,43 @@ void begin_compilation(COMPILER* c) {
     init_program_writer(c->pw_sp++);
 }
 
-PNODE* end_compilation(COMPILER* c) {
-    ASSERT_POP(c->pw_stack, c->pw_sp);
-    PNODE* pn = acquire_program(curr_pw(c));
-    cleanup_program_writer(--c->pw_sp);
-    return pn;
+int is_special_primitive(PNODE const* pnode) {
+    return pnode == &primitives[jump_loc] ||
+            pnode == &primitives[cjump_loc] ||
+            pnode == &primitives[push_loc];
 }
 
+int is_primitive(PNODE const* pnode) {
+    return pnode >= primitives && pnode < primitives + PRIMITIVE_NUM;
+}
 
+PNODE* perform_tco(PROGRAM prog) {
+    // Assumption: program either ends with 'leave' or (in case of a stub) 'jump'
+    /*
+    int i = 0;    
+    while(i < prog.len - 1) {
+        PNODE const* into = prog.data[i].into;
+        if(is_special_primitive(into))
+            i += 2;
+        else {
+            if(!is_primitive(into) && prog.data[i + 1].into == &primitives[leave_loc]) {
+                printf("WTF!");
+                prog.data[i].into = &primitives[jump_loc];
+                prog.data[i + 1].into = into + 1;
+            }
+            ++i;
+        }  
+    }*/   
+    
+    return prog.data;
+}
 
+PNODE* end_compilation(COMPILER* c) {
+    ASSERT_POP(c->pw_stack, c->pw_sp);
+    PROGRAM prog = acquire_program(curr_pw(c));
+    cleanup_program_writer(--c->pw_sp);
+    return perform_tco(prog);
+}
 
 void compile_func_enter(COMPILER* c) {
     write_cfun(curr_pw(c), primitives[enter_loc].fp);
@@ -59,6 +87,12 @@ void compile_cjump(COMPILER* c) {
 void compile_jump(COMPILER* c) {
     write_pnode(curr_pw(c), &primitives[jump_loc]);
     program_writer_mark(curr_pw(c));
+}
+
+void compile_recur(COMPILER* c) {
+    write_pnode(curr_pw(c), &primitives[jump_loc]);
+    write_rel_addr(curr_pw(c), 1);
+    //program_writer_mark(curr_pw(c));
 }
 
 void compile_stub(COMPILER* c) {
