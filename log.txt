@@ -1,1654 +1,1798 @@
-Next instruction: push
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function >>>                                                
+
+About to execute: <no-info>
+
+
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+<function >>>                  call                          
+
+About to execute: dup
 
 
-
-
-Next instruction: exit
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                                                     
+<function >>>                  call                          
+<function >>>                                                
+
+About to execute: push
 
 
-
-
-Next instruction: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                                                     
+<function >>>                  call                          
+<function >>>                                                
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                                                     
-
-
-
-
-Next instruction: <no-info>
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-<function unknown>                                           
-
-
-
-
-Next instruction: dup
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-
-
-
-
-Next instruction: push
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-
-
-
-
-Next instruction: =
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-
-
-
-
-Next instruction: not
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
 false                                                        
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
 true                                                         
 
+About to execute: cjump
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
+
+About to execute: dup
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function >>>                                                
+
+About to execute: meta
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: swap
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
 <object>                                                     
 'call                                                        
 
+About to execute: swap
 
 
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
 'call                                                        
 <object>                                                     
 
+About to execute: <no-info>
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 
+About to execute: meta
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: =
 
 
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: drop
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 <object>                                                     
 
+About to execute: drop
 
 
-
-Next instruction: dgetf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-'call                                                        
+<function >>>                  call                          
+'call                          getf                          
 <object>                                                     
 
+About to execute: dgetf
 
 
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>               getf                          
+
+About to execute: jump
 
 
-
-
-Next instruction: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>               getf                          
+
+About to execute: leave
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: push
 
 
-
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+<function >>>                  call                          
+<function pcall>                                             
+
+About to execute: pcall
 
 
-
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>                                           
+<function >>>                  call                          
+
+About to execute: pcall
 
 
-
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+                               call                          
+
+About to execute: pcall
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
+1.000000                       call                          
+
+About to execute: jump
 
 
-
-
-Next instruction: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
+1.000000                       call                          
+
+About to execute: leave
 
 
-
-
-Next instruction: exit
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
+
+About to execute: exit
 
 
-
-
-Next instruction: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
+
+About to execute: N/A
 
 
-
-
-Next instruction: exit
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
+
+About to execute: exit
 
 
-
-
-Next instruction: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
+
+About to execute: N/A
 
 
-
-
-Next instruction: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
+
+About to execute: N/A
 
 
-
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                                                     
-'compile_literal                                             
-<function unknown>                                           
+<function >>>                                                
+
+About to execute: <no-info>
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function >>>                                                
+
+About to execute: push
 
 
-
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function >>>                                                
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
 false                                                        
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
 true                                                         
 
+About to execute: cjump
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+
+About to execute: dup
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function >>>                                                
+
+About to execute: meta
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: swap
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
 <object>                                                     
 'call                                                        
 
+About to execute: swap
 
 
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
 'call                                                        
 <object>                                                     
 
+About to execute: <no-info>
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: meta
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: =
 
 
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: drop
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: drop
 
 
-
-Next instruction: dgetf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
 'call                                                        
 <object>                                                     
 
+About to execute: dgetf
 
 
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
+<function pcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                  getf                          
+<function pcall>                                             
+
+About to execute: leave
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: push
 
 
-
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-false                                                        
-
-
-
-
-Next instruction: cjump
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+<function >>>                                                
+<function pcall>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+<function >>>                                                
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+
+About to execute: jump
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+
+About to execute: leave
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                                                     
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<object>                                                     
+
+About to execute: exit
 
 
-
-
-Next instruction: swap
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                                                     
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<object>                                                     
-'call                                                        
+
+About to execute: N/A
 
 
-
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                                                     
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-'call                                                        
-<object>                                                     
+
+About to execute: exit
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-'call                                                        
-<object>                                                     
+1.000000                                                     
+'compile_literal                                             
+
+About to execute: N/A
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                                                     
+'compile_literal                                             
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+<function compile>                                           
+
+About to execute: <no-info>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function compile>                                           
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function compile>                                           
+<function pcall>                                             
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function compile>                                           
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<object>                                                     
+'call                                                        
+
+About to execute: swap
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+'call                                                        
+<object>                                                     
+
+About to execute: <no-info>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+'call                                                        
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: meta
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: =
 
 
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: drop
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 <object>                                                     
 
+About to execute: drop
 
 
-
-Next instruction: dgetf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
 'call                                                        
 <object>                                                     
 
+About to execute: dgetf
 
 
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: leave
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: push
 
 
-
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
 true                                                         
 
+About to execute: cjump
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<object>                                                     
+'call                                                        
+
+About to execute: swap
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: <no-info>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: dgetf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               getf                          
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: jump
 
 
-
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: dup
 
 
-
-
-Next instruction: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
+1.000000                       call                          
 'compile_literal                                             
-<function unknown>                                           
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: push
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: type
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+<function dcall>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal                                             
+<function compile>                                           
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               unknown                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       call                          
+'compile_literal               unknown                       
 'compile_literal                                             
 
+About to execute: type
 
 
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal               unknown                       
 'symbol                                                      
 
+About to execute: push
 
 
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal               unknown                       
 'symbol                                                      
 'number                                                      
 
+About to execute: =
 
 
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal               unknown                       
 false                                                        
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal               unknown                       
 true                                                         
 
+About to execute: cjump
 
 
-
-Next instruction: get
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-'compile_literal               pcall                         
+1.000000                       call                          
+'compile_literal               unknown                       
+
+About to execute: get
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
+1.000000                       call                          
+<function compile_literal>     unknown                       
+
+About to execute: dup
 
 
-
-
-Next instruction: macro?
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>                                           
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function compile_literal>                                   
+
+About to execute: macro?
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
+1.000000                       call                          
+<function compile_literal>     unknown                       
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
+1.000000                       call                          
+<function compile_literal>     unknown                       
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
+1.000000                       call                          
+<function compile_literal>     unknown                       
+
+About to execute: <no-info>
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-                               <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+                               call                          
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function compile_literal>     call                          
+
+About to execute: push
 
 
-
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function compile_literal>     call                          
+<function pcall>                                             
+
+About to execute: =
 
 
-
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-false                          <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+false                          call                          
+
+About to execute: not
 
 
-
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-true                           <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+true                           call                          
+
+About to execute: cjump
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-                               <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+                               call                          
+
+About to execute: dup
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function compile_literal>     call                          
+
+About to execute: meta
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<object>                       call                          
+
+About to execute: push
 
 
-
-
-Next instruction: swap
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<object>                       call                          
 'call                                                        
 
+About to execute: swap
 
 
-
-Next instruction: <no-info>
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
 <object>                                                     
 
+About to execute: <no-info>
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
+
+About to execute: dup
 
 
-
-
-Next instruction: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 
+About to execute: meta
 
 
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 
+About to execute: dup
 
 
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 <object>                                                     
 
+About to execute: push
 
 
-
-Next instruction: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 <object>                                                     
 <object>                                                     
 
+About to execute: =
 
 
-
-Next instruction: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 true                                                         
 
+About to execute: not
 
 
-
-Next instruction: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 false                                                        
 
+About to execute: cjump
 
 
-
-Next instruction: drop
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
 <object>                                                     
 
+About to execute: drop
 
 
-
-Next instruction: dgetf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-'call                          <no-info>                     
-<object>                       <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+'call                          call                          
+<object>                       getf                          
+
+About to execute: dgetf
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-                               <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function pcall>               call                          
+                               getf                          
+
+About to execute: jump
 
 
-
-
-Next instruction: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-                               <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function pcall>               call                          
+                               getf                          
+
+About to execute: leave
 
 
-
-
-Next instruction: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function pcall>               call                          
+
+About to execute: jump
 
 
-
-
-Next instruction: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function pcall>               call                          
+
+About to execute: dup
 
 
-
-
-Next instruction: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-<function unknown>                                           
+1.000000                       call                          
+<function compile_literal>     unknown                       
+<function pcall>               call                          
+<function pcall>                                             
+
+About to execute: push
 
 
 
-
-Next instruction: =
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-<function unknown>                                           
-<function unknown>                                           
-
-
-
-
-Next instruction: not
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-true                                                         
-
-
-
-
-Next instruction: cjump
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-false                                                        
-
-
-
-
-Next instruction: pcall
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>             pcall                         
-<function unknown>             <no-info>                     
-
-
-
-
-Next instruction: pcall
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                       <no-info>                     
-<function unknown>             
+ARG STACK                   

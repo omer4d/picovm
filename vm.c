@@ -80,7 +80,7 @@ VALUE lookup(VM* vm, char const* name) {
 
 PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
-    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name);
     map_put(&vm->global_scope->map, &key, &item);
     set_debug_info(vm, pnode, name);
     return pnode;
@@ -88,7 +88,7 @@ PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int pri
 
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
-    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta);
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name);
     ((FUNC*)item.data.obj)->is_macro = 1;
     map_put(&vm->global_scope->map, &key, &item);
     set_debug_info(vm, pnode, name);
@@ -141,7 +141,7 @@ char* value_to_string(char* str, VALUE* sp) {
             sprintf(str, "%f", sp->data.num);
             break;
         case FUNC_TYPE:
-            sprintf(str, "<function %s>", "unknown");
+            sprintf(str, "<function %s>", ((FUNC*)sp->data.obj)->name ? ((FUNC*)sp->data.obj)->name : "unknown");
             break;
         case STRING_TYPE:
             sprintf(str, "\"%s\"", ((STRING*)sp->data.obj)->data);
@@ -183,17 +183,17 @@ void print_debug_info(VM* vm) {
     PNODE const** rsp;
     char tmp[256] = {};
     
-    vm_log(vm, "Next instruction: %s\n\n", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
     for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp || rsp < vm->ret_sp; ++rsp, ++asp) {
         if(rsp < vm->ret_sp && asp < vm->arg_sp)
-            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), lookup_debug_info(vm, (*rsp)->into));
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, (*rsp)->into));
         else if(rsp < vm->ret_sp)
-            vm_log(vm, "%-30s %-30s\n", "", lookup_debug_info(vm, (*rsp)->into));
+            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, (*rsp)->into));
         else
             vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
     }
+    vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     
     vm_log(vm, "\n\n\n\n");
 }
@@ -307,11 +307,12 @@ void pvm_eval(VM* vm) {
     
     compile_call(c, &primitives[exit_loc]);
     compile_call(c, &primitives[leave_loc]);
-    PNODE* f = end_compilation(c);
+    PNODE* f = end_compilation(c, "eval");
     
     vm->curr = f;
     next(vm);
     loop(vm);
     
+    free(f);
     print_debug_info(vm);
 }

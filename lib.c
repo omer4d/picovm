@@ -8,14 +8,14 @@
 
 void init_lib(VM* vm) {
     COMPILER* c = &vm->compiler;
-    FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta);
-    FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta);
-    FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta);
+    FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta, "pcall");
+    FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta, "dgetf");
+    FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta, "dcall");
     
     // DECLARE CALL
     begin_compilation(c);
     compile_stub(c);
-    PNODE* call_stub = end_compilation(c);
+    PNODE* call_stub = end_compilation(c, "call_stub");
     
     
     // BEGIN GETF
@@ -40,7 +40,7 @@ void init_lib(VM* vm) {
     compiler_drop_marks(c, 2);
     
     compile_call(c, &primitives[leave_loc]);
-    PNODE* getf = end_compilation(c);
+    PNODE* getf = end_compilation(c, "getf");
     
     
     // BEGIN CALL
@@ -64,7 +64,7 @@ void init_lib(VM* vm) {
     compiler_drop_marks(c, 2);
     
     compile_call(c, &primitives[leave_loc]);
-    PNODE* call = end_compilation(c);
+    PNODE* call = end_compilation(c, "call");
     
     // BEGIN COMPILE
     begin_compilation(c);
@@ -96,14 +96,22 @@ void init_lib(VM* vm) {
     
     compile_literal(c, num_value(123));
     compile_call(c, &primitives[leave_loc]);
-    PNODE* compile = end_compilation(c);
+    PNODE* compile = end_compilation(c, "compile");
     
     // BEGIN RUN
     begin_compilation(c);
     compile_call(c, call);
     compile_call(c, &primitives[exit_loc]);
     compile_call(c, &primitives[leave_loc]);
-    PNODE* run = end_compilation(c);
+    PNODE* run = end_compilation(c, "run");
+    
+    // BEGIN DBL
+    begin_compilation(c);
+    compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[plus_loc]);
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* dbl = end_compilation(c, "dbl");
+
     
     //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);
@@ -120,6 +128,7 @@ void init_lib(VM* vm) {
     }
     
     register_func(vm, getf, "getf", 0);
+    register_func(vm, dbl, "dbl", 0);
     register_func(vm, call, "call", 0);
     register_macro(vm, compile, "compile", 0);
     register_func(vm, run, "run", 0);

@@ -62,6 +62,8 @@ void init_compiler(COMPILER* c) {
     
     c->program_stack = malloc(sizeof(PROGRAM) * PROGRAM_STACK_SIZE);
     c->program_sp = c->program_stack;
+    
+    c->debug_entry_num = 0;
 }
 
 void cleanup_compiler(COMPILER* c) {
@@ -115,7 +117,7 @@ void perform_tco(PROGRAM* prog) {
     }
 }
 
-PNODE* end_compilation(COMPILER* c) {
+PNODE* end_compilation(COMPILER* c, char const* context_name) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);
     
@@ -161,8 +163,24 @@ PNODE* end_compilation(COMPILER* c) {
         }
     }
     
+    DEBUG_ENTRY* d = &c->debug_entries[c->debug_entry_num++];
+    d->start = out;
+    d->len = prog->size + 1;
+    d->context_name = context_name;
+    
     cleanup_program(--c->program_sp);
     return out;
+}
+
+char const* find_compilation_context(COMPILER* c, PNODE const* n) {
+    int i;
+    for(i = 0; i < c->debug_entry_num; ++i) {
+        DEBUG_ENTRY* d = &c->debug_entries[i];
+        if(n >= d->start && n < d->start + d->len)
+            return d->context_name;
+    }
+    
+    return "unknown";
 }
 
 void compile_call(COMPILER* c, PNODE const* into) {
