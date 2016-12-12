@@ -57,6 +57,19 @@ end
 
 defmacro defun
 	program_read
-	' end eq not
+	begin_compilation
 	
+	label
+	program_read
+	dup ' end eq
+	if
+		drop
+	else
+		compile
+		jump
+		resolve_to_label -1
+	endif
+	
+	drop_labels 1
+	end_compilation
 end

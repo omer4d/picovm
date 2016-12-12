@@ -65,7 +65,12 @@ void compile_cjump(COMPILER* c);
 void compile_jump(COMPILER* c);
 void compile_recur(COMPILER* c);
 void compile_stub(COMPILER* c);
+
+void compiler_push_label(COMPILER* c);
+void compiler_drop_labels(COMPILER* c, int n);
+
 void compiler_resolve(COMPILER* c, int mark_id);
+void compiler_resolve_to_label(COMPILER* c, int mark_id);
 void compiler_drop_marks(COMPILER* c, int n);
 
 char const* find_compilation_context(COMPILER* c, PNODE const* n);

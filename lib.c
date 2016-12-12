@@ -100,6 +100,37 @@ void init_lib(VM* vm) {
     
     register_macro(vm, compile, "compile", 0);
 
+    // BEGIN DEFUN
+    begin_compilation(c);
+    compile_call(c, &primitives[program_read_loc]);
+    compile_call(c, &primitives[begin_compilation_loc]);
+    compiler_push_label(c);
+    compile_call(c, &primitives[program_read_loc]);
+    compile_call(c, &primitives[dup_loc]);
+    compile_literal(c, symbol_value(vm, "end"));
+    compile_call(c, &primitives[eq_loc]);
+    
+    compile_call(c, &primitives[not_loc]);
+    compile_cjump(c);
+    compile_call(c, &primitives[drop_loc]);
+    compile_jump(c);
+    compiler_resolve(c, -2);
+    compile_call(c, compile);
+    compile_jump(c);
+    compiler_resolve_to_label(c, -1);
+    compiler_resolve(c, -1);
+    compiler_drop_marks(c, 2);
+    
+    compiler_drop_labels(c, 1);
+    
+    compile_literal(c, symbol_value(vm, "leave"));
+    compile_call(c, compile);
+    compile_call(c, &primitives[end_compilation_loc]);
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* defun = end_compilation(c, "defun");
+    
+    register_macro(vm, defun, "defun", 0);
+
 
     
     // BEGIN RUN

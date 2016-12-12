@@ -115,7 +115,7 @@ PNODE* end_compilation(COMPILER* c, char const* context_name) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);
     
-    //perform_tco(prog);
+    perform_tco(prog);
     
     PNODE* out = malloc(sizeof(PNODE) * prog->size + 1);
     PNODE* write_pos = out + 1;
@@ -214,14 +214,37 @@ void compile_stub(COMPILER* c) {
     
 }
 
-void compiler_resolve(COMPILER* c, int mark_id) {
+void compiler_push_label(COMPILER* c) {
+    ASSERT_PUSH(c->label_stack, c->label_sp, LABEL_STACK_SIZE);
+    *c->label_sp = curr_program(c)->spare;
+    ++c->label_sp;
+}
+
+void compiler_drop_labels(COMPILER* c, int n) {
+    assert(c->label_sp - n >= c->label_stack);
+    c->label_sp -= n;
+}
+
+
+void compiler_resolve_generic(COMPILER* c, int mark_id, ANODE* target) {
     assert(mark_id < 0);
     assert(c->mark_sp + mark_id >= c->mark_stack);
     assert(curr_program(c)->size > 0);
     assert((c->mark_sp + mark_id)->data.target); // protect against multiple resolve attempts
       
-    (c->mark_sp + mark_id)->data.target->data.target = curr_program(c)->spare;
+    (c->mark_sp + mark_id)->data.target->data.target = target;
     (c->mark_sp + mark_id)->data.target = NULL; // Invalidate to prevent multiple resolve attempts
+}
+
+void compiler_resolve(COMPILER* c, int mark_id) {
+    compiler_resolve_generic(c, mark_id, curr_program(c)->spare);
+}
+
+void compiler_resolve_to_label(COMPILER* c, int label_id) {
+    assert(label_id < 0);
+    assert(c->label_sp + label_id >= c->label_stack);
+    compiler_resolve_generic(c, -1, *(c->label_sp + label_id));
+    compiler_drop_marks(c, 1);
 }
 
 void compiler_drop_marks(COMPILER* c, int n) {

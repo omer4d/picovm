@@ -1,74 +1,6 @@
 ARG STACK                      CALL STACK                    
 _________________________________________
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-2.000000                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-2.000000                                                     
-3.000000                                                     
-
-About to execute: +
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-5.000000                                                     
-
-About to execute: +
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-<function >>>                                                
+<function defun>                                             
 
 About to execute: call
 
@@ -76,8 +8,7 @@ About to execute: call
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 
 About to execute: dup
 
@@ -85,9 +16,8 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
-<function >>>                                                
+<function defun>               call                          
+<function defun>                                             
 
 About to execute: push
 
@@ -95,9 +25,8 @@ About to execute: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
-<function >>>                                                
+<function defun>               call                          
+<function defun>                                             
 <function pcall>                                             
 
 About to execute: =
@@ -106,8 +35,7 @@ About to execute: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 false                                                        
 
 About to execute: not
@@ -116,8 +44,7 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 true                                                         
 
 About to execute: cjump
@@ -126,8 +53,7 @@ About to execute: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 
 About to execute: dup
 
@@ -135,9 +61,8 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
-<function >>>                                                
+<function defun>               call                          
+<function defun>                                             
 
 About to execute: meta
 
@@ -145,8 +70,7 @@ About to execute: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 <object>                                                     
 
 About to execute: push
@@ -155,8 +79,7 @@ About to execute: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 <object>                                                     
 'call                                                        
 
@@ -166,8 +89,7 @@ About to execute: swap
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
 'call                                                        
 <object>                                                     
 
@@ -177,8 +99,238 @@ About to execute: getf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+<object>                                                     
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+'call                          getf                          
+<object>                                                     
+
+About to execute: dgetf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>               getf                          
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>               getf                          
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+<object>                                                     
+'call                                                        
+
+About to execute: swap
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: getf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 
@@ -188,8 +340,8 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -200,8 +352,8 @@ About to execute: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -212,8 +364,8 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -225,8 +377,8 @@ About to execute: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -239,8 +391,8 @@ About to execute: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -252,8 +404,8 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -265,8 +417,8 @@ About to execute: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 <object>                                                     
@@ -277,8 +429,8 @@ About to execute: drop
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 'call                                                        
 <object>                                                     
 
@@ -288,8 +440,8 @@ About to execute: dgetf
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 <function pcall>                                             
 
 About to execute: jump
@@ -298,8 +450,8 @@ About to execute: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  getf                          
+<function defun>               call                          
+<function dcall>               getf                          
 <function pcall>                                             
 
 About to execute: leave
@@ -308,18 +460,18 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                                                
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 
-About to execute: call
+About to execute: jump
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 
 About to execute: dup
@@ -328,8 +480,8 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 <function pcall>                                             
 
@@ -339,8 +491,8 @@ About to execute: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 <function pcall>                                             
 <function pcall>                                             
@@ -351,8 +503,8 @@ About to execute: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 true                                                         
 
@@ -362,8 +514,8 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 false                                                        
 
@@ -373,8 +525,8 @@ About to execute: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 <function pcall>                                             
 
 About to execute: pcall
@@ -383,8 +535,8 @@ About to execute: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-<function >>>                  call                          
+<function defun>               call                          
+<function dcall>                                             
 
 About to execute: pcall
 
@@ -392,1257 +544,113 @@ About to execute: pcall
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
+<function defun>               call                          
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
                                call                          
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-<function >>>                                                
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<function >>>                                                
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-false                                                        
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-true                                                         
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<function >>>                                                
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<object>                                                     
-'call                                                        
-
-About to execute: swap
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-'call                                                        
-<object>                                                     
-
-About to execute: getf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-'call                                                        
-<object>                                                     
-
-About to execute: dgetf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-<function pcall>                                             
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-<function pcall>                                             
-<function pcall>                                             
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-<function pcall>                                             
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function >>>                                                
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<function compile>                                           
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<function compile>                                           
-<function pcall>                                             
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-false                                                        
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-true                                                         
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<function compile>                                           
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<object>                                                     
-'call                                                        
-
-About to execute: swap
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-
-About to execute: getf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-'call                                                        
-<object>                                                     
-
-About to execute: dgetf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           getf                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                                                         
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<function dcall>                                             
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-false                                                        
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-true                                                         
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<function dcall>                                             
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<object>                                                     
-'call                                                        
-
-About to execute: swap
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-
-About to execute: getf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-<object>                                                     
-<object>                                                     
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-<object>                                                     
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-'call                                                        
-<object>                                                     
-
-About to execute: dgetf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       getf                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                                                     
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-<function pcall>                                             
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-<function pcall>                                             
-<function pcall>                                             
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-<function pcall>                                             
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-<function dcall>                                             
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-<function compile>                                           
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
                                unknown                       
 
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+
+About to execute: begin_compilation
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+
 About to execute: dup
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-'compile                       unknown                       
+'foo                           call                          
+'+                             unknown                       
+'+                                                           
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+'+                                                           
+'end                                                         
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+
+About to execute: compile
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+                               compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'+                             unknown                       
+'+                             compile                       
 
 About to execute: type
 
@@ -1650,10 +658,9 @@ About to execute: type
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-'symbol                        unknown                       
+'foo                           call                          
+'+                             unknown                       
+'symbol                        compile                       
 
 About to execute: push
 
@@ -1661,10 +668,9 @@ About to execute: push
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-'symbol                        unknown                       
+'foo                           call                          
+'+                             unknown                       
+'symbol                        compile                       
 'number                                                      
 
 About to execute: =
@@ -1673,10 +679,9 @@ About to execute: =
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-false                          unknown                       
+'foo                           call                          
+'+                             unknown                       
+false                          compile                       
 
 About to execute: not
 
@@ -1684,10 +689,9 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-true                           unknown                       
+'foo                           call                          
+'+                             unknown                       
+true                           compile                       
 
 About to execute: cjump
 
@@ -1695,10 +699,9 @@ About to execute: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-'compile                       call                          
-                               unknown                       
+'foo                           call                          
+'+                             unknown                       
+                               compile                       
 
 About to execute: get
 
@@ -1706,10 +709,9 @@ About to execute: get
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-                               unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+                               compile                       
 
 About to execute: dup
 
@@ -1717,10 +719,9 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function compile>             unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+<function +>                   compile                       
 
 About to execute: macro?
 
@@ -1728,10 +729,9 @@ About to execute: macro?
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-true                           unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+false                          compile                       
 
 About to execute: not
 
@@ -1739,10 +739,9 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-false                          unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+true                           compile                       
 
 About to execute: not
 
@@ -1750,10 +749,9 @@ About to execute: not
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-true                           unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+false                          compile                       
 
 About to execute: cjump
 
@@ -1761,899 +759,9 @@ About to execute: cjump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-                               unknown                       
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-                               unknown                       
-                               call                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function compile>             unknown                       
-                               call                          
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function compile>             unknown                       
-<function pcall>               call                          
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-false                          unknown                       
-                               call                          
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-true                           unknown                       
-                               call                          
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-                               unknown                       
-                               call                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function compile>             unknown                       
-                               call                          
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<object>                       unknown                       
-                               call                          
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<object>                       unknown                       
-'call                          call                          
-
-About to execute: swap
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-
-About to execute: getf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-                               getf                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-<object>                                                     
-<object>                                                     
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-'call                          unknown                       
-<object>                       call                          
-                               getf                          
-
-About to execute: dgetf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-                               getf                          
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-                               getf                          
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-                               call                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function dcall>               call                          
-                               call                          
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function dcall>               call                          
-<function pcall>               call                          
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-false                          call                          
-                               call                          
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-true                           call                          
-                               call                          
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-                               call                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function dcall>               call                          
-                               call                          
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<object>                       call                          
-                               call                          
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<object>                       call                          
-'call                          call                          
-
-About to execute: swap
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-
-About to execute: getf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-                               getf                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: meta
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-<object>                                                     
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-<object>                                                     
-<object>                                                     
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-true                                                         
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-false                                                        
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-<object>                       getf                          
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-'call                          call                          
-<object>                       call                          
-                               getf                          
-
-About to execute: dgetf
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-                               call                          
-                               getf                          
-
-About to execute: jump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-                               call                          
-                               getf                          
-
-About to execute: leave
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-                               call                          
-
-About to execute: call
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-                               call                          
-                               call                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-<function pcall>               call                          
-                               call                          
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-<function pcall>               call                          
-<function pcall>               call                          
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-true                           call                          
-                               call                          
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-false                          call                          
-                               call                          
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-<function pcall>               call                          
-                               call                          
-                               call                          
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-<function dcall>               unknown                       
-                               call                          
-                               call                          
-                               call                          
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-<function compile>             call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-
-About to execute: pcall
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'dup                           call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: type
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'symbol                        call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: push
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-'symbol                        call                          
-'number                        unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: =
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-false                          call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-true                           call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-'dup                           call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: get
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-<function dup>                 call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: macro?
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-false                          call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-true                           call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: not
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-false                          call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
-
-About to execute: cjump
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                       call                          
-<function dup>                 call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
-                               call                          
-                               unknown                       
+'foo                           call                          
+<function +>                   unknown                       
+                               compile                       
 
 About to execute: compile-call
 
@@ -2661,13 +769,27 @@ About to execute: compile-call
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
+'foo                           call                          
                                unknown                       
-                               call                          
-                               call                          
-                               call                          
+                               compile                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+                               compile                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
                                unknown                       
 
 About to execute: jump
@@ -2676,12 +798,261 @@ About to execute: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
+'foo                           call                          
                                unknown                       
-                               call                          
-                               call                          
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+'end                                                         
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+'end                                                         
+'end                                                         
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'end                           unknown                       
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+
+About to execute: compile
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+                               compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+'leave                         compile                       
+
+About to execute: type
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+'symbol                        compile                       
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+'symbol                        compile                       
+'number                                                      
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+false                          compile                       
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+true                           compile                       
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+'leave                         unknown                       
+                               compile                       
+
+About to execute: get
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+                               compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+<function leave>               compile                       
+
+About to execute: macro?
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+false                          compile                       
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+true                           compile                       
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+false                          compile                       
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+<function leave>               unknown                       
+                               compile                       
+
+About to execute: compile-call
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+                               compile                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+                               compile                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           call                          
+                               unknown                       
+
+About to execute: end_compilation
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
                                call                          
                                unknown                       
 
@@ -2691,12 +1062,6 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
                                call                          
 
 About to execute: jump
@@ -2705,12 +1070,6 @@ About to execute: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
                                call                          
 
 About to execute: leave
@@ -2719,12 +1078,126 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
-                               unknown                       
-                               call                          
-                               call                          
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: foo
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       foo                           
+2.000000                                                     
+
+About to execute: +
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       foo                           
 
 About to execute: leave
 
@@ -2732,32 +1205,254 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
-                               unknown                       
-                               call                          
+3.000000                                                     
 
-About to execute: leave
+About to execute: exit
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
-                               unknown                       
+3.000000                                                     
 
-About to execute: leave
+About to execute: N/A
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
+3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+<function defun>                                             
+
+About to execute: call
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function defun>                                             
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function defun>                                             
+<function pcall>                                             
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function defun>                                             
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<object>                                                     
+'call                                                        
+
+About to execute: swap
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: getf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+'call                                                        
+<object>                                                     
+
+About to execute: dgetf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
 
 About to execute: jump
 
@@ -2765,9 +1460,9 @@ About to execute: jump
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
-                               call                          
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
 
 About to execute: leave
 
@@ -2775,8 +1470,262 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
-                               call                          
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function dcall>                                             
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<object>                                                     
+'call                                                        
+
+About to execute: swap
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: getf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+'call                                                        
+<object>                                                     
+
+About to execute: dgetf
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>               getf                          
+<function dcall>                                             
+<function pcall>                                             
 
 About to execute: leave
 
@@ -2784,7 +1733,973 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       call                          
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+<function pcall>                                             
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+<function pcall>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+<function dcall>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+<function defun>                                             
+
+About to execute: pcall
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+                               unknown                       
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: begin_compilation
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+'dup                                                         
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+'dup                                                         
+'end                                                         
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                                                         
+
+About to execute: compile
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+'dup                                                         
+
+About to execute: type
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+'symbol                                                      
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+'symbol                                                      
+'number                                                      
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'dup                           compile                       
+
+About to execute: get
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+<function dup>                                               
+
+About to execute: macro?
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function dup>                 compile                       
+
+About to execute: compile-call
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+'+                                                           
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+'+                                                           
+'end                                                         
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                                                           
+
+About to execute: compile
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+'+                                                           
+
+About to execute: type
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+'symbol                                                      
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+'symbol                                                      
+'number                                                      
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'+                             compile                       
+
+About to execute: get
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+<function +>                                                 
+
+About to execute: macro?
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function +>                   compile                       
+
+About to execute: compile-call
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: >>
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+'end                                                         
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+'end                                                         
+'end                                                         
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'end                                                         
+
+About to execute: drop
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                                                       
+
+About to execute: compile
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+'leave                                                       
+
+About to execute: type
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+'symbol                                                      
+
+About to execute: push
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+'symbol                                                      
+'number                                                      
+
+About to execute: =
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+true                                                         
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+'leave                         compile                       
+
+About to execute: get
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+<function leave>                                             
+
+About to execute: macro?
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+false                                                        
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+true                                                         
+
+About to execute: not
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+false                                                        
+
+About to execute: cjump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+<function leave>               compile                       
+
+About to execute: compile-call
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+                               compile                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+'kaka                          unknown                       
+
+About to execute: end_compilation
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+                               unknown                       
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+
+About to execute: jump
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       call                          
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: exit
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+
+About to execute: eval
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       eval                          
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       eval                          
+3.000000                                                     
+
+About to execute: +
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+6.000000                       eval                          
 
 About to execute: leave
 
@@ -2810,24 +2725,6 @@ ARG STACK                      CALL STACK
 _________________________________________
 6.000000                                                     
 
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-6.000000                                                     
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-6.000000                                                     
-
 About to execute: N/A
 
 
@@ -2835,25 +2732,14 @@ About to execute: N/A
 ARG STACK                      CALL STACK                    
 _________________________________________
 6.000000                                                     
-6.000000                                                     
 
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-6.000000                                                     
-6.000000                                                     
-
-About to execute: dbl
+About to execute: eval
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       dbl                           
-6.000000                                                     
+6.000000                       eval                          
 
 About to execute: dup
 
@@ -2861,8 +2747,7 @@ About to execute: dup
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       dbl                           
-6.000000                                                     
+6.000000                       eval                          
 6.000000                                                     
 
 About to execute: +
@@ -2871,8 +2756,7 @@ About to execute: +
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                       dbl                           
-12.000000                                                    
+12.000000                      eval                          
 
 About to execute: leave
 
@@ -2880,7 +2764,6 @@ About to execute: leave
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                                                     
 12.000000                                                    
 
 About to execute: exit
@@ -2889,7 +2772,6 @@ About to execute: exit
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                                                     
 12.000000                                                    
 
 About to execute: N/A
@@ -2898,7 +2780,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                                                     
 12.000000                                                    
 
 About to execute: N/A
@@ -2907,7 +2788,23 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-6.000000                                                     
+12.000000                                                    
+
+About to execute: eval
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+12.000000                      eval                          
+
+About to execute: dup
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+12.000000                      eval                          
 12.000000                                                    
 
 About to execute: +
@@ -2916,7 +2813,15 @@ About to execute: +
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-18.000000                                                    
+24.000000                      eval                          
+
+About to execute: leave
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+24.000000                                                    
 
 About to execute: exit
 
@@ -2924,7 +2829,7 @@ About to execute: exit
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-18.000000                                                    
+24.000000                                                    
 
 About to execute: N/A
 
@@ -2932,45 +2837,9 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-18.000000                                                    
+24.000000                                                    
 
 About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-18.000000                                                    
-
-About to execute: drop
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: exit
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: drop
 
 
 
