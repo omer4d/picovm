@@ -49,4 +49,6 @@ VALUE lookup(VM* vm, char const* name);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 void pvm_eval(VM* vm);
 
+VALUE program_read(VM* c);
+
 #endif

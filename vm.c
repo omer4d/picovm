@@ -210,7 +210,7 @@ void loop(VM* vm) {
     //print_debug_info(vm);
     
     while(vm->instr) {
-        print_debug_info(vm);
+        //print_debug_info(vm);
         //getch();
         vm->instr(vm);
     }
@@ -220,7 +220,6 @@ void loop(VM* vm) {
 
 VALUE parse_num(char const* str) {
     double d = strtod(str, NULL);
-    printf("%f\n", d);
     VALUE v = {.type = NUM_TYPE, .data.num = d};
     return v;
 }
@@ -230,11 +229,31 @@ VALUE parse_word(VM* vm, char const* str) {
     return v;
 }
 
+VALUE program_read(VM* vm) {
+    char tok[256];
+    TOK_TYPE tt;
+    COMPILER* c = &vm->compiler;
+    
+    for(tt = next_tok(c->in, tok); !feof(c->in); tt = next_tok(c->in, tok)) {
+        switch(tt) {
+            case TOK_WORD:
+                return parse_word(vm, tok);
+            case TOK_NUM:
+                return parse_num(tok);
+            default:
+                break;
+        }
+    }
+    
+    assert(!"unexpected eof");
+}
+
 void pvm_eval(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
+    PNODE const* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
     
     begin_compilation(c);
     for(tt = next_tok(c->in, tok); tt != TOK_END; tt = next_tok(c->in, tok)) {
@@ -251,21 +270,15 @@ void pvm_eval(VM* vm) {
                     FUNC* f = (FUNC*)item.data.obj;
                     
                     if(f->is_macro) {
-                        //push(c, item);
-                        //c->curr = run;
-                        //next(c);
-                        //loop(c);
+                        push(vm, item);
+                        vm->curr = run;
+                        next(vm);
+                        loop(vm);
                     }
                     
                     else {
                         compile_call(c, f->pnode);
                     }
-                    /*
-                    push(c, item);
-                    c->curr = run;
-                    next(c);
-                    loop(c);*/
-                    
                 }
                 break;
             case TOK_NUM:
@@ -275,8 +288,6 @@ void pvm_eval(VM* vm) {
                 assert(0);
                 break;
         }
-        
-        
     }
     
     compile_call(c, &primitives[exit_loc]);
@@ -286,15 +297,6 @@ void pvm_eval(VM* vm) {
     vm->curr = f;
     next(vm);
     loop(vm);
-    
-    /*printf("end!");
-    PNODE* exit = ((FUNC*)lookup(c, "exit").data.obj)->pnode;
-    ncons(c, exit);
-    c->curr = program_data - 1;
-    //program_rewind(c);
-    next(c);
-    loop(c);*/
-    
     
     print_debug_info(vm);
 }

@@ -12,7 +12,7 @@ defun getf
 	else
 		' index
 		swap
-		getf
+		recur
 		call
 	endif
 end
@@ -30,5 +30,26 @@ defun call
 		swap
 		getf
 		recur
+	endif
+end
+
+defun run
+	call
+	exit
+end
+
+defun compile
+	dup type
+	' number eq
+	if
+		compile_literal
+	else
+		get
+		dup macro?
+		if
+			call
+		else
+			compile_call
+		endif
 	endif
 end

@@ -66,19 +66,61 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[leave_loc]);
     PNODE* call = end_compilation(c);
     
+    // BEGIN COMPILE
+    begin_compilation(c);
+    compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[type_loc]);
+    compile_literal(c, symbol_value(vm, "number"));
+    compile_call(c, &primitives[eq_loc]);
     
+    compile_call(c, &primitives[not_loc]);
+    compile_cjump(c);
+    compile_call(c, &primitives[compile_literal_loc]);
+    compile_jump(c);
+    compiler_resolve(c, -2);
+    compile_call(c, &primitives[get_loc]);
+    compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[macro_qm_loc]);
     
+    compile_call(c, &primitives[not_loc]);
+    compile_cjump(c);
+    compile_call(c, call);
+    compile_jump(c);
+    compiler_resolve(c, -2);
+    compile_call(c, &primitives[compile_call_loc]);
+    compiler_resolve(c, -1);
+    compiler_drop_marks(c, 2);
     
+    compiler_resolve(c, -1);
+    compiler_drop_marks(c, 2);
     
-    call_stub[2].into = &call[1];
+    compile_literal(c, num_value(123));
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* compile = end_compilation(c);
+    
+    // BEGIN RUN
+    begin_compilation(c);
+    compile_call(c, call);
+    compile_call(c, &primitives[exit_loc]);
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* run = end_compilation(c);
+    
+    //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);
     set_method(vm, vm->func_meta, "call", dcall_func);
     set_method(vm, vm->primitive_func_meta, "call", pcall_func);
     
     int i;
-    for(i = 0; i < PRIMITIVE_NUM; ++i) {
+    for(i = 0; i < PRIMITIVE_FUNC_NUM; ++i) {
         register_func(vm, &primitives[i], primitive_names[i], 1);
     }
     
+    for(i = PRIMITIVE_FUNC_NUM; i < PRIMITIVE_FUNC_NUM + PRIMITIVE_MACRO_NUM; ++i) {
+        register_macro(vm, &primitives[i], primitive_names[i], 1);
+    }
+    
+    register_func(vm, getf, "getf", 0);
     register_func(vm, call, "call", 0);
+    register_macro(vm, compile, "compile", 0);
+    register_func(vm, run, "run", 0);
 }

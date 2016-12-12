@@ -9,8 +9,12 @@
 #include <math.h>
 
 const char const* primitive_names[] = {
-    PRIMITIVE_LIST(PLIST_STR, PLIST_COMMA)
+    PRIMITIVE_FUNC_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA),
+    PRIMITIVE_MACRO_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA)
 };
+
+const int PRIMITIVE_FUNC_NUM = PRIMITIVE_FUNC_LIST(PLIST_ONE, PLIST_IGNORE, PLIST_ONE, +);
+const int PRIMITIVE_MACRO_NUM = PRIMITIVE_MACRO_LIST(PLIST_ONE, PLIST_IGNORE, PLIST_ONE, +);
 
 void next(VM* vm) {
     ++vm->curr;
@@ -339,30 +343,27 @@ void type_impl(VM* vm) {
 // * Compiler *
 // ************
 
-//void program_read_impl(VM* vm) {
-//    VALUE v = program_read(vm);
-//    push(vm, v);
-//    next(vm);
-//}
-//
-//void compile_literal_impl(VM* vm) {
-//    VALUE v = pop(vm);
-//    compile_literal_helper(vm, v);
-//    next(vm);
-//}
-//
-//void compile_call_impl(VM* vm) {
-//    VALUE func_name = pop(vm), func_val;
-//    FUNC* func;
-//    assert(func_name.type == SYMBOL_TYPE);
-//    
-//    map_get(&func_val, &vm->global_scope->map, &func_name);
-//    
-//    assert(!value_is_nil(&func_val));
-//    
-//    ncons(vm, ((FUNC*)func_val.data.obj)->pnode);
-//    next(vm);   
-//}
+void program_read_impl(VM* vm) {
+    VALUE v = program_read(vm);
+    push(vm, v);
+    next(vm);
+}
+
+void compile_literal_impl(VM* vm) {
+    printf("entered compile literal!");
+    VALUE v = pop(vm);
+    compile_literal(&vm->compiler, v);
+    next(vm);
+    printf("leaving compile literal!");
+}
+
+void compile_call_impl(VM* vm) {
+    VALUE func_val = pop(vm);
+    assert(func_val.type == FUNC_TYPE);
+    compile_call(&vm->compiler, ((FUNC*)func_val.data.obj)->pnode);
+    next(vm);
+}
+
 //
 //void mark_impl(VM* vm) {
 //    mark_helper(vm);
@@ -468,5 +469,6 @@ void type_impl(VM* vm) {
 #define PLIST_PROGRAM_SET(X) {.fp = &X ## _impl}
 
 const PNODE primitives[] = {
-    PRIMITIVE_LIST(PLIST_PROGRAM_SET, PLIST_COMMA)
+    PRIMITIVE_FUNC_LIST(PLIST_PROGRAM_SET, PLIST_IGNORE, PLIST_PROGRAM_SET, PLIST_COMMA),
+    PRIMITIVE_MACRO_LIST(PLIST_PROGRAM_SET, PLIST_IGNORE, PLIST_PROGRAM_SET, PLIST_COMMA)
 };
