@@ -38,18 +38,19 @@ defun run
 	exit
 end
 
-defun compile
+defmacro compile
 	dup type
 	' number eq
 	if
 		compile_literal
 	else
 		get
-		dup macro?
+		dup macro_qm
+		not
 		if
-			call
-		else
 			compile_call
+		else
+			call
 		endif
 	endif
 end

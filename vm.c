@@ -164,8 +164,9 @@ char const* lookup_debug_info(VM* vm, PNODE const* pnode) {
         char const* public_name = primitive_names[pnode - primitives];
         return public_name[0] ? public_name : primitive_internal_names[pnode - primitives];
     }
-    else
-        return "<no-info>";
+    else {
+        return find_compilation_context(&vm->compiler, pnode);
+    }
 }
 
 void vm_log(VM* vm, char const *fmt, ...) { 
@@ -196,6 +197,7 @@ void print_debug_info(VM* vm) {
     vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     
     vm_log(vm, "\n\n\n\n");
+    fflush(vm->log_stream);
 }
 
 

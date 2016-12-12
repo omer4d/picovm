@@ -81,22 +81,26 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[get_loc]);
     compile_call(c, &primitives[dup_loc]);
     compile_call(c, &primitives[macro_qm_loc]);
+    compile_call(c, &primitives[not_loc]);
     
     compile_call(c, &primitives[not_loc]);
     compile_cjump(c);
-    compile_call(c, call);
+    compile_call(c, &primitives[compile_call_loc]);
     compile_jump(c);
     compiler_resolve(c, -2);
-    compile_call(c, &primitives[compile_call_loc]);
+    compile_call(c, call);
     compiler_resolve(c, -1);
     compiler_drop_marks(c, 2);
     
     compiler_resolve(c, -1);
     compiler_drop_marks(c, 2);
     
-    compile_literal(c, num_value(123));
     compile_call(c, &primitives[leave_loc]);
     PNODE* compile = end_compilation(c, "compile");
+    
+    register_macro(vm, compile, "compile", 0);
+
+
     
     // BEGIN RUN
     begin_compilation(c);
@@ -130,6 +134,5 @@ void init_lib(VM* vm) {
     register_func(vm, getf, "getf", 0);
     register_func(vm, dbl, "dbl", 0);
     register_func(vm, call, "call", 0);
-    register_macro(vm, compile, "compile", 0);
     register_func(vm, run, "run", 0);
 }

@@ -25,6 +25,7 @@ typedef struct ANODE_t {
 
 typedef struct PROGRAM_t {
     ANODE* first;
+    ANODE* spare;
     ANODE* last;
     int size; // number of PNODES (an ANODE may translate into more than one PNODE)
 }PROGRAM;
@@ -39,7 +40,6 @@ typedef struct COMPILER_t {
     FILE* in;
     ANODE* mark_stack;
     ANODE* mark_sp;
-    ANODE* last_resolve_request;
     PROGRAM* program_stack;
     PROGRAM* program_sp;
     

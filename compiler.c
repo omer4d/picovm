@@ -13,6 +13,7 @@ PROGRAM* curr_program(COMPILER* c) {
 
 void init_program(PROGRAM* p) {
     p->first = NULL;
+    p->spare = malloc(sizeof(ANODE));
     p->last = NULL;
     p->size = 0;
 }
@@ -24,11 +25,14 @@ void cleanup_program(PROGRAM* p) {
         free(n);
         n = next;
     }
+    free(p->spare);
 }
 
 ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
-    ANODE* n = malloc(sizeof(ANODE));
     PROGRAM* p = curr_program(c);
+    ANODE* n = p->spare;
+    p->spare = malloc(sizeof(ANODE));
+    
     n->type = type;
     n->next = NULL;
     n->data_dest = NULL;
@@ -43,12 +47,6 @@ ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
     
     p->size += (type == ANODE_JUMP || ANODE_CJUMP || ANODE_LITERAL ? 2 : 1);
     
-    if(c->last_resolve_request) {
-        c->last_resolve_request->data.target->data.target = n;
-        c->last_resolve_request->data.target = NULL; // Invalidate to prevent multiple resolve attempts
-        c->last_resolve_request = NULL;
-    }
-    
     return n;
 }
 
@@ -57,8 +55,6 @@ void init_compiler(COMPILER* c) {
     
     c->mark_stack = calloc(MARK_STACK_SIZE, sizeof(ANODE));
     c->mark_sp = c->mark_stack;
-    
-    c->last_resolve_request = NULL;
     
     c->program_stack = malloc(sizeof(PROGRAM) * PROGRAM_STACK_SIZE);
     c->program_sp = c->program_stack;
@@ -121,7 +117,7 @@ PNODE* end_compilation(COMPILER* c, char const* context_name) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);
     
-    perform_tco(prog);
+    //perform_tco(prog);
     
     PNODE* out = malloc(sizeof(PNODE) * prog->size + 1);
     PNODE* write_pos = out + 1;
@@ -225,7 +221,9 @@ void compiler_resolve(COMPILER* c, int mark_id) {
     assert(c->mark_sp + mark_id >= c->mark_stack);
     assert(curr_program(c)->size > 0);
     assert((c->mark_sp + mark_id)->data.target); // protect against multiple resolve attempts
-    c->last_resolve_request = c->mark_sp + mark_id;
+      
+    (c->mark_sp + mark_id)->data.target->data.target = curr_program(c)->spare;
+    (c->mark_sp + mark_id)->data.target = NULL; // Invalidate to prevent multiple resolve attempts
 }
 
 void compiler_drop_marks(COMPILER* c, int n) {
