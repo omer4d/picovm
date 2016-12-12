@@ -38,6 +38,7 @@ typedef struct DEBUG_ENTRY_t {
 
 typedef struct COMPILER_t {
     FILE* in;
+    ANODE* label_stack;
     ANODE* mark_stack;
     ANODE* mark_sp;
     PROGRAM* program_stack;

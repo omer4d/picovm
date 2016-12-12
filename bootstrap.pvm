@@ -54,3 +54,9 @@ defmacro compile
 		endif
 	endif
 end
+
+defmacro defun
+	program_read
+	' end eq not
+	
+end

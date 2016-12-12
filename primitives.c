@@ -369,6 +369,20 @@ void compile_call_impl(VM* vm) {
     next(vm);
 }
 
+void begin_compilation_impl(VM* vm) {
+    begin_compilation(&vm->compiler);
+    next(vm);
+}
+
+void end_compilation_impl(VM* vm) {
+    VALUE func_name = pop(vm);
+    assert(func_name.type == SYMBOL_TYPE);
+    char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
+    VALUE func_val = func_value(end_compilation(&vm->compiler, name_str), vm->func_meta, name_str);
+    map_put(&vm->global_scope->map, &func_name, &func_val);
+    next(vm);
+}
+
 //
 //void mark_impl(VM* vm) {
 //    mark_helper(vm);
