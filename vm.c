@@ -17,6 +17,8 @@
 VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
     
+    vm->log_stream = fopen("log.txt", "w+");
+    
     vm->arg_stack = calloc(ARG_STACK_SIZE, sizeof(VALUE));
     vm->arg_sp = vm->arg_stack;
     
@@ -44,6 +46,7 @@ VM* create_vm() {
 }
 
 void destroy_vm(VM* vm) {
+    fclose(vm->log_stream);
     free(vm->arg_stack);
     free(vm->ret_stack);
     
@@ -157,10 +160,22 @@ char* value_to_string(char* str, VALUE* sp) {
 }
 
 char const* lookup_debug_info(VM* vm, PNODE const* pnode) {
-    if(pnode >= primitives && pnode < primitives + PRIMITIVE_NUM)
-        return primitive_names[pnode - primitives];
+    if(pnode >= primitives && pnode < primitives + PRIMITIVE_NUM) {
+        char const* public_name = primitive_names[pnode - primitives];
+        return public_name[0] ? public_name : primitive_internal_names[pnode - primitives];
+    }
     else
         return "<no-info>";
+}
+
+void vm_log(VM* vm, char const *fmt, ...) { 
+    va_list ap;
+    va_start(ap, fmt);
+    vprintf(fmt, ap);
+    va_end(ap);
+    va_start(ap, fmt);
+    vfprintf(vm->log_stream, fmt, ap);
+    va_end(ap);
 }
 
 void print_debug_info(VM* vm) {
@@ -168,19 +183,19 @@ void print_debug_info(VM* vm) {
     PNODE const** rsp;
     char tmp[256] = {};
     
-    printf("Next instruction: %s\n\n", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
-    printf("%-30s %-30s\n", "ARG STACK", "CALL STACK");
-    printf("_________________________________________\n");
+    vm_log(vm, "Next instruction: %s\n\n", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
+    vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
+    vm_log(vm, "_________________________________________\n");
     for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp || rsp < vm->ret_sp; ++rsp, ++asp) {
         if(rsp < vm->ret_sp && asp < vm->arg_sp)
-            printf("%-30s %-30s\n", value_to_string(tmp, asp), lookup_debug_info(vm, (*rsp)->into));
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), lookup_debug_info(vm, (*rsp)->into));
         else if(rsp < vm->ret_sp)
-            printf("%-30s %-30s\n", "", lookup_debug_info(vm, (*rsp)->into));
+            vm_log(vm, "%-30s %-30s\n", "", lookup_debug_info(vm, (*rsp)->into));
         else
-            printf("%-30s %-30s\n", value_to_string(tmp, asp), "");
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
     }
     
-    printf("\n\n\n\n");
+    vm_log(vm, "\n\n\n\n");
 }
 
 
@@ -210,12 +225,12 @@ void loop(VM* vm) {
     //print_debug_info(vm);
     
     while(vm->instr) {
-        //print_debug_info(vm);
+        print_debug_info(vm);
         //getch();
         vm->instr(vm);
     }
     
-    //print_debug_info(vm);
+    print_debug_info(vm);
 }
 
 VALUE parse_num(char const* str) {

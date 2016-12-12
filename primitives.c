@@ -13,6 +13,11 @@ const char const* primitive_names[] = {
     PRIMITIVE_MACRO_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA)
 };
 
+const char const* primitive_internal_names[] = {
+    PRIMITIVE_FUNC_LIST(PLIST_STR, PLIST_IGNORE, PLIST_STR, PLIST_COMMA),
+    PRIMITIVE_MACRO_LIST(PLIST_STR, PLIST_IGNORE, PLIST_STR, PLIST_COMMA)
+};
+
 const int PRIMITIVE_FUNC_NUM = PRIMITIVE_FUNC_LIST(PLIST_ONE, PLIST_IGNORE, PLIST_ONE, +);
 const int PRIMITIVE_MACRO_NUM = PRIMITIVE_MACRO_LIST(PLIST_ONE, PLIST_IGNORE, PLIST_ONE, +);
 
@@ -350,11 +355,11 @@ void program_read_impl(VM* vm) {
 }
 
 void compile_literal_impl(VM* vm) {
-    printf("entered compile literal!");
+    printf("entered compile literal!\n");
     VALUE v = pop(vm);
     compile_literal(&vm->compiler, v);
     next(vm);
-    printf("leaving compile literal!");
+    printf("leaving compile literal!\n");
 }
 
 void compile_call_impl(VM* vm) {

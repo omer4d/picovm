@@ -79,6 +79,7 @@ struct VM_t;
 void next(struct VM_t* vm);
 
 extern const char const* primitive_names[];
+extern const char const* primitive_internal_names[];
 extern const PNODE primitives[];
 
 extern const int PRIMITIVE_FUNC_NUM;

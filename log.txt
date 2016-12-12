@@ -1,0 +1,1654 @@
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+
+
+
+Next instruction: exit
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+
+
+
+Next instruction: N/A
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+
+
+
+Next instruction: N/A
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+false                                                        
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+true                                                         
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<object>                                                     
+
+
+
+
+Next instruction: swap
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<object>                                                     
+'call                                                        
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+false                                                        
+
+
+
+
+Next instruction: drop
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dgetf
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: leave
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+false                                                        
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+
+
+
+
+Next instruction: leave
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+
+
+
+
+Next instruction: exit
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+
+
+
+
+Next instruction: N/A
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+
+
+
+
+Next instruction: exit
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+
+
+
+
+Next instruction: N/A
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+
+
+
+
+Next instruction: N/A
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+'compile_literal                                             
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+false                                                        
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+true                                                         
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<object>                                                     
+
+
+
+
+Next instruction: swap
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<object>                                                     
+'call                                                        
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+false                                                        
+
+
+
+
+Next instruction: drop
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dgetf
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: leave
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+false                                                        
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+true                                                         
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<object>                                                     
+
+
+
+
+Next instruction: swap
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<object>                                                     
+'call                                                        
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+false                                                        
+
+
+
+
+Next instruction: drop
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: dgetf
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+'call                                                        
+<object>                                                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: leave
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+false                                                        
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal                                             
+<function unknown>                                           
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+
+
+
+
+Next instruction: type
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+'compile_literal                                             
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+'symbol                                                      
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+'symbol                                                      
+'number                                                      
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+false                                                        
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+true                                                         
+
+
+
+
+Next instruction: get
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+'compile_literal               pcall                         
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+
+
+
+
+Next instruction: macro?
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+false                                                        
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+                               <no-info>                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+false                          <no-info>                     
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+true                           <no-info>                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+                               <no-info>                     
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<object>                       <no-info>                     
+
+
+
+
+Next instruction: swap
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<object>                       <no-info>                     
+'call                                                        
+
+
+
+
+Next instruction: <no-info>
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+
+
+
+
+Next instruction: meta
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+<object>                                                     
+<object>                                                     
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+false                                                        
+
+
+
+
+Next instruction: drop
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+<object>                                                     
+
+
+
+
+Next instruction: dgetf
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+'call                          <no-info>                     
+<object>                       <no-info>                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+                               <no-info>                     
+
+
+
+
+Next instruction: leave
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+                               <no-info>                     
+
+
+
+
+Next instruction: jump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+
+
+
+
+Next instruction: dup
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+
+
+
+
+Next instruction: push
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+<function unknown>                                           
+
+
+
+
+Next instruction: =
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+<function unknown>                                           
+<function unknown>                                           
+
+
+
+
+Next instruction: not
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+true                                                         
+
+
+
+
+Next instruction: cjump
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+false                                                        
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             pcall                         
+<function unknown>             <no-info>                     
+
+
+
+
+Next instruction: pcall
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       <no-info>                     
+<function unknown>             

@@ -1,6 +1,8 @@
 #ifndef __VM_H__
 #define __VM_H__
 
+#include <stdio.h>
+
 #include "pnode.h"
 #include "value.h"
 #include "object.h"
@@ -14,6 +16,8 @@ struct OBJECT_t;
 struct FUNC_t;
 
 typedef struct VM_t {
+    FILE* log_stream;
+    
     VALUE* arg_stack;
     VALUE* arg_sp;
     
