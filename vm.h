@@ -18,10 +18,10 @@ struct FUNC_t;
 typedef struct VM_t {
     FILE* log_stream;
     
-    VALUE* arg_stack;
+    VALUE arg_stack[ARG_STACK_SIZE];
     VALUE* arg_sp;
     
-    PNODE const** ret_stack;
+    PNODE const* ret_stack[RET_STACK_SIZE];
     PNODE const** ret_sp;
     
     PNODE const* curr;

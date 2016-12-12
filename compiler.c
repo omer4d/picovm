@@ -53,10 +53,8 @@ ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
 void init_compiler(COMPILER* c) {
     c->in = stdin;
     
-    c->mark_stack = calloc(MARK_STACK_SIZE, sizeof(ANODE));
+    c->label_sp = c->label_stack;
     c->mark_sp = c->mark_stack;
-    
-    c->program_stack = malloc(sizeof(PROGRAM) * PROGRAM_STACK_SIZE);
     c->program_sp = c->program_stack;
     
     c->debug_entry_num = 0;

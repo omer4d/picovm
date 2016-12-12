@@ -19,10 +19,7 @@ VM* create_vm() {
     
     vm->log_stream = fopen("log.txt", "w+");
     
-    vm->arg_stack = calloc(ARG_STACK_SIZE, sizeof(VALUE));
     vm->arg_sp = vm->arg_stack;
-    
-    vm->ret_stack = calloc(RET_STACK_SIZE, sizeof(PNODE*));
     vm->ret_sp = vm->ret_stack;
     
     vm->curr = NULL;
@@ -47,8 +44,6 @@ VM* create_vm() {
 
 void destroy_vm(VM* vm) {
     fclose(vm->log_stream);
-    free(vm->arg_stack);
-    free(vm->ret_stack);
     
     destroy_object(vm->global_scope);
     

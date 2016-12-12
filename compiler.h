@@ -7,6 +7,7 @@
 
 #define PROGRAM_STACK_SIZE 256
 #define MARK_STACK_SIZE 256
+#define LABEL_STACK_SIZE 256
 
 typedef enum {
     ANODE_CALL_FUNC, ANODE_CALL_PRIMITIVE, ANODE_RECUR, ANODE_JUMP, ANODE_CJUMP, ANODE_LONGJUMP, ANODE_LITERAL,
@@ -38,10 +39,14 @@ typedef struct DEBUG_ENTRY_t {
 
 typedef struct COMPILER_t {
     FILE* in;
-    ANODE* label_stack;
-    ANODE* mark_stack;
+    
+    ANODE* label_stack[LABEL_STACK_SIZE];
+    ANODE** label_sp;
+    
+    ANODE mark_stack[MARK_STACK_SIZE];
     ANODE* mark_sp;
-    PROGRAM* program_stack;
+    
+    PROGRAM program_stack[PROGRAM_STACK_SIZE];
     PROGRAM* program_sp;
     
     int debug_entry_num;
