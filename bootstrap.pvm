@@ -44,12 +44,12 @@ defmacro compile
 	if
 		compile_literal
 	else
-		get
-		dup macro_qm
+		dup get macro_qm
 		not
 		if
 			compile_call
 		else
+			get
 			call
 		endif
 	endif

@@ -78,8 +78,8 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[compile_literal_loc]);
     compile_jump(c);
     compiler_resolve(c, -2);
-    compile_call(c, &primitives[get_loc]);
     compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[get_loc]);
     compile_call(c, &primitives[macro_qm_loc]);
     compile_call(c, &primitives[not_loc]);
     
@@ -88,6 +88,7 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[compile_call_loc]);
     compile_jump(c);
     compiler_resolve(c, -2);
+    compile_call(c, &primitives[get_loc]);
     compile_call(c, call);
     compiler_resolve(c, -1);
     compiler_drop_marks(c, 2);

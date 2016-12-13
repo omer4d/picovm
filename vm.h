@@ -49,7 +49,8 @@ void print_debug_info(VM* vm);
 char* value_to_string(char* str, VALUE* sp);
 PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive);
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive);
-VALUE lookup(VM* vm, char const* name);
+VALUE lookup_by_name(VM* vm, char const* name);
+VALUE lookup_by_symv(VM* vm, VALUE const* sym);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 void pvm_eval(VM* vm);
 

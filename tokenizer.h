@@ -7,6 +7,6 @@ typedef enum {
     TOK_WORD, TOK_NUM, TOK_END
 }TOK_TYPE;
 
-TOK_TYPE next_tok(FILE* stream, char* tok);
+TOK_TYPE next_tok(char* tok, FILE* stream);
 
 #endif

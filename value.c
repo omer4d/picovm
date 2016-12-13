@@ -9,7 +9,7 @@ VALUE num_value(double x) {
     return v;
 }
 
-int values_equal(VALUE* a, VALUE* b) {
+int values_equal(VALUE const* a, VALUE const* b) {
     if(a->type != b->type) {
         return 0;
     }
@@ -27,8 +27,8 @@ int values_equal(VALUE* a, VALUE* b) {
     }
 }
 
-unsigned int sax_hash(void *data, int len) {
-    unsigned char *p = data;
+unsigned int sax_hash(void const* data, int len) {
+    unsigned char const* p = data;
     unsigned int h = 0;
     int i;
 
@@ -39,7 +39,7 @@ unsigned int sax_hash(void *data, int len) {
     return h;
 }
 
-unsigned int value_hash(VALUE* key) {
+unsigned int value_hash(VALUE const* key) {
     unsigned int h;
     
     switch(key->type) {
@@ -59,6 +59,6 @@ unsigned int value_hash(VALUE* key) {
     return h;
 }
 
-int value_is_nil(VALUE* v) {
+int value_is_nil(VALUE const* v) {
     return v->type == OBJECT_TYPE && !v->data.obj;
 }

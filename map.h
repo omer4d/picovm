@@ -14,8 +14,8 @@ void cleanup_map(MAP* m);
 MAP* create_map(int capacity);
 void destroy_map(MAP* m);
 
-void map_put(MAP* m, VALUE* key, VALUE* item);
-void map_get(VALUE* out, MAP* m, VALUE* key);
+void map_put(MAP* m, VALUE const* key, VALUE const* item);
+void map_get(VALUE* out, MAP const* m, VALUE const* key);
 
 void test_map();
 

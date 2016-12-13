@@ -355,15 +355,15 @@ void program_read_impl(VM* vm) {
 }
 
 void compile_literal_impl(VM* vm) {
-    printf("entered compile literal!\n");
     VALUE v = pop(vm);
     compile_literal(&vm->compiler, v);
     next(vm);
-    printf("leaving compile literal!\n");
 }
 
 void compile_call_impl(VM* vm) {
-    VALUE func_val = pop(vm);
+    VALUE func_name = pop(vm);
+    assert(func_name.type == SYMBOL_TYPE);
+    VALUE func_val = lookup_by_symv(vm, &func_name);
     assert(func_val.type == FUNC_TYPE);
     compile_call(&vm->compiler, ((FUNC*)func_val.data.obj)->pnode);
     next(vm);

@@ -52,7 +52,7 @@ T(dgetf)    N()         S   \
 				            \
 TN(get)                 S   \
 TN(set)                 S   \
-T(setmac)   N(setmac?)  S   \
+T(setmac)   N(setmac)   S   \
 T(macro_qm) N(macro?)   S   \
 TN(type)
 
@@ -60,7 +60,7 @@ TN(type)
 T(program_read)         N(>>)               S   \
 T(compile_literal)      N(compile-literal)  S   \
 T(compile_call)         N(compile-call)     S   \
-T(begin_compilation)    N()                 S  \
+T(begin_compilation)    N()                 S   \
 T(end_compilation)      N()
 
 #define PLIST_COMMA ,

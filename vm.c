@@ -66,10 +66,16 @@ void set_debug_info(VM* vm, PNODE const* node, char const* debug) {
     //vm->debug_info[node - vm->program] = debug;
 }
 
-VALUE lookup(VM* vm, char const* name) {
+VALUE lookup_by_name(VM* vm, char const* name) {
     VALUE key = symbol_value(vm, name);
     VALUE item;
     map_get(&item, &vm->global_scope->map, &key);
+    return item;
+}
+
+VALUE lookup_by_symv(VM* vm, VALUE const* key) {
+    VALUE item;
+    map_get(&item, &vm->global_scope->map, key);
     return item;
 }
 
@@ -246,7 +252,7 @@ VALUE program_read(VM* vm) {
     TOK_TYPE tt;
     COMPILER* c = &vm->compiler;
     
-    for(tt = next_tok(c->in, tok); !feof(c->in); tt = next_tok(c->in, tok)) {
+    for(tt = next_tok(tok, c->in); !feof(c->in); tt = next_tok(tok, c->in)) {
         switch(tt) {
             case TOK_WORD:
                 return parse_word(vm, tok);
@@ -265,10 +271,10 @@ void pvm_eval(VM* vm) {
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    PNODE const* run = ((FUNC*)lookup(vm, "run").data.obj)->pnode;
+    PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
     
     begin_compilation(c);
-    for(tt = next_tok(c->in, tok); tt != TOK_END; tt = next_tok(c->in, tok)) {
+    for(tt = next_tok(tok, c->in); tt != TOK_END; tt = next_tok(tok, c->in)) {
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);

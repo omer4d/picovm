@@ -57,7 +57,7 @@ int mod(int a, int b) {
     return m < 0 ? m + b : m;
 }
 
-void map_put(MAP* m, VALUE* key, VALUE* item);
+void map_put(MAP* m, VALUE const* key, VALUE const* item);
 
 void expand(MAP* m) {
     NODE* old_data = m->data;
@@ -80,7 +80,7 @@ NODE* get_free_node(MAP* m) {
     return curr;
 }
 
-void init_node(NODE* n, VALUE* key, VALUE* item, NODE* prev, NODE* next) {
+void init_node(NODE* n, VALUE const* key, VALUE const* item, NODE* prev, NODE* next) {
     n->key = *key;
     n->item = *item;
     n->prev = prev;
@@ -99,13 +99,13 @@ void replace_node(NODE* n0, NODE* n1) {
     n0->next->prev = n1;
 }
 
-NODE* own_node(MAP* m, VALUE* key) {
+NODE* own_node(MAP const* m, VALUE const* key) {
     return &m->data[mod(value_hash(key), m->capacity)];
 }
 
 int new_bucket, same_bucket, wrong_bucket;
 
-void map_put(MAP* m, VALUE* key, VALUE* item) {
+void map_put(MAP* m, VALUE const* key, VALUE const* item) {
     NODE* n = own_node(m, key);
     
     if(n->item.type == OBJECT_TYPE && n->item.data.obj == NULL) {
@@ -155,7 +155,7 @@ void map_put(MAP* m, VALUE* key, VALUE* item) {
     }
 }
 
-void map_get(VALUE* out, MAP* m, VALUE* key) {
+void map_get(VALUE* out, MAP const* m, VALUE const* key) {
     NODE* n;
     
     for(n = own_node(m, key); n != sentinel; n = n->next) {

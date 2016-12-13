@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <assert.h>
 
-TOK_TYPE next_tok(FILE* stream, char* tok) {
+TOK_TYPE next_tok(char* tok, FILE* stream) {
     char* tok_pos = tok;
     char c;
     
