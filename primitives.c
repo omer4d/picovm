@@ -121,7 +121,6 @@ void drop_impl(VM* vm) {
 // ********
 
 void plus_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -130,7 +129,6 @@ void plus_impl(VM* vm) {
 }
 
 void minus_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -139,7 +137,6 @@ void minus_impl(VM* vm) {
 }
 
 void mul_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -149,7 +146,6 @@ void mul_impl(VM* vm) {
 
 
 void div_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -158,7 +154,6 @@ void div_impl(VM* vm) {
 }
 
 void mod_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -171,7 +166,6 @@ void mod_impl(VM* vm) {
 // **************
 
 void gt_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -180,7 +174,6 @@ void gt_impl(VM* vm) {
 }
 
 void lt_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -189,7 +182,6 @@ void lt_impl(VM* vm) {
 }
 
 void gte_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -198,7 +190,6 @@ void gte_impl(VM* vm) {
 }
 
 void lte_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, NUM_TYPE);
     VM_TPOP_ARG(&b, vm, NUM_TYPE);
@@ -229,7 +220,6 @@ void not_eq_impl(VM* vm) {
 // *************
 
 void and_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, BOOL_TYPE);
     VM_TPOP_ARG(&b, vm, BOOL_TYPE);
@@ -238,7 +228,6 @@ void and_impl(VM* vm) {
 }
 
 void or_impl(VM* vm) {
-    
     VALUE a, b;
     VM_TPOP_ARG(&a, vm, BOOL_TYPE);
     VM_TPOP_ARG(&b, vm, BOOL_TYPE);
@@ -247,7 +236,6 @@ void or_impl(VM* vm) {
 }
 
 void not_impl(VM* vm) {
-    
     VALUE a;
     VM_TPOP_ARG(&a, vm, BOOL_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = !a.data.boolean}));
@@ -374,7 +362,6 @@ void set_impl(VM* vm) {
 }
 
 void setmac_impl(VM* vm) {
-    
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
     assert(!value_is_nil(&func_val));
@@ -383,7 +370,6 @@ void setmac_impl(VM* vm) {
 }
 
 void macro_qm_impl(VM* vm) {
-    
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
     assert(!value_is_nil(&func_val));
@@ -447,7 +433,6 @@ void compile_literal_impl(VM* vm) {
 }
 
 void compile_call_impl(VM* vm) {
-    
     VALUE func_name;
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     VALUE func_val = lookup_by_symv(vm, &func_name);
@@ -462,7 +447,6 @@ void begin_compilation_impl(VM* vm) {
 }
 
 void end_compilation_impl(VM* vm) {
-    
     VALUE func_name;
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
@@ -498,7 +482,6 @@ void read_string_impl(VM* vm) {
 }
 
 void load_impl(VM* vm) {
-    
     VALUE fn;
     VM_TPOP_ARG(&fn, vm, STRING_TYPE);
     FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
@@ -525,7 +508,6 @@ void cjump_macro_impl(VM* vm) {
 }
 
 void resolve_impl(VM* vm) {
-    
     VALUE mark_id;
     VM_TPOP_ARG(&mark_id, vm, NUM_TYPE);
     compiler_resolve(&vm->compiler, mark_id.data.num);
@@ -533,7 +515,6 @@ void resolve_impl(VM* vm) {
 }
 
 void drop_marks_impl(VM* vm) {
-    
     VALUE mark_num;
     VM_TPOP_ARG(&mark_num, vm, NUM_TYPE);
     compiler_resolve(&vm->compiler, mark_num.data.num);
