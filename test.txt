@@ -1,1 +1,15 @@
-1 2 3
+defun ' >> >> compile-call >> compile-literal compile-call end
+
+>> ' get setmac
+
+defun # >> >> compile-call >> compile-call compile-call end
+
+' # get setmac
+
+defun peek # >> dup # << end
+
+' peek get setmac
+
+defun defmacro # peek dup # defun get setmac end
+
+' defmacro get setmac

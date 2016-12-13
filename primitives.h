@@ -7,12 +7,13 @@
 #define PLIST_SEMICOL ;
 #define PLIST_LOC(X) X ## _loc
 
-/* the following exists because trying to pass the escaped quote to a macro directly trips up the C lexer :( */
+// trying to pass the escaped quote to a macro directly trips up the C lexer, so here's a workaround:
 #define PLIST_DQUOTE \"
+// P.S. adding anything after the quote (including comments) also trips up the C lexer
 
 #define PLIST_STR_(X) #X
 #define PLIST_STR(X) PLIST_STR_(X) /* force argument macro-expansion before stringification
-                                     this is necessary for arguments like DQUOTE and friends
+                                     necessary for arguments like our friend DQUOTE above
                                      WARNING: avoid primitive names that coincide with C macro names!!! */
 
 #define PLIST_IGNORE(X)
@@ -69,7 +70,8 @@ TN(get)                 S   \
 TN(set)                 S   \
 T(setmac)   N(setmac)   S   \
 T(macro_qm) N(macro?)   S   \
-TN(type)
+TN(type)                S   \
+TN(load)
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
 T(read_string)          N(PLIST_DQUOTE)     S   \

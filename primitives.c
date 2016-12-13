@@ -418,6 +418,21 @@ void read_string_impl(VM* vm) {
     next(vm);
 }
 
+void load_impl(VM* vm) {
+    VALUE fn = pop(vm);
+    assert(fn.type == STRING_TYPE);
+    FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
+    FILE* tmp = vm->in;
+    vm->in = fp;
+
+    while(!feof(vm->in)) {
+        pvm_eval(vm);
+    }
+    
+    vm->in = tmp;
+    fclose(fp);
+    // This one doesn't need a next(). It happens in a different execution context.
+}
 
 
 //
@@ -487,40 +502,7 @@ void read_string_impl(VM* vm) {
 //    next(vm);
 //}
 //
-//void load_impl(VM* vm) {
-//    /*
-//    
-//    PNODE* ps = vm->program_write_start;
-//    
-//    //printf("entered");
-//    VALUE fn = pop(vm);
-//    assert(fn.type == STRING_TYPE);
-//    FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
-//    FILE* tmp = vm->in;
-//    vm->in = fp;
-//    PNODE* curr = vm->curr;
-//    
-//    printf("zomg! %x", vm->curr);
-//    
-//    eval_str(vm);
-//    //assert(0);
-//    printf("omg! %x %x %x %x", ps, vm->program_write_start, vm->program_write_pos, vm->curr);
-//    vm->in = tmp;
-//    fclose(fp);
-//    
-//    
-//    //vm->curr = curr;
-//    PNODE* exit = ((FUNC*)lookup(vm, "exit").data.obj)->pnode;
-//    
-//    
-//    //fcons(vm, enter_impl);
-//    PNODE* pn = ncons(vm, exit);
-//    vm->curr = curr; //pn - 1;
-//    printf("zomg! %x %x", vm->curr, pn);
-//    
-//    //vm->instr = vm->curr->fp;
-//    //next(vm);*/
-//}
+
 
 #define PLIST_PROGRAM_SET(X) {.fp = &X ## _impl}
 

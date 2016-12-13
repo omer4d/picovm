@@ -21,10 +21,15 @@ int main() {
     //COMPILER* c = &vm->compiler;
     init_lib(vm);
     
-    while(1) {
-        pvm_eval(vm);
-   }
+    //FILE* f = fopen("test.txt", "r");
+    //vm->in = f;
     
+    while(!feof(vm->in)) {
+        pvm_eval(vm);
+    }
+
+    //getchar();
+    //fclose(f);
     destroy_vm(vm);
     
     return 0;
