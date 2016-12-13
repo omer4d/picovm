@@ -20,6 +20,9 @@ VM* create_vm() {
     vm->log_stream = fopen("log.txt", "w+");
     vm->in = stdin;
     
+    vm->read_queue_start = 0;
+    vm->read_queue_end = 0;
+    
     vm->arg_sp = vm->arg_stack;
     vm->ret_sp = vm->ret_stack;
     
@@ -252,18 +255,26 @@ VALUE program_read(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     
-    for(tt = next_tok(tok, vm->in); !feof(vm->in); tt = next_tok(tok, vm->in)) {
-        switch(tt) {
-            case TOK_WORD:
-                return parse_word(vm, tok);
-            case TOK_NUM:
-                return parse_num(tok);
-            default:
-                break;
+    if(vm->read_queue_end > vm->read_queue_start)
+        return vm->read_buff[(vm->read_queue_start++) % READ_BUFF_SIZE];
+    else {
+        for(tt = next_tok(tok, vm->in); !feof(vm->in); tt = next_tok(tok, vm->in)) {
+            switch(tt) {
+                case TOK_WORD:
+                    return parse_word(vm, tok);
+                case TOK_NUM:
+                    return parse_num(tok);
+                default:
+                    break;
+            }
         }
+        
+        assert(!"unexpected eof");
     }
-    
-    assert(!"unexpected eof");
+}
+
+void program_unread(VM* vm, VALUE const* v) {
+    vm->read_buff[(vm->read_queue_end++) % READ_BUFF_SIZE] = *v;
 }
 
 void pvm_eval(VM* vm) {

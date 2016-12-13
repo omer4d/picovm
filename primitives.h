@@ -58,6 +58,7 @@ TN(type)
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
 T(program_read)         N(>>)               S   \
+T(program_unread)       N(<<)               S   \
 T(compile_literal)      N(compile-literal)  S   \
 T(compile_call)         N(compile-call)     S   \
 T(begin_compilation)    N()                 S   \

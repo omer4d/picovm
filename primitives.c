@@ -354,6 +354,12 @@ void program_read_impl(VM* vm) {
     next(vm);
 }
 
+void program_unread_impl(VM* vm) {
+    VALUE v = pop(vm);
+    program_unread(vm, &v);
+    next(vm);
+}
+
 void compile_literal_impl(VM* vm) {
     VALUE v = pop(vm);
     compile_literal(&vm->compiler, v);

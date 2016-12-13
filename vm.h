@@ -10,6 +10,7 @@
 
 #define ARG_STACK_SIZE 1024
 #define RET_STACK_SIZE 1024
+#define READ_BUFF_SIZE 64
 
 struct SYMBOL_t;
 struct OBJECT_t;
@@ -18,6 +19,9 @@ struct FUNC_t;
 typedef struct VM_t {
     FILE* log_stream;
     FILE* in;
+    
+    VALUE read_buff[READ_BUFF_SIZE];
+    int read_queue_start, read_queue_end;
     
     VALUE arg_stack[ARG_STACK_SIZE];
     VALUE* arg_sp;
@@ -55,6 +59,7 @@ VALUE lookup_by_symv(VM* vm, VALUE const* sym);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 void pvm_eval(VM* vm);
 
-VALUE program_read(VM* c);
+VALUE program_read(VM* vm);
+void program_unread(VM* vm, VALUE const* v); 
 
 #endif
