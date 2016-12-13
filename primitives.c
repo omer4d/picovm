@@ -1,12 +1,15 @@
+#include <mem.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <math.h>
+
 #include "vm.h"
 #include "primitives.h"
 #include "object.h"
 #include "func.h"
 #include "symbol.h"
 #include "compiler.h"
-#include <stdlib.h>
-#include <assert.h>
-#include <math.h>
+#include "string.h"
 
 const char const* primitive_names[] = {
     PRIMITIVE_FUNC_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA),
@@ -388,6 +391,34 @@ void end_compilation_impl(VM* vm) {
     map_put(&vm->global_scope->map, &func_name, &func_val);
     next(vm);
 }
+
+void read_string_impl(VM* vm) {
+    char* data = NULL;
+    int len = 0;
+    
+    char buff[256] = {0};
+    int buff_used;
+    char c = 0;
+    
+    fgetc(vm->in);
+    do {
+        for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
+            c = fgetc(vm->in);
+            assert(c != EOF);
+            buff[buff_used] = c;
+        }
+        
+        len += buff_used;
+        data = realloc(data, sizeof(char) * len);
+        memcpy(data + len - buff_used, buff, buff_used);
+    }while(buff[buff_used - 1] != '"');
+    
+    data[len - 1] = 0;
+    compile_literal(&vm->compiler, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
+    next(vm);
+}
+
+
 
 //
 //void mark_impl(VM* vm) {

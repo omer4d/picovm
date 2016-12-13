@@ -3,6 +3,21 @@
 
 #include "pnode.h"
 
+#define PLIST_COMMA ,
+#define PLIST_SEMICOL ;
+#define PLIST_LOC(X) X ## _loc
+
+/* the following exists because trying to pass the escaped quote to a macro directly trips up the C lexer :( */
+#define PLIST_DQUOTE \"
+
+#define PLIST_STR_(X) #X
+#define PLIST_STR(X) PLIST_STR_(X) /* force argument macro-expansion before stringification
+                                     this is necessary for arguments like DQUOTE and friends
+                                     WARNING: avoid primitive names that coincide with C macro names!!! */
+
+#define PLIST_IGNORE(X)
+#define PLIST_ONE(X) 1
+
 #define PRIMITIVE_FUNC_LIST(T, N, TN, S)\
 TN(true)                S   \
 TN(false)               S   \
@@ -57,19 +72,13 @@ T(macro_qm) N(macro?)   S   \
 TN(type)
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
+T(read_string)          N(PLIST_DQUOTE)     S   \
 T(program_read)         N(>>)               S   \
 T(program_unread)       N(<<)               S   \
 T(compile_literal)      N(compile-literal)  S   \
 T(compile_call)         N(compile-call)     S   \
 T(begin_compilation)    N()                 S   \
 T(end_compilation)      N()
-
-#define PLIST_COMMA ,
-#define PLIST_SEMICOL ;
-#define PLIST_LOC(X) X ## _loc
-#define PLIST_STR(X) #X
-#define PLIST_IGNORE(X)
-#define PLIST_ONE(X) 1
 
 enum {
     PRIMITIVE_FUNC_LIST(PLIST_LOC, PLIST_IGNORE, PLIST_LOC, PLIST_COMMA),

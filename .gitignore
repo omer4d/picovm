@@ -52,3 +52,6 @@ dkms.conf
 
 #Dev-Cpp
 PicoVM.layout
+
+#Misc
+log.txt

@@ -47,7 +47,7 @@ symbol.o: symbol.c symbol.h object.h map.h value.h vm.h   C:/Dev-Cpp/include/std
 func.o: func.c func.h object.h map.h value.h vm.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h pnode.h compiler.h   C:/Dev-Cpp/include/malloc.h C:/Dev-Cpp/include/stdlib.h
 	$(CC) -c func.c -o func.o $(CFLAGS)
 
-primitives.o: primitives.c vm.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h pnode.h   value.h object.h map.h compiler.h primitives.h func.h symbol.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/assert.h   C:/Dev-Cpp/include/math.h
+primitives.o: primitives.c C:/Dev-Cpp/include/mem.h   C:/Dev-Cpp/include/string.h C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/include/stddef.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/assert.h C:/Dev-Cpp/include/math.h vm.h   C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h pnode.h value.h object.h map.h   compiler.h primitives.h func.h symbol.h string.h
 	$(CC) -c primitives.c -o primitives.o $(CFLAGS)
 
 tokenizer.o: tokenizer.c tokenizer.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/_mingw.h C:/Dev-Cpp/include/stddef.h   C:/Dev-Cpp/include/stdarg.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/ctype.h C:/Dev-Cpp/include/assert.h
