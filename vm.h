@@ -62,4 +62,6 @@ void pvm_eval(VM* vm);
 VALUE program_read(VM* vm);
 void program_unread(VM* vm, VALUE const* v); 
 
+void vm_signal_error(VM* vm, char const* msg, char const* primitive);
+
 #endif

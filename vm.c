@@ -184,6 +184,11 @@ void vm_log(VM* vm, char const *fmt, ...) {
     va_end(ap);
 }
 
+void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
+    vm->instr = NULL;
+    vm_log(vm, "Error in '%s': %s\n", primitive, msg);
+}
+
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
@@ -232,12 +237,12 @@ void loop(VM* vm) {
     //print_debug_info(vm);
     
     while(vm->instr) {
-        print_debug_info(vm);
+        //print_debug_info(vm);
         //getch();
         vm->instr(vm);
     }
     
-    print_debug_info(vm);
+    //print_debug_info(vm);
 }
 
 VALUE parse_num(char const* str) {
