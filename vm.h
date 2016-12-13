@@ -17,6 +17,7 @@ struct FUNC_t;
 
 typedef struct VM_t {
     FILE* log_stream;
+    FILE* in;
     
     VALUE arg_stack[ARG_STACK_SIZE];
     VALUE* arg_sp;

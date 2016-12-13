@@ -18,6 +18,7 @@ VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
     
     vm->log_stream = fopen("log.txt", "w+");
+    vm->in = stdin;
     
     vm->arg_sp = vm->arg_stack;
     vm->ret_sp = vm->ret_stack;
@@ -250,9 +251,8 @@ VALUE parse_word(VM* vm, char const* str) {
 VALUE program_read(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
-    COMPILER* c = &vm->compiler;
     
-    for(tt = next_tok(tok, c->in); !feof(c->in); tt = next_tok(tok, c->in)) {
+    for(tt = next_tok(tok, vm->in); !feof(vm->in); tt = next_tok(tok, vm->in)) {
         switch(tt) {
             case TOK_WORD:
                 return parse_word(vm, tok);
@@ -274,7 +274,7 @@ void pvm_eval(VM* vm) {
     PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
     
     begin_compilation(c);
-    for(tt = next_tok(tok, c->in); tt != TOK_END; tt = next_tok(tok, c->in)) {
+    for(tt = next_tok(tok, vm->in); tt != TOK_END; tt = next_tok(tok, vm->in)) {
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);

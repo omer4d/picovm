@@ -38,7 +38,7 @@ typedef struct DEBUG_ENTRY_t {
 }DEBUG_ENTRY;
 
 typedef struct COMPILER_t {
-    FILE* in;
+    char buffered_tok[256];
     
     ANODE* label_stack[LABEL_STACK_SIZE];
     ANODE** label_sp;

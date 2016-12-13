@@ -51,8 +51,6 @@ ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
 }
 
 void init_compiler(COMPILER* c) {
-    c->in = stdin;
-    
     c->label_sp = c->label_stack;
     c->mark_sp = c->mark_stack;
     c->program_sp = c->program_stack;
