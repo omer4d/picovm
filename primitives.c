@@ -80,25 +80,22 @@ void push_impl(VM* vm) {
 }
 
 void dup_impl(VM* vm) {
-    VALUE x;
-    VM_POP_ARG(&x, vm);
+    VALUE x = pop(vm);
     VM_PUSH_ARG(vm, x);
     VM_PUSH_ARG(vm, x);
     next(vm);
 }
 
 void swap_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
+    VALUE a = pop(vm);
+    VALUE b = pop(vm);
     VM_PUSH_ARG(vm, a);
     VM_PUSH_ARG(vm, b);
     next(vm);
 }
 
 void drop_impl(VM* vm) {
-    VALUE tmp;
-    VM_POP_ARG(&tmp, vm);
+    pop(vm);
     next(vm);
 }
 
@@ -107,29 +104,21 @@ void drop_impl(VM* vm) {
 // ********
 
 void plus_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, num_value(a.data.num + b.data.num));
     next(vm);
 }
 
 void minus_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, num_value(b.data.num - a.data.num));
     next(vm);
 }
 
 void mul_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, num_value(b.data.num * a.data.num));
     next(vm);
@@ -137,20 +126,14 @@ void mul_impl(VM* vm) {
 
 
 void div_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, num_value(b.data.num / a.data.num));
     next(vm);
 }
 
 void mod_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, num_value(fmod(b.data.num, a.data.num)));
     next(vm);
@@ -161,60 +144,44 @@ void mod_impl(VM* vm) {
 // **************
 
 void gt_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.num > a.data.num}));
     next(vm);
 }
 
 void lt_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.num < a.data.num}));
     next(vm);
 }
 
 void gte_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.num >= a.data.num}));
     next(vm);
 }
 
 void lte_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == NUM_TYPE && b.type == NUM_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.num <= a.data.num}));
     next(vm);
 }
 
 void eq_impl(VM* vm) {
-    VALUE a;
-    VM_POP_ARG(&a, vm);
-    VALUE b;
-    VM_POP_ARG(&b, vm);
+    VALUE a = pop(vm);
+    VALUE b = pop(vm);
     VALUE c = {.type = BOOL_TYPE, .data.boolean = values_equal(&a, &b)};
     VM_PUSH_ARG(vm, c);
     next(vm);
 }
 
 void not_eq_impl(VM* vm) {
-    VALUE a;
-    VM_POP_ARG(&a, vm);
-    VALUE b;
-    VM_POP_ARG(&b, vm);
+    VALUE a = pop(vm);
+    VALUE b = pop(vm);
     VALUE c = {.type = BOOL_TYPE, .data.boolean = !values_equal(&a, &b)};
     VM_PUSH_ARG(vm, c);
     next(vm);
@@ -225,28 +192,21 @@ void not_eq_impl(VM* vm) {
 // *************
 
 void and_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == BOOL_TYPE && b.type == BOOL_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.boolean && a.data.boolean}));
     next(vm);
 }
 
 void or_impl(VM* vm) {
-    VALUE a, b;
-    VM_POP_ARG(&a, vm);
-    VM_POP_ARG(&b, vm);
-
+    VALUE a = pop(vm), b = pop(vm);
     assert(a.type == BOOL_TYPE && b.type == BOOL_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = b.data.boolean || a.data.boolean}));
     next(vm);
 }
 
 void not_impl(VM* vm) {
-    VALUE a;
-    VM_POP_ARG(&a, vm);
+    VALUE a = pop(vm);
     assert(a.type == BOOL_TYPE);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = !a.data.boolean}));
     next(vm);
@@ -263,8 +223,7 @@ void jump_impl(VM* vm) {
 }
 
 void cjump_impl(VM* vm) {
-    VALUE c;
-    VM_POP_ARG(&c, vm);
+    VALUE c = pop(vm);
     assert(c.type == BOOL_TYPE);
 	if(c.data.boolean) {
         ++vm->curr;
@@ -305,8 +264,7 @@ void leave_impl(VM* vm) {
 
 void pcall_impl(VM* vm) { // call a primitive
     assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
-    VALUE v;
-    VM_POP_ARG(&v, vm);
+    VALUE v = pop(vm);
     assert(v.type == FUNC_TYPE);
     vm->instr = ((FUNC*)v.data.obj)->pnode->fp;
 }
@@ -315,8 +273,7 @@ void dcall_impl(VM* vm) { // call a function object
     assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
     *vm->ret_sp = vm->curr;
     ++vm->ret_sp;
-    VALUE v;
-    VM_POP_ARG(&v, vm);
+    VALUE v = pop(vm);
     assert(v.type == FUNC_TYPE);
     vm->curr = ((FUNC*)v.data.obj)->pnode;
     next(vm);
@@ -327,10 +284,8 @@ void dcall_impl(VM* vm) { // call a function object
 // **************
 
 void dgetf_impl(VM* vm) {
-    VALUE objval;
-    VM_POP_ARG(&objval, vm);
-    VALUE key;
-    VM_POP_ARG(&key, vm);
+    VALUE objval = pop(vm);
+    VALUE key = pop(vm);
     assert(objval.type == OBJECT_TYPE);
     OBJECT* obj = (OBJECT*)objval.data.obj;
     VALUE val;
@@ -340,8 +295,7 @@ void dgetf_impl(VM* vm) {
 }
 
 void meta_impl(VM* vm) {
-    VALUE objval;
-    VM_POP_ARG(&objval, vm);
+    VALUE objval = pop(vm);
     assert(objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE);
     assert(!value_is_nil(&objval));
     OBJECT* obj = (OBJECT*)objval.data.obj;
@@ -356,8 +310,7 @@ void meta_impl(VM* vm) {
 // *********
 
 void get_impl(VM* vm) {
-    VALUE key;
-    VM_POP_ARG(&key, vm);
+    VALUE key = pop(vm);
     VALUE item;
     map_get(&item, &vm->global_scope->map, &key);
     VM_PUSH_ARG(vm, item);
@@ -365,17 +318,14 @@ void get_impl(VM* vm) {
 }
 
 void set_impl(VM* vm) {
-    VALUE item;
-    VM_POP_ARG(&item, vm);
-    VALUE key;
-    VM_POP_ARG(&key, vm);
+    VALUE item = pop(vm);
+    VALUE key = pop(vm);
     map_put(&vm->global_scope->map, &key, &item);
     next(vm);
 }
 
 void setmac_impl(VM* vm) {
-    VALUE func_val;
-    VM_POP_ARG(&func_val, vm);
+    VALUE func_val = pop(vm);
     assert(func_val.type == FUNC_TYPE);
     assert(!value_is_nil(&func_val));
     ((FUNC*)func_val.data.obj)->is_macro = 1;
@@ -383,8 +333,7 @@ void setmac_impl(VM* vm) {
 }
 
 void macro_qm_impl(VM* vm) {
-    VALUE func_val;
-    VM_POP_ARG(&func_val, vm);
+    VALUE func_val = pop(vm);
     assert(func_val.type == FUNC_TYPE);
     assert(!value_is_nil(&func_val));
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->is_macro}));
@@ -392,8 +341,7 @@ void macro_qm_impl(VM* vm) {
 }
 
 void type_impl(VM* vm) {
-    VALUE v;
-    VM_POP_ARG(&v, vm);
+    VALUE v = pop(vm);
     switch(v.type) {
         case BOOL_TYPE:
             VM_PUSH_ARG(vm, symbol_value(vm, "boolean"));
@@ -432,22 +380,19 @@ void program_read_impl(VM* vm) {
 }
 
 void program_unread_impl(VM* vm) {
-    VALUE v;
-    VM_POP_ARG(&v, vm);
+    VALUE v = pop(vm);
     program_unread(vm, &v);
     next(vm);
 }
 
 void compile_literal_impl(VM* vm) {
-    VALUE v;
-    VM_POP_ARG(&v, vm);
+    VALUE v = pop(vm);
     compile_literal(&vm->compiler, v);
     next(vm);
 }
 
 void compile_call_impl(VM* vm) {
-    VALUE func_name;
-    VM_POP_ARG(&func_name, vm);
+    VALUE func_name = pop(vm);
     assert(func_name.type == SYMBOL_TYPE);
     VALUE func_val = lookup_by_symv(vm, &func_name);
     assert(func_val.type == FUNC_TYPE);
@@ -461,8 +406,7 @@ void begin_compilation_impl(VM* vm) {
 }
 
 void end_compilation_impl(VM* vm) {
-    VALUE func_name;
-    VM_POP_ARG(&func_name, vm);
+    VALUE func_name = pop(vm);
     assert(func_name.type == SYMBOL_TYPE);
     char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
     VALUE func_val = func_value(end_compilation(&vm->compiler, name_str), vm->func_meta, name_str);
@@ -497,8 +441,7 @@ void read_string_impl(VM* vm) {
 }
 
 void load_impl(VM* vm) {
-    VALUE fn;
-    VM_POP_ARG(&fn, vm);
+    VALUE fn = pop(vm);
     assert(fn.type == STRING_TYPE);
     FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
     FILE* tmp = vm->in;
@@ -524,16 +467,14 @@ void cjump_macro_impl(VM* vm) {
 }
 
 void resolve_impl(VM* vm) {
-    VALUE mark_id;
-    VM_POP_ARG(&mark_id, vm);
+    VALUE mark_id = pop(vm);
     assert(mark_id.type == NUM_TYPE);
     compiler_resolve(&vm->compiler, mark_id.data.num);
     next(vm);
 }
 
 void drop_marks_impl(VM* vm) {
-    VALUE mark_num;
-    VM_POP_ARG(&mark_num, vm);
+    VALUE mark_num = pop(vm);
     assert(mark_num.type == NUM_TYPE);
     compiler_resolve(&vm->compiler, mark_num.data.num);
     next(vm);
