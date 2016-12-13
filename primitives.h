@@ -80,7 +80,13 @@ T(program_unread)       N(<<)               S   \
 T(compile_literal)      N(compile-literal)  S   \
 T(compile_call)         N(compile-call)     S   \
 T(begin_compilation)    N()                 S   \
-T(end_compilation)      N()
+T(end_compilation)      N()                 S   \
+T(jump_macro)           N(jump)             S   \
+T(cjump_macro)          N(?jump)            S   \
+TN(resolve)                                 S   \
+TN(drop_marks)          N(drop-marks)
+
+
 
 enum {
     PRIMITIVE_FUNC_LIST(PLIST_LOC, PLIST_IGNORE, PLIST_LOC, PLIST_COMMA),

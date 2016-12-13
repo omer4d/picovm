@@ -434,75 +434,29 @@ void load_impl(VM* vm) {
     // This one doesn't need a next(). It happens in a different execution context.
 }
 
+void jump_macro_impl(VM* vm) {
+    compile_jump(&vm->compiler);
+    next(vm);
+}
 
-//
-//void mark_impl(VM* vm) {
-//    mark_helper(vm);
-//    next(vm);
-//}
-//
-//void resolve_impl(VM* vm) {
-//    VALUE n = pop(vm);
-//    assert(n.type == NUM_TYPE);
-//    resolve_helper(vm, n.data.num);
-//    next(vm);
-//}
-//
-//void drop_marks_impl(VM* vm) {
-//    VALUE n = pop(vm);
-//    assert(n.type == NUM_TYPE);
-//    drop_marks_helper(vm, n.data.num);
-//    next(vm);
-//}
-//
-//void start_defun_impl(VM* vm) {
-//    //program_rewind(vm);
-//    VALUE func_name = pop(vm);
-//    assert(func_name.type == SYMBOL_TYPE);
-//    PNODE* stub = fcons(vm, enter_impl);
-//    FUNC* func = create_func(stub, vm->func_meta);
-//    VALUE func_value = {.type = FUNC_TYPE, .data.obj = (OBJECT_BASE*)func};
-//    map_put(&vm->global_scope->map, &func_name, &func_value);
-//    set_debug_info(vm, stub, ((SYMBOL*)func_name.data.obj)->name);
-//    //push(vm, func_value);
-//    next(vm);
-//}
-//
-//void end_defun_impl(VM* vm) {
-//    PNODE* leave = ((FUNC*)lookup(vm, "leave").data.obj)->pnode; //fcons(vm, leave_impl);
-//    ncons(vm, leave);
-//    //program_flush(vm);
-//    //fcons(vm, enter_impl);
-//    next(vm);
-//}
-//
-//void read_string_impl(VM* vm) {
-//    char* data = NULL;
-//    int len = 0;
-//    
-//    char buff[256] = {0};
-//    int i, buff_used;
-//    char c = 0;
-//    
-//    fgetc(vm->in);
-//    do {
-//        for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
-//            c = fgetc(vm->in);
-//            assert(c != EOF);
-//            buff[buff_used] = c;
-//        }
-//        
-//        len += buff_used;
-//        data = realloc(data, sizeof(char) * len);
-//        memcpy(data + len - buff_used, buff, buff_used);
-//    }while(buff[buff_used - 1] != '"');
-//    
-//    data[len - 1] = 0;
-//    compile_literal_helper(vm, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
-//    next(vm);
-//}
-//
+void cjump_macro_impl(VM* vm) {
+    compile_cjump(&vm->compiler);
+    next(vm);
+}
 
+void resolve_impl(VM* vm) {
+    VALUE mark_id = pop(vm);
+    assert(mark_id.type == NUM_TYPE);
+    compiler_resolve(&vm->compiler, mark_id.data.num);
+    next(vm);
+}
+
+void drop_marks_impl(VM* vm) {
+    VALUE mark_num = pop(vm);
+    assert(mark_num.type == NUM_TYPE);
+    compiler_resolve(&vm->compiler, mark_num.data.num);
+    next(vm);
+}
 
 #define PLIST_PROGRAM_SET(X) {.fp = &X ## _impl}
 
