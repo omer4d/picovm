@@ -8,7 +8,7 @@
 #define PLIST_LOC(X) X ## _loc
 
 // trying to pass the escaped quote to a macro directly trips up the C lexer, so here's a workaround:
-#define PLIST_DQUOTE \"
+#define PLIST_DQUOTE "
 // P.S. adding anything after the quote (including comments) also trips up the C lexer
 
 #define PLIST_STR_(X) #X
