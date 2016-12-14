@@ -29,7 +29,23 @@ void next(VM* vm) {
     vm->instr = vm->curr->into->fp;
 }
 
-#define vm_assert(vm, condition, msg) do { if(!(condition)) { vm_signal_error((vm), (msg), __func__); return; } while (0)
+#define vm_assert(vm1, condition, msg) do { if(!(condition)) { vm_signal_error((vm1), (msg), __func__); return; } } while (0)
+
+#define vm_assert_arg_not_nil(vm, val)\
+do {\
+    if(value_is_nil(&(val))) {\
+        vm_signal_error((vm), "Argument can't be nil!", __func__);\
+        return;\
+    }\
+}while(0)
+
+#define vm_assert_arg_type(vm, arg, desired_type)\
+do {\
+    if(!(arg).type == (desired_type)) {\
+        vm_signal_error((vm), "Bad argument type. Expected " #desired_type, __func__);\
+        return;\
+    }\
+}while(0)
 
 #define VM_PUSH_ARG(vm, x)\
 do {\
@@ -112,7 +128,8 @@ void swap_impl(VM* vm) {
 }
 
 void drop_impl(VM* vm) {
-    pop(vm);
+    VALUE t;
+    VM_POP_ARG(&t, vm);
     next(vm);
 }
 
@@ -278,7 +295,7 @@ void exit_impl(VM* vm) {
 // ****************
 
 void enter_impl(VM* vm) {
-    assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
+    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
     *vm->ret_sp = vm->curr;
     ++vm->ret_sp;
     
@@ -287,14 +304,14 @@ void enter_impl(VM* vm) {
 }
 
 void leave_impl(VM* vm) {
-    assert(vm->ret_sp > vm->ret_stack);
+    vm_assert(vm, vm->ret_sp > vm->ret_stack, "Return stack underflow");
     --vm->ret_sp;
     vm->curr = *vm->ret_sp;
     next(vm);
 }
 
 void pcall_impl(VM* vm) { // call a primitive
-    assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
+    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
     
     VALUE v;
     VM_TPOP_ARG(&v, vm, FUNC_TYPE);
@@ -302,7 +319,7 @@ void pcall_impl(VM* vm) { // call a primitive
 }
 
 void dcall_impl(VM* vm) { // call a function object
-    assert(vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1]);
+    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack_overflow");
     *vm->ret_sp = vm->curr;
     ++vm->ret_sp;
     
@@ -331,8 +348,8 @@ void dgetf_impl(VM* vm) {
 void meta_impl(VM* vm) {
     VALUE objval;
     VM_POP_ARG(&objval, vm);
-    assert(objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE);
-    assert(!value_is_nil(&objval));
+    vm_assert(vm, objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE, "Bad argument type. Expected OBJECT_BASE.");
+	vm_assert_arg_not_nil(vm, objval);
     OBJECT* obj = (OBJECT*)objval.data.obj;
     objval.type = OBJECT_TYPE;
     objval.data.obj = (OBJECT_BASE*)obj->base.meta;
@@ -364,7 +381,7 @@ void set_impl(VM* vm) {
 void setmac_impl(VM* vm) {
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
-    assert(!value_is_nil(&func_val));
+    vm_assert_arg_not_nil(vm, func_val);
     ((FUNC*)func_val.data.obj)->is_macro = 1;
     next(vm);
 }
@@ -372,7 +389,7 @@ void setmac_impl(VM* vm) {
 void macro_qm_impl(VM* vm) {
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
-    assert(!value_is_nil(&func_val));
+    vm_assert_arg_not_nil(vm, func_val);
     VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->is_macro}));
     next(vm);
 }
@@ -436,7 +453,7 @@ void compile_call_impl(VM* vm) {
     VALUE func_name;
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     VALUE func_val = lookup_by_symv(vm, &func_name);
-    assert(func_val.type == FUNC_TYPE);
+    vm_assert_arg_type(vm, func_val, FUNC_TYPE);
     compile_call(&vm->compiler, ((FUNC*)func_val.data.obj)->pnode);
     next(vm);
 }
@@ -467,7 +484,7 @@ void read_string_impl(VM* vm) {
     do {
         for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
             c = fgetc(vm->in);
-            assert(c != EOF);
+            vm_assert(vm, c != EOF, "Unexpected EOF");
             buff[buff_used] = c;
         }
         
