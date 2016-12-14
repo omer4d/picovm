@@ -26,6 +26,10 @@ int main() {
     
     while(!feof(vm->in)) {
         pvm_eval(vm);
+        if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+            printf("Halted!");
+            getchar();
+        }
     }
 
     //getchar();

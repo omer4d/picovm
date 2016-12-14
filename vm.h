@@ -19,6 +19,17 @@ struct FUNC_t;
 #define PVM_RUNTIME_ERROR 1
 #define PVM_COMPILE_TIME_ERROR 2
 
+typedef struct {
+    VALUE arg_stack[ARG_STACK_SIZE];
+    VALUE* arg_sp;
+    
+    PNODE const* ret_stack[RET_STACK_SIZE];
+    PNODE const** ret_sp;
+    
+    PNODE const* curr;
+    CFUN instr;
+}VM_EXECUTION_CONTEXT;
+
 typedef struct VM_t {
     FILE* log_stream;
     FILE* in;
@@ -28,6 +39,7 @@ typedef struct VM_t {
     VALUE read_buff[READ_BUFF_SIZE];
     int read_queue_start, read_queue_end;
     
+    /*
     VALUE arg_stack[ARG_STACK_SIZE];
     VALUE* arg_sp;
     
@@ -35,7 +47,9 @@ typedef struct VM_t {
     PNODE const** ret_sp;
     
     PNODE const* curr;
-    CFUN instr;
+    CFUN instr;*/
+    
+    VM_EXECUTION_CONTEXT xc;
     
     struct SYMBOL_t** sym_table;
     int sym_table_cap;
@@ -63,9 +77,14 @@ VALUE lookup_by_name(VM* vm, char const* name);
 VALUE lookup_by_symv(VM* vm, VALUE const* sym);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 void pvm_eval(VM* vm);
+int pvm_test_flags(VM* vm, int f);
 
 VALUE program_read(VM* vm);
 void program_unread(VM* vm, VALUE const* v); 
+
+void vm_clear_execution_context(VM* vm);
+void vm_stash_execution_context(VM_EXECUTION_CONTEXT* xc, VM* vm);
+void vm_restore_execution_context(VM* vm, VM_EXECUTION_CONTEXT const* xc);
 
 void vm_signal_error(VM* vm, char const* msg, char const* primitive);
 
