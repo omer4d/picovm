@@ -186,7 +186,19 @@ void vm_log(VM* vm, char const *fmt, ...) {
 
 void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
     vm->instr = NULL;
-    vm_log(vm, "Error in '%s': %s\n", primitive, msg);
+    
+    if(compiler_is_compiling(&vm->compiler)) {
+        vm_log(vm, "Compile time error in '%s': %s\n", primitive, msg);
+        vm->flags |= PVM_COMPILE_TIME_ERROR;
+    }
+    else {
+        vm_log(vm, "Runtime error in '%s': %s\n", primitive, msg);
+        vm->flags |= PVM_RUNTIME_ERROR;
+    }
+}
+
+int vm_test_flag(VM* vm, int f) {
+    return vm->flags & f; 
 }
 
 void print_debug_info(VM* vm) {

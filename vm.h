@@ -16,9 +16,14 @@ struct SYMBOL_t;
 struct OBJECT_t;
 struct FUNC_t;
 
+#define PVM_RUNTIME_ERROR 1
+#define PVM_COMPILE_TIME_ERROR 2
+
 typedef struct VM_t {
     FILE* log_stream;
     FILE* in;
+    
+    int flags;
     
     VALUE read_buff[READ_BUFF_SIZE];
     int read_queue_start, read_queue_end;

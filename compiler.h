@@ -53,6 +53,7 @@ typedef struct COMPILER_t {
 
 void init_compiler(COMPILER* c);
 void cleanup_compiler(COMPILER* c);
+void reset_compiler(COMPILER* c);
 
 void begin_compilation(COMPILER* c);
 PNODE* end_compilation(COMPILER* c, char const* context_name);
@@ -70,6 +71,8 @@ void compiler_drop_labels(COMPILER* c, int n);
 void compiler_resolve(COMPILER* c, int mark_id);
 void compiler_resolve_to_label(COMPILER* c, int mark_id);
 void compiler_drop_marks(COMPILER* c, int n);
+
+int compiler_is_compiling(COMPILER* c);
 
 char const* find_compilation_context(COMPILER* c, PNODE const* n);
 

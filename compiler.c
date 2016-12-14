@@ -62,7 +62,11 @@ void cleanup_compiler(COMPILER* c) {
     PROGRAM* p;
     for(p = c->program_stack; p < c->program_sp; ++p)
         cleanup_program(p);
-    free(c->program_stack);
+}
+
+void reset_compiler(COMPILER* c) {
+    cleanup_compiler(c);
+    init_compiler(c);
 }
 
 void begin_compilation(COMPILER* c) {
@@ -248,4 +252,8 @@ void compiler_resolve_to_label(COMPILER* c, int label_id) {
 void compiler_drop_marks(COMPILER* c, int n) {
     assert(c->mark_sp - n >= c->mark_stack);
     c->mark_sp -= n;
+}
+
+int compiler_is_compiling(COMPILER* c) {
+    return c->program_sp > c->program_stack;
 }
