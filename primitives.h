@@ -20,6 +20,9 @@
 #define PLIST_ONE(X) 1
 
 #define PRIMITIVE_FUNC_LIST(T, N, TN, S)\
+TN(halt)                S   \
+                            \
+                            \
 TN(true)                S   \
 TN(false)               S   \
 TN(nil)                 S   \

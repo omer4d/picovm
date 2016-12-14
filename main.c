@@ -24,10 +24,17 @@ int main() {
     //FILE* f = fopen("test.txt", "r");
     //vm->in = f;
     
+    VM_EXECUTION_CONTEXT xc;
+    
     while(!feof(vm->in)) {
         pvm_eval(vm);
         if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
-            printf("Halted!");
+            printf("ERROR HALT!");
+            getchar();
+        }
+        
+        else if(pvm_test_flags(vm, PVM_USER_HALT)) {
+            printf("USER HALT!");
             getchar();
         }
     }

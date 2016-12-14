@@ -82,6 +82,11 @@ void next(VM* vm) {
     vm->xc.instr = vm->xc.curr->into->fp;
 }
 
+void halt_impl(VM* vm) {
+    vm->xc.instr = NULL;
+    vm->flags |= PVM_USER_HALT;
+}
+
 // ************
 // * Literals *
 // ************

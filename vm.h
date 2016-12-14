@@ -18,6 +18,7 @@ struct FUNC_t;
 
 #define PVM_RUNTIME_ERROR 1
 #define PVM_COMPILE_TIME_ERROR 2
+#define PVM_USER_HALT 4
 
 typedef struct {
     VALUE arg_stack[ARG_STACK_SIZE];
