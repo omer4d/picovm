@@ -3,6 +3,13 @@
 #include <malloc.h>
 #include <string.h>
 
+char const* clone_str(char const* str) {
+    int len = strlen(str) + 1;
+    char* dup = malloc(sizeof(char) * len);
+    strncpy(dup, str, len);
+    return dup;
+}
+
 SYMBOL* get_symbol(VM* vm, char const* name) {
     int i;
     for(i = 0; i < vm->sym_num; ++i) {
@@ -17,7 +24,7 @@ SYMBOL* get_symbol(VM* vm, char const* name) {
     
     SYMBOL* sym = malloc(sizeof(SYMBOL));
     sym->base.meta = vm->sym_meta;
-    sym->name = strdup(name);
+    sym->name = clone_str(name);
     vm->sym_table[vm->sym_num++] = sym;
     return sym;
 }

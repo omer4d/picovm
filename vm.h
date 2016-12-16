@@ -31,6 +31,12 @@ typedef struct {
     CFUN instr;
 }VM_EXECUTION_CONTEXT;
 
+typedef struct {
+    PNODE const* ret_stack[RET_STACK_SIZE];
+    PNODE const** ret_sp;
+    PNODE const* curr;
+}VM_CONTINUATION_DATA;
+
 typedef struct VM_t {
     FILE* log_stream;
     FILE* in;
@@ -77,8 +83,13 @@ PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int pr
 VALUE lookup_by_name(VM* vm, char const* name);
 VALUE lookup_by_symv(VM* vm, VALUE const* sym);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
-void pvm_eval(VM* vm);
+
+PNODE* pvm_compile(VM* vm);
+int pvm_run(VM* vm, PNODE* pnode);
+void pvm_resume(VM* vm);
 int pvm_test_flags(VM* vm, int f);
+
+void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm);
 
 VALUE program_read(VM* vm);
 void program_unread(VM* vm, VALUE const* v); 

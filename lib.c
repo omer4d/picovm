@@ -17,7 +17,7 @@ void init_lib(VM* vm) {
     compile_stub(c);
     PNODE* call_stub = end_compilation(c, "call_stub");
     
-    
+
     // BEGIN GETF
     begin_compilation(c);
     compile_call(c, &primitives[dup_loc]);

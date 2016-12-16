@@ -47,6 +47,12 @@ VM* create_vm() {
     return vm;
 }
 
+void nullify_cc(VM* vm) {
+    vm->xc.curr = NULL;
+    vm->xc.instr = NULL;
+    vm->xc.ret_sp = vm->xc.ret_stack;
+}
+
 void destroy_vm(VM* vm) {
     fclose(vm->log_stream);
     
@@ -186,6 +192,16 @@ int pvm_test_flags(VM* vm, int f) {
     return vm->flags & f; 
 }
 
+void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
+    cc->curr = vm->xc.curr;
+    cc->ret_sp = vm->xc.ret_sp;
+    memcpy(cc->ret_stack, vm->xc.ret_stack, RET_STACK_SIZE);
+}
+
+void pvm_continue(VM_CONTINUATION_DATA* cc) {
+    
+}
+
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
@@ -263,14 +279,12 @@ void program_unread(VM* vm, VALUE const* v) {
     vm->read_buff[(vm->read_queue_end++) % READ_BUFF_SIZE] = *v;
 }
 
-void pvm_eval(VM* vm) {
+PNODE* pvm_compile(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
     PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
-    
-    print_debug_info(vm);
     
     begin_compilation(c);
     for(tt = next_tok(tok, vm->in); tt != TOK_END; tt = next_tok(tok, vm->in)) {
@@ -291,6 +305,11 @@ void pvm_eval(VM* vm) {
                         vm->xc.curr = run;
                         next(vm);
                         loop(vm);
+                        if(vm->flags & PVM_COMPILE_TIME_ERROR) {
+                            reset_compiler(&vm->compiler);
+                            nullify_cc(vm);
+                            return NULL;
+                        }
                     }
                     
                     else {
@@ -309,13 +328,22 @@ void pvm_eval(VM* vm) {
     
     compile_call(c, &primitives[exit_loc]);
     compile_call(c, &primitives[leave_loc]);
-    PNODE* f = end_compilation(c, "eval");
+    return end_compilation(c, "eval");
+}
 
-    print_debug_info(vm);
-    vm->xc.curr = f;
+int pvm_run(VM* vm, PNODE* pn) {
+    nullify_cc(vm);
+    vm->flags = 0;
+    vm->xc.curr = pn;
     next(vm);
     loop(vm);
-    
-    free(f);
+    print_debug_info(vm);
+    return vm->flags;
+}
+
+void pvm_resume(VM* vm) {
+    vm->flags = 0;
+    next(vm);
+    loop(vm);
     print_debug_info(vm);
 }

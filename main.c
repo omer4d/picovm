@@ -13,7 +13,9 @@
 
 #include "value.h"
 
-
+typedef enum {
+    REPL, RESUME, RESTART
+}MODE;
 
 int main() {
     VM* vm = create_vm();
@@ -25,15 +27,53 @@ int main() {
     
     //VM_EXECUTION_CONTEXT xc;
     
+    VM_CONTINUATION_DATA cont;
+    int cont_used = 0;
+    
+    MODE mode = REPL;
+    PNODE* n;
+    
     while(!feof(vm->in)) {
-        pvm_eval(vm);
-        if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
-            //printf("ERROR HALT!");
-            vm->flags = 0;
+        switch(mode) {
+            case REPL:
+                n = pvm_compile(vm);
+                if(n)
+                    pvm_run(vm, n);
+                break;
+            case RESUME:
+                pvm_resume(vm);
+                break;
+            case RESTART:
+                break;
         }
         
-        else if(pvm_test_flags(vm, PVM_USER_HALT)) {
-            printf("USER HALT!");
+        if(pvm_test_flags(vm, PVM_RUNTIME_ERROR) && !pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR) && !cont_used) {
+            printf("[1] Stash continuation and fix the problem\n");
+            printf("[other] Restart\n: ");
+            char c = getchar();
+            if(c == '1') {
+                mode = REPL;
+                pvm_get_cc(&cont, vm);
+                cont_used = 1;
+            }
+            else {
+                free(n);
+                mode = REPL;
+            }
+        }else if(pvm_test_flags(vm, PVM_USER_HALT)) {
+            if(cont_used) {
+                printf("[1] Call stashed continuation\n");
+                printf("[2] Resume\n: ");
+            }else{
+                
+            }
+            
+            printf("press any key to resume...");
+            getchar();
+            mode = RESUME;
+        }else {
+            free(n);
+            mode = REPL;
         }
     }
 

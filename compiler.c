@@ -113,6 +113,11 @@ void perform_tco(PROGRAM* prog) {
     }
 }
 
+void abort_compilation(COMPILER* c) {
+    ASSERT_POP(c->program_stack, c->program_sp);
+    cleanup_program(--c->program_sp);
+}
+
 PNODE* end_compilation(COMPILER* c, char const* context_name) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);

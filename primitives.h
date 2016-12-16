@@ -7,17 +7,11 @@
 #define PLIST_SEMICOL ;
 #define PLIST_LOC(X) X ## _loc
 
-// trying to pass the escaped quote to a macro directly trips up the C lexer, so here's a workaround:
-#define PLIST_DQUOTE "
-// P.S. adding anything after the quote (including comments) also trips up the C lexer
-
-#define PLIST_STR_(X) #X
-#define PLIST_STR(X) PLIST_STR_(X) /* force argument macro-expansion before stringification
-                                     necessary for arguments like our friend DQUOTE above
-                                     WARNING: avoid primitive names that coincide with C macro names!!! */
+#define PLIST_STR(X) #X
 
 #define PLIST_IGNORE(X)
 #define PLIST_ONE(X) 1
+#define PLIST_ID(X) X
 
 #define PRIMITIVE_FUNC_LIST(T, N, TN, S)\
 TN(halt)                S   \
@@ -31,22 +25,22 @@ TN(nil)                 S   \
 TN(dup)                 S   \
 TN(swap)                S   \
 TN(drop)                S   \
-T(push)     N()         S   \
+T(push)    N("")         S   \
 				            \
 				            \
-T(plus)     N(+)        S   \
-T(minus)    N(-)        S   \
-T(mul)      N(*)        S   \
-T(div)      N(/)        S   \
-T(mod)      N(%)        S   \
+T(plus)    N("+")        S   \
+T(minus)   N("-")        S   \
+T(mul)     N("*")        S   \
+T(div)     N("/")        S   \
+T(mod)     N("%")        S   \
 				            \
 				            \
-T(eq)       N(=)        S   \
-T(not_eq)   N(not=)     S   \
-T(gt)       N(>)        S   \
-T(lt)       N(<)        S   \
-T(gte)      N(>=)       S   \
-T(lte)      N(<=)       S   \
+T(eq)      N("=")        S   \
+T(not_eq)  N("not=")     S   \
+T(gt)      N(">")        S   \
+T(lt)      N("<")        S   \
+T(gte)     N(">=")       S   \
+T(lte)     N("<=")       S   \
 				            \
 				            \
 TN(and)                 S   \
@@ -55,39 +49,39 @@ TN(not)                 S   \
 				            \
 				            \
 TN(exit)                S   \
-T(jump)     N()         S   \
-T(cjump)    N()         S   \
+T(jump)    N("")         S   \
+T(cjump)   N("")         S   \
 				            \
 				            \
-T(enter)    N()         S   \
+T(enter)   N("")         S   \
 TN(leave)               S   \
-T(pcall)    N()         S   \
-T(dcall)    N()         S   \
+T(pcall)   N("")         S   \
+T(dcall)   N("")         S   \
 				            \
 				            \
 TN(meta)                S   \
-T(dgetf)    N()         S   \
+T(dgetf)   N("")         S   \
 				            \
 				            \
 TN(get)                 S   \
 TN(set)                 S   \
-T(setmac)   N(setmac)   S   \
-T(macro_qm) N(macro?)   S   \
+T(setmac)  N("setmac")   S   \
+T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
 TN(load)
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
-T(read_string)          N(PLIST_DQUOTE)     S   \
-T(program_read)         N(>>)               S   \
-T(program_unread)       N(<<)               S   \
-T(compile_literal)      N(compile-literal)  S   \
-T(compile_call)         N(compile-call)     S   \
-T(begin_compilation)    N()                 S   \
-T(end_compilation)      N()                 S   \
-T(jump_macro)           N(jump)             S   \
-T(cjump_macro)          N(?jump)            S   \
+T(read_string)         N("\"")     S   \
+T(program_read)        N(">>")               S   \
+T(program_unread)      N("<<")               S   \
+T(compile_literal)     N("compile-literal")  S   \
+T(compile_call)        N("compile-call")     S   \
+T(begin_compilation)   N("")                 S   \
+T(end_compilation)     N("")                 S   \
+T(jump_macro)          N("jump")             S   \
+T(cjump_macro)         N("?jump")            S   \
 TN(resolve)                                 S   \
-TN(drop_marks)          N(drop-marks)
+TN(drop_marks)         N("drop-marks")
 
 
 

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <code-assistance-data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <code-model-enabled>true</code-model-enabled>
+    </code-assistance-data>
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>1</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
@@ -7,7 +10,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/stas/Desktop/picovm/main.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/primitives.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/compiler.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/vm.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/compiler.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/lib.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/primitives.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/vm.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/symbol.c</file>
         </group>
     </open-files>
 </project-private>

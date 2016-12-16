@@ -56,6 +56,7 @@ void cleanup_compiler(COMPILER* c);
 void reset_compiler(COMPILER* c);
 
 void begin_compilation(COMPILER* c);
+void abort_compilation(COMPILER* c);
 PNODE* end_compilation(COMPILER* c, char const* context_name);
 
 void compile_call(COMPILER* c, PNODE const* into);

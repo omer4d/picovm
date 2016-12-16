@@ -4,39 +4,27 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>compiler.h</itemPath>
+      <itemPath>func.h</itemPath>
+      <itemPath>lib.h</itemPath>
+      <itemPath>macros.h</itemPath>
+      <itemPath>map.h</itemPath>
+      <itemPath>object.h</itemPath>
+      <itemPath>pnode.h</itemPath>
+      <itemPath>primitives.h</itemPath>
+      <itemPath>string.h</itemPath>
+      <itemPath>symbol.h</itemPath>
+      <itemPath>tokenizer.h</itemPath>
+      <itemPath>value.h</itemPath>
+      <itemPath>vm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="picovm" displayName="picovm" projectFiles="true">
       <itemPath>.gitignore</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>bootstrap.pvm</itemPath>
-      <itemPath>compiler.c</itemPath>
-      <itemPath>compiler.h</itemPath>
-      <itemPath>func.c</itemPath>
-      <itemPath>func.h</itemPath>
-      <itemPath>lib.c</itemPath>
-      <itemPath>lib.h</itemPath>
       <itemPath>log.txt</itemPath>
-      <itemPath>macros.h</itemPath>
-      <itemPath>main.c</itemPath>
-      <itemPath>map.c</itemPath>
-      <itemPath>map.h</itemPath>
-      <itemPath>object.c</itemPath>
-      <itemPath>object.h</itemPath>
-      <itemPath>pnode.h</itemPath>
-      <itemPath>primitives.c</itemPath>
-      <itemPath>primitives.h</itemPath>
-      <itemPath>string.c</itemPath>
-      <itemPath>string.h</itemPath>
-      <itemPath>symbol.c</itemPath>
-      <itemPath>symbol.h</itemPath>
       <itemPath>test.bat</itemPath>
       <itemPath>test.txt</itemPath>
-      <itemPath>tokenizer.c</itemPath>
-      <itemPath>tokenizer.h</itemPath>
-      <itemPath>value.c</itemPath>
-      <itemPath>value.h</itemPath>
-      <itemPath>vm.c</itemPath>
-      <itemPath>vm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -45,6 +33,18 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>compiler.c</itemPath>
+      <itemPath>func.c</itemPath>
+      <itemPath>lib.c</itemPath>
+      <itemPath>main.c</itemPath>
+      <itemPath>map.c</itemPath>
+      <itemPath>object.c</itemPath>
+      <itemPath>primitives.c</itemPath>
+      <itemPath>string.c</itemPath>
+      <itemPath>symbol.c</itemPath>
+      <itemPath>tokenizer.c</itemPath>
+      <itemPath>value.c</itemPath>
+      <itemPath>vm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -70,6 +70,10 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <standard>3</standard>
+          <warningLevel>2</warningLevel>
+        </cTool>
       </compileType>
       <item path=".gitignore" ex="false" tool="3" flavor2="0">
       </item>

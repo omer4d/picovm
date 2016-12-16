@@ -12,8 +12,8 @@
 #include "string.h"
 
 const char const* primitive_names[] = {
-    PRIMITIVE_FUNC_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA),
-    PRIMITIVE_MACRO_LIST(PLIST_IGNORE, PLIST_STR, PLIST_STR, PLIST_COMMA)
+    PRIMITIVE_FUNC_LIST(PLIST_IGNORE, PLIST_ID, PLIST_STR, PLIST_COMMA),
+    PRIMITIVE_MACRO_LIST(PLIST_IGNORE, PLIST_ID, PLIST_STR, PLIST_COMMA)
 };
 
 const char const* primitive_internal_names[] = {
@@ -36,7 +36,7 @@ do {\
 
 #define vm_assert_arg_type(vm, arg, desired_type)\
 do {\
-    if(!(arg).type == (desired_type)) {\
+    if(!((arg).type == (desired_type))) {\
         vm_signal_error((vm), "Bad argument type. Expected " #desired_type, __func__);\
         return;\
     }\
@@ -507,16 +507,30 @@ void load_impl(VM* vm) {
     VALUE fn;
     VM_TPOP_ARG(&fn, vm, STRING_TYPE);
     FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
-    FILE* tmp = vm->in;
+    FILE* old_in = vm->in;
+    PNODE const* old_curr = vm->xc.curr;
+    
     vm->in = fp;
 
     while(!feof(vm->in)) {
-        pvm_eval(vm);
+        PNODE* n = pvm_compile(vm);
+        if(n) {
+            pvm_run(vm, n);
+            free(n);
+        }
+        
+        if(vm->flags & (PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+            vm->in = old_in;
+            vm->xc.curr = old_curr;
+            free(n);
+            vm_assert(vm, 0, "Load aborted.");
+        }
     }
     
-    vm->in = tmp;
+    vm->in = old_in;
+    vm->xc.curr = old_curr;
     fclose(fp);
-    // This one doesn't need a next(). It happens in a different execution context.
+    next(vm);
 }
 
 void jump_macro_impl(VM* vm) {
