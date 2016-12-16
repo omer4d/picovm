@@ -81,7 +81,7 @@ T(end_compilation)     N("")                 S   \
 T(jump_macro)          N("jump")             S   \
 T(cjump_macro)         N("?jump")            S   \
 TN(resolve)                                 S   \
-TN(drop_marks)         N("drop-marks")
+T(drop_marks)          N("drop-marks")
 
 
 
