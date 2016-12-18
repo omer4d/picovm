@@ -24,11 +24,11 @@ VM* create_vm() {
     vm->read_queue_start = 0;
     vm->read_queue_end = 0;
     
-    vm->xc.arg_sp = vm->xc.arg_stack;
-    vm->xc.ret_sp = vm->xc.ret_stack;
+    vm->arg_sp = vm->arg_stack;
+    vm->ret_sp = vm->ret_stack;
     
-    vm->xc.curr = NULL;
-    vm->xc.instr = NULL;
+    vm->curr = NULL;
+    vm->instr = NULL;
     
     vm->default_meta = create_object(NULL);
     vm->default_meta->base.meta = vm->default_meta;
@@ -58,22 +58,6 @@ void destroy_vm(VM* vm) {
     free(vm->sym_table);
     
     free(vm);
-}
-
-void vm_clear_execution_context(VM* vm) {
-    vm->xc.arg_sp = vm->xc.arg_stack;
-    vm->xc.ret_sp = vm->xc.ret_stack;
-    
-    vm->xc.curr = NULL;
-    vm->xc.instr = NULL;
-}
-
-void vm_stash_execution_context(VM_EXECUTION_CONTEXT* xc, VM* vm) {
-    memcpy(xc, &vm->xc, sizeof(VM_EXECUTION_CONTEXT));
-}
-
-void vm_restore_execution_context(VM* vm, VM_EXECUTION_CONTEXT const* xc) {
-    memcpy(&vm->xc, xc, sizeof(VM_EXECUTION_CONTEXT));
 }
 
 void set_method(VM* vm, OBJECT* object, char const* name, FUNC* func) {
@@ -111,15 +95,15 @@ PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int pr
 }
 
 void push(VM* vm, VALUE x) {
-    ASSERT_PUSH(vm->xc.arg_stack, vm->xc.arg_sp, ARG_STACK_SIZE);
-    *vm->xc.arg_sp = x;
-    ++vm->xc.arg_sp;
+    ASSERT_PUSH(vm->arg_stack, vm->arg_sp, ARG_STACK_SIZE);
+    *vm->arg_sp = x;
+    ++vm->arg_sp;
 }
 
 VALUE pop(VM* vm) {
-    ASSERT_POP(vm->xc.arg_stack, vm->xc.arg_sp);
-    --vm->xc.arg_sp;
-    return *vm->xc.arg_sp;
+    ASSERT_POP(vm->arg_stack, vm->arg_sp);
+    --vm->arg_sp;
+    return *vm->arg_sp;
 }
 
 char* value_to_string(char* str, VALUE* sp) {
@@ -170,7 +154,7 @@ void vm_log(VM* vm, char const *fmt, ...) {
 }
 
 void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
-    vm->xc.instr = NULL;
+    vm->instr = NULL;
     
     if(compiler_is_compiling(&vm->compiler)) {
         vm_log(vm, "Compile time error in '%s': %s\n", primitive, msg);
@@ -187,9 +171,9 @@ int pvm_test_flags(VM* vm, int f) {
 }
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
-    cc->curr = vm->xc.curr;
-    cc->ret_sp = vm->xc.ret_sp;
-    memcpy(cc->ret_stack, vm->xc.ret_stack, RET_STACK_SIZE);
+    cc->curr = vm->curr;
+    cc->ret_sp = vm->ret_sp;
+    memcpy(cc->ret_stack, vm->ret_stack, RET_STACK_SIZE);
 }
 
 void pvm_continue(VM_CONTINUATION_DATA* cc) {
@@ -203,15 +187,15 @@ void print_debug_info(VM* vm) {
     
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
-    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp || rsp < vm->xc.ret_sp; ++rsp, ++asp) {
-        if(rsp < vm->xc.ret_sp && asp < vm->xc.arg_sp)
+    for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp || rsp < vm->ret_sp; ++rsp, ++asp) {
+        if(rsp < vm->ret_sp && asp < vm->arg_sp)
             vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
-        else if(rsp < vm->xc.ret_sp)
+        else if(rsp < vm->ret_sp)
             vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
         else
             vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
     }
-    vm_log(vm, "\nAbout to execute: %s", vm->xc.curr ? lookup_debug_info(vm, vm->xc.curr->into) : "N/A");
+    vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     
     vm_log(vm, "\n\n\n\n");
     fflush(vm->log_stream);
@@ -221,10 +205,10 @@ void loop(VM* vm) {
     //printf("Initial state: ");
     //print_debug_info(vm);
     
-    while(vm->xc.instr) {
+    while(vm->instr) {
         //print_debug_info(vm);
         //getch();
-        vm->xc.instr(vm);
+        vm->instr(vm);
     }
     
     //print_debug_info(vm);
@@ -296,7 +280,7 @@ PNODE* pvm_compile(VM* vm) {
                     
                     if(f->is_macro) {
                         push(vm, item);
-                        vm->xc.curr = run;
+                        vm->curr = run;
                         next(vm);
                         loop(vm);
                         if(vm->flags & PVM_COMPILE_TIME_ERROR) {
@@ -325,7 +309,7 @@ PNODE* pvm_compile(VM* vm) {
 }
 
 void pvm_run(VM* vm, PNODE* pn) {
-    vm->xc.curr = pn;
+    vm->curr = pn;
     next(vm);
     loop(vm);
     print_debug_info(vm);

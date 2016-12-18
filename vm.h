@@ -21,17 +21,6 @@ struct FUNC_t;
 #define PVM_USER_HALT 4
 
 typedef struct {
-    VALUE arg_stack[ARG_STACK_SIZE];
-    VALUE* arg_sp;
-    
-    PNODE const* ret_stack[RET_STACK_SIZE];
-    PNODE const** ret_sp;
-    
-    PNODE const* curr;
-    CFUN instr;
-}VM_EXECUTION_CONTEXT;
-
-typedef struct {
     PNODE const* ret_stack[RET_STACK_SIZE];
     PNODE const** ret_sp;
     PNODE const* curr;
@@ -46,7 +35,6 @@ typedef struct VM_t {
     VALUE read_buff[READ_BUFF_SIZE];
     int read_queue_start, read_queue_end;
     
-    /*
     VALUE arg_stack[ARG_STACK_SIZE];
     VALUE* arg_sp;
     
@@ -54,9 +42,7 @@ typedef struct VM_t {
     PNODE const** ret_sp;
     
     PNODE const* curr;
-    CFUN instr;*/
-    
-    VM_EXECUTION_CONTEXT xc;
+    CFUN instr;
     
     struct SYMBOL_t** sym_table;
     int sym_table_cap;
@@ -122,10 +108,6 @@ void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm);
 
 VALUE program_read(VM* vm);
 void program_unread(VM* vm, VALUE const* v); 
-
-void vm_clear_execution_context(VM* vm);
-void vm_stash_execution_context(VM_EXECUTION_CONTEXT* xc, VM* vm);
-void vm_restore_execution_context(VM* vm, VM_EXECUTION_CONTEXT const* xc);
 
 void vm_signal_error(VM* vm, char const* msg, char const* primitive);
 
