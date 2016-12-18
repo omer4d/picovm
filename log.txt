@@ -5,18 +5,8 @@ About to execute: N/A
 
 
 
-Runtime error in 'dup_impl': Argument stack underflow
 ARG STACK                      CALL STACK                    
 _________________________________________
-                               eval                          
-
-About to execute: dup
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
 
 About to execute: N/A
 
@@ -24,8 +14,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                                                     
-2.000000                                                     
 
 About to execute: N/A
 
@@ -33,9 +21,91 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                                                     
-2.000000                                                     
-3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                                                         
 
 About to execute: N/A
 

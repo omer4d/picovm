@@ -47,12 +47,6 @@ VM* create_vm() {
     return vm;
 }
 
-void nullify_cc(VM* vm) {
-    vm->xc.curr = NULL;
-    vm->xc.instr = NULL;
-    vm->xc.ret_sp = vm->xc.ret_stack;
-}
-
 void destroy_vm(VM* vm) {
     fclose(vm->log_stream);
     
@@ -307,7 +301,6 @@ PNODE* pvm_compile(VM* vm) {
                         loop(vm);
                         if(vm->flags & PVM_COMPILE_TIME_ERROR) {
                             reset_compiler(&vm->compiler);
-                            nullify_cc(vm);
                             return NULL;
                         }
                     }
@@ -331,18 +324,14 @@ PNODE* pvm_compile(VM* vm) {
     return end_compilation(c, "eval");
 }
 
-int pvm_run(VM* vm, PNODE* pn) {
-    nullify_cc(vm);
-    vm->flags = 0;
+void pvm_run(VM* vm, PNODE* pn) {
     vm->xc.curr = pn;
     next(vm);
     loop(vm);
     print_debug_info(vm);
-    return vm->flags;
 }
 
 void pvm_resume(VM* vm) {
-    vm->flags = 0;
     next(vm);
     loop(vm);
     print_debug_info(vm);

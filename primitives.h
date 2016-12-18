@@ -71,7 +71,7 @@ TN(type)                S   \
 TN(load)
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
-T(read_string)         N("\"")     S   \
+T(read_string)         N("\"")               S   \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \
 T(compile_literal)     N("compile-literal")  S   \
@@ -80,7 +80,7 @@ T(begin_compilation)   N("")                 S   \
 T(end_compilation)     N("")                 S   \
 T(jump_macro)          N("jump")             S   \
 T(cjump_macro)         N("?jump")            S   \
-TN(resolve)                                 S   \
+TN(resolve)                                  S   \
 T(drop_marks)          N("drop-marks")
 
 

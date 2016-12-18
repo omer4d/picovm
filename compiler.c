@@ -199,7 +199,7 @@ void compile_generic_jump(COMPILER* c, ANODE_TYPE type) {
     
     ASSERT_PUSH(c->mark_stack, c->mark_sp, MARK_STACK_SIZE);
     
-    n->data.target = c->mark_sp;
+    n->data.target = NULL;// c->mark_sp;
     c->mark_sp->data.target = n;
     ++c->mark_sp;
 }

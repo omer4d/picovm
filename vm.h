@@ -85,7 +85,36 @@ VALUE lookup_by_symv(VM* vm, VALUE const* sym);
 void set_method(VM* vm, OBJECT* object, char const* name, struct FUNC_t* func);
 
 PNODE* pvm_compile(VM* vm);
-int pvm_run(VM* vm, PNODE* pnode);
+// Reads from the input stream and compiles until one of the following occurs:
+// (1) A newline is reached
+// (2) EOF is reached
+// (3) An error is signalled
+// Return value: a pointer to the beginning of the compiled (sub)program
+// Side-effects:
+// - Input stream position: after the last character read
+// - Flags: may set the compile time error flag. Otherwise unchanged.
+// - Read Queue: undefined
+// - Compile-time argument stack: undefined
+// - Runtime argument stack: unchanged
+// - Continuation: unchanged
+// - Global scope: undefined
+// - Compiler: unuchanged
+
+
+void pvm_run(VM* vm, PNODE* pnode);
+// Runs the provided function.
+// Side-effects:
+// - Input stream position: after the last character read
+// - Flags: may set the compile time error flag. Otherwise unchanged.
+// - Read Queue: undefined
+// - Compile-time argument stack: undefined
+// - Runtime argument stack: unchanged
+// - Continuation: unchanged
+// - Global scope: undefined
+// - Compiler: unuchanged
+
+
+
 void pvm_resume(VM* vm);
 int pvm_test_flags(VM* vm, int f);
 
