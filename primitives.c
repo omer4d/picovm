@@ -534,26 +534,19 @@ void load_impl(VM* vm) {
 }
 
 void jump_macro_impl(VM* vm) {
-    compile_jump(&vm->compiler);
+    VM_PUSH_ARG(vm, cref_value(compile_jump(&vm->compiler), 0));
     next(vm);
 }
 
 void cjump_macro_impl(VM* vm) {
-    compile_cjump(&vm->compiler);
+    VM_PUSH_ARG(vm, cref_value(compile_cjump(&vm->compiler), 0));
     next(vm);
 }
 
 void resolve_impl(VM* vm) {
-    VALUE mark_id;
-    VM_TPOP_ARG(&mark_id, vm, NUM_TYPE);
-    //compiler_resolve(&vm->compiler, mark_id.data.num);
-    next(vm);
-}
-
-void drop_marks_impl(VM* vm) {
-    VALUE mark_num;
-    VM_TPOP_ARG(&mark_num, vm, NUM_TYPE);
-    //compiler_resolve(&vm->compiler, mark_num.data.num);
+    VALUE jnode_val;
+    VM_TPOP_ARG(&jnode_val, vm, CREF_TYPE);
+    resolve_jump((ANODE*)jnode_val.data.cref.ptr, compiler_pos(&vm->compiler));
     next(vm);
 }
 

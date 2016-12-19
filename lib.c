@@ -144,15 +144,6 @@ void init_lib(VM* vm) {
 
     register_macro(vm, defun, "defun", 0);
 
-
-    
-    // BEGIN DBL
-    begin_compilation(c);
-    compile_call(c, &primitives[dup_loc]);
-    compile_call(c, &primitives[plus_loc]);
-    compile_call(c, &primitives[leave_loc]);
-    PNODE* dbl = end_compilation(c, "dbl");
-
     
     //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);
@@ -167,8 +158,4 @@ void init_lib(VM* vm) {
     for(i = PRIMITIVE_FUNC_NUM; i < PRIMITIVE_FUNC_NUM + PRIMITIVE_MACRO_NUM; ++i) {
         register_macro(vm, &primitives[i], primitive_names[i], 1);
     }
-    
-    //register_func(vm, dbl, "dbl", 0);
-    //register_func(vm, call, "call", 0);
-    //register_func(vm, run, "run", 0);
 }

@@ -9,6 +9,14 @@ VALUE num_value(double x) {
     return v;
 }
 
+VALUE cref_value(void* ptr, int tag) {
+    VALUE v;
+    v.type = CREF_TYPE;
+    v.data.cref.ptr = ptr;
+    v.data.cref.tag = tag;
+    return v;
+}
+
 int values_equal(VALUE const* a, VALUE const* b) {
     if(a->type != b->type) {
         return 0;

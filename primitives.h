@@ -79,7 +79,8 @@ T(compile_call)        N("compile-call")     S   \
 T(begin_compilation)   N("")                 S   \
 T(end_compilation)     N("")                 S   \
 T(jump_macro)          N("jump")             S   \
-T(cjump_macro)         N("?jump")            
+T(cjump_macro)         N("?jump")            S   \
+T(resolve)             N("resolve")
 
 
 //S  
