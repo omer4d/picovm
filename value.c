@@ -19,6 +19,8 @@ int values_equal(VALUE const* a, VALUE const* b) {
                 return a->data.boolean == b->data.boolean;
             case NUM_TYPE:
                 return a->data.num == b->data.num;
+            case CREF_TYPE:
+                return a->data.cref.ptr == b->data.cref.ptr;
             case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
                 return a->data.obj == b->data.obj;
             default:

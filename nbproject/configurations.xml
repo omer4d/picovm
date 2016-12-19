@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>compiler.h</itemPath>
+      <itemPath>cref.h</itemPath>
       <itemPath>func.h</itemPath>
       <itemPath>lib.h</itemPath>
       <itemPath>macros.h</itemPath>
@@ -84,6 +85,8 @@
       <item path="compiler.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="compiler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="cref.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="func.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -167,6 +170,8 @@
       <item path="compiler.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="compiler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="cref.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="func.c" ex="false" tool="0" flavor2="0">
       </item>

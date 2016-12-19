@@ -126,6 +126,9 @@ char* value_to_string(char* str, VALUE* sp) {
         case OBJECT_TYPE:
             sprintf(str, value_is_nil(sp) ? "nil" : "<object>");
             break;
+        case CREF_TYPE:
+            sprintf(str, "<cref(%d) %x>", sp->data.cref.tag, sp->data.cref.ptr);
+            break;
         default:
             assert(0);
     }
