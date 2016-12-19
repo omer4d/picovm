@@ -67,9 +67,10 @@ defmacro defun
 	else
 		compile
 		jump
-		resolve_to_label -1
+		resolve_to_label
 	endif
 	
-	drop_labels 1
+	' leave compile
+	
 	end_compilation
 end

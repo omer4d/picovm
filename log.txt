@@ -7,6 +7,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+1.000000                                                     
 
 About to execute: N/A
 
@@ -14,6 +15,8 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+1.000000                                                     
+2.000000                                                     
 
 About to execute: N/A
 
@@ -21,6 +24,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -28,6 +32,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -35,6 +40,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -42,6 +48,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -49,6 +56,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -56,6 +64,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -63,6 +72,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -70,6 +80,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -77,6 +88,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -84,6 +96,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -91,6 +104,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -98,6 +112,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+3.000000                                                     
 
 About to execute: N/A
 
@@ -105,7 +120,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'foobar                                                      
+3.000000                                                     
 
 About to execute: N/A
 
@@ -113,8 +128,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'foobar                                                      
-'fooz                                                        
+3.000000                                                     
 
 About to execute: N/A
 
@@ -122,8 +136,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'foobar                                                      
-'fooz                                                        
+3.000000                                                     
 
 About to execute: N/A
 
@@ -131,8 +144,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'foobar                                                      
-'fooz                                                        
+3.000000                                                     
 
 About to execute: N/A
 
@@ -140,8 +152,90 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'foobar                                                      
-'fooz                                                        
+3.000000                                                     
+'foo                                                         
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+10.000000                                                    
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+20.000000                                                    
+'okay                                                        
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+20.000000                                                    
+'okay                                                        
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+20.000000                                                    
+'okay                                                        
+20.000000                                                    
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                                                     
+'foo                                                         
+'bar                                                         
+20.000000                                                    
+'okay                                                        
+40.000000                                                    
+'okay                                                        
 
 About to execute: N/A
 

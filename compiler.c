@@ -51,8 +51,6 @@ ANODE* next_anode(COMPILER* c, ANODE_TYPE type) {
 }
 
 void init_compiler(COMPILER* c) {
-    c->label_sp = c->label_stack;
-    c->mark_sp = c->mark_stack;
     c->program_sp = c->program_stack;
     
     c->debug_entry_num = 0;
@@ -194,22 +192,16 @@ void compile_literal(COMPILER* c, VALUE v) {
     n->data.value = v;
 }
 
-void compile_generic_jump(COMPILER* c, ANODE_TYPE type) {
-    ANODE* n = next_anode(c, type);
-    
-    ASSERT_PUSH(c->mark_stack, c->mark_sp, MARK_STACK_SIZE);
-    
-    n->data.target = NULL;// c->mark_sp;
-    c->mark_sp->data.target = n;
-    ++c->mark_sp;
+ANODE* compile_cjump(COMPILER* c) {
+    ANODE* n = next_anode(c, ANODE_CJUMP);
+    n->data.target = NULL;
+    return n;
 }
 
-void compile_cjump(COMPILER* c) {
-    compile_generic_jump(c, ANODE_CJUMP);
-}
-
-void compile_jump(COMPILER* c) {
-    compile_generic_jump(c, ANODE_JUMP);
+ANODE* compile_jump(COMPILER* c) {
+    ANODE* n = next_anode(c, ANODE_JUMP);
+    n->data.target = NULL;
+    return n;
 }
 
 void compile_recur(COMPILER* c) {
@@ -221,42 +213,12 @@ void compile_stub(COMPILER* c) {
     
 }
 
-void compiler_push_label(COMPILER* c) {
-    ASSERT_PUSH(c->label_stack, c->label_sp, LABEL_STACK_SIZE);
-    *c->label_sp = curr_program(c)->spare;
-    ++c->label_sp;
+ANODE* compiler_pos(COMPILER* c) {
+    return curr_program(c)->spare;
 }
 
-void compiler_drop_labels(COMPILER* c, int n) {
-    assert(c->label_sp - n >= c->label_stack);
-    c->label_sp -= n;
-}
-
-
-void compiler_resolve_generic(COMPILER* c, int mark_id, ANODE* target) {
-    assert(mark_id < 0);
-    assert(c->mark_sp + mark_id >= c->mark_stack);
-    assert(curr_program(c)->size > 0);
-    assert((c->mark_sp + mark_id)->data.target); // protect against multiple resolve attempts
-      
-    (c->mark_sp + mark_id)->data.target->data.target = target;
-    (c->mark_sp + mark_id)->data.target = NULL; // Invalidate to prevent multiple resolve attempts
-}
-
-void compiler_resolve(COMPILER* c, int mark_id) {
-    compiler_resolve_generic(c, mark_id, curr_program(c)->spare);
-}
-
-void compiler_resolve_to_label(COMPILER* c, int label_id) {
-    assert(label_id < 0);
-    assert(c->label_sp + label_id >= c->label_stack);
-    compiler_resolve_generic(c, -1, *(c->label_sp + label_id));
-    compiler_drop_marks(c, 1);
-}
-
-void compiler_drop_marks(COMPILER* c, int n) {
-    assert(c->mark_sp - n >= c->mark_stack);
-    c->mark_sp -= n;
+void resolve_jump(ANODE* jnode, ANODE* dest) {
+    jnode->data.target = dest;
 }
 
 int compiler_is_compiling(COMPILER* c) {

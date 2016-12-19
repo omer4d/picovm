@@ -6,8 +6,6 @@
 #include "pnode.h"
 
 #define PROGRAM_STACK_SIZE 256
-#define MARK_STACK_SIZE 256
-#define LABEL_STACK_SIZE 256
 
 typedef enum {
     ANODE_CALL_FUNC, ANODE_CALL_PRIMITIVE, ANODE_RECUR, ANODE_JUMP, ANODE_CJUMP, ANODE_LONGJUMP, ANODE_LITERAL,
@@ -38,12 +36,6 @@ typedef struct DEBUG_ENTRY_t {
 }DEBUG_ENTRY;
 
 typedef struct COMPILER_t {
-    ANODE* label_stack[LABEL_STACK_SIZE];
-    ANODE** label_sp;
-    
-    ANODE mark_stack[MARK_STACK_SIZE];
-    ANODE* mark_sp;
-    
     PROGRAM program_stack[PROGRAM_STACK_SIZE];
     PROGRAM* program_sp;
     
@@ -61,17 +53,14 @@ PNODE* end_compilation(COMPILER* c, char const* context_name);
 
 void compile_call(COMPILER* c, PNODE const* into);
 void compile_literal(COMPILER* c, VALUE v);
-void compile_cjump(COMPILER* c);
-void compile_jump(COMPILER* c);
+ANODE* compile_cjump(COMPILER* c);
+ANODE* compile_jump(COMPILER* c);
 void compile_recur(COMPILER* c);
 void compile_stub(COMPILER* c);
 
-void compiler_push_label(COMPILER* c);
-void compiler_drop_labels(COMPILER* c, int n);
+ANODE* compiler_pos(COMPILER* c);
 
-void compiler_resolve(COMPILER* c, int mark_id);
-void compiler_resolve_to_label(COMPILER* c, int mark_id);
-void compiler_drop_marks(COMPILER* c, int n);
+void resolve_jump(ANODE* jnode, ANODE* dest);
 
 int compiler_is_compiling(COMPILER* c);
 

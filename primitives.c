@@ -546,14 +546,14 @@ void cjump_macro_impl(VM* vm) {
 void resolve_impl(VM* vm) {
     VALUE mark_id;
     VM_TPOP_ARG(&mark_id, vm, NUM_TYPE);
-    compiler_resolve(&vm->compiler, mark_id.data.num);
+    //compiler_resolve(&vm->compiler, mark_id.data.num);
     next(vm);
 }
 
 void drop_marks_impl(VM* vm) {
     VALUE mark_num;
     VM_TPOP_ARG(&mark_num, vm, NUM_TYPE);
-    compiler_resolve(&vm->compiler, mark_num.data.num);
+    //compiler_resolve(&vm->compiler, mark_num.data.num);
     next(vm);
 }
 
