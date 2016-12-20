@@ -80,14 +80,9 @@ T(begin_compilation)   N("")                 S   \
 T(end_compilation)     N("")                 S   \
 T(jump_macro)          N("jump")             S   \
 T(cjump_macro)         N("?jump")            S   \
-T(resolve)             N("resolve")
-
-
-//S  
-//TN(resolve)                                  S  
-//T(drop_marks)          N("drop-marks")
-
-
+T(resolve)             N("resolve:")         S   \
+T(label)               N("label:")           S   \
+T(to_label)            N("to-label")
 
 enum {
     PRIMITIVE_FUNC_LIST(PLIST_LOC, PLIST_IGNORE, PLIST_LOC, PLIST_COMMA),

@@ -550,6 +550,20 @@ void resolve_impl(VM* vm) {
     next(vm);
 }
 
+void label_impl(VM* vm) {
+     VM_PUSH_ARG(vm, cref_value(compiler_pos(&vm->compiler), 0));
+    next(vm);
+}
+
+void to_label_impl(VM* vm) {
+    VALUE jnode_val, label_val;
+    VM_TPOP_ARG(&jnode_val, vm, CREF_TYPE);
+    VM_TPOP_ARG(&label_val, vm, CREF_TYPE);
+    
+    resolve_jump((ANODE*)jnode_val.data.cref.ptr, (ANODE*)label_val.data.cref.ptr);
+    next(vm);
+}
+
 #define PLIST_PROGRAM_SET(X) {.fp = &X ## _impl}
 
 const PNODE primitives[] = {
