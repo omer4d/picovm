@@ -48,10 +48,6 @@ defmacro repeat
 end
 
 defmacro test
-	label:
-	not ?jump
-	! swap
-	jump to-label
-resolve:
+	while dup 10 < do 1 + repeat
 end
 

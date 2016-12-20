@@ -377,6 +377,7 @@ void get_impl(VM* vm) {
 
 void set_impl(VM* vm) {
     VALUE key, item;
+    VM_POP_ARG(&item, vm);
     VM_POP_ARG(&key, vm);
     
     map_put(&vm->global_scope->map, &key, &item);
@@ -474,6 +475,11 @@ void end_compilation_impl(VM* vm) {
     char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
     VALUE func_val = func_value(end_compilation(&vm->compiler, name_str), vm->func_meta, name_str);
     map_put(&vm->global_scope->map, &func_name, &func_val);
+    next(vm);
+}
+
+void create_object_impl(VM* vm) {
+    VM_PUSH_ARG(vm, ((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)create_object(vm->default_meta)}));
     next(vm);
 }
 

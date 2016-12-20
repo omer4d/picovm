@@ -69,12 +69,16 @@ T(setmac)  N("setmac")   S   \
 T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
 TN(load)                S  \
+                            \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \
 T(compile_literal)     N("compile-literal")  S   \
 T(compile_call)        N("compile-call")     S   \
 T(begin_compilation)   N("")                 S   \
-T(end_compilation)     N("")
+T(end_compilation)     N("")                 S   \
+                                             \
+                                             \
+T(create_object)       N("{}")
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
 T(read_string)         N("\"")               S   \
