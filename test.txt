@@ -32,3 +32,26 @@ defmacro else
     swap
 	# resolve:
 end
+
+defmacro while
+	# label:
+end
+
+defmacro do
+	## not # ?jump
+end
+
+defmacro repeat
+  swap
+  # jump  # to-label
+  # resolve:
+end
+
+defmacro test
+	label:
+	not ?jump
+	! swap
+	jump to-label
+resolve:
+end
+
