@@ -25,6 +25,8 @@ TN(nil)                 S   \
 TN(dup)                 S   \
 TN(swap)                S   \
 TN(drop)                S   \
+TN(dupi)                S   \
+TN(swapi)               S   \
 T(push)    N("")         S   \
 				            \
 				            \

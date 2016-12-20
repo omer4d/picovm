@@ -44,8 +44,10 @@ do {\
 
 #define VM_PUSH_ARG(vm, x)\
 do {\
-    if((vm)->arg_sp < (vm)->arg_stack + ARG_STACK_SIZE)\
-        *((vm)->arg_sp++) = (x);\
+    if((vm)->arg_sp < (vm)->arg_stack + ARG_STACK_SIZE) {\
+        *((vm)->arg_sp) = (x);\
+        ++(vm)->arg_sp;\
+    }\
     else {\
         vm_signal_error((vm), "Argument stack overflow", __func__);\
         return;\
@@ -137,6 +139,31 @@ void drop_impl(VM* vm) {
     VM_POP_ARG(&t, vm);
     next(vm);
 }
+
+void dupi_impl(VM* vm) {
+    VALUE i;
+    VM_TPOP_ARG(&i, vm, NUM_TYPE);
+    long long idx = (long long)i.data.num;
+    vm_assert(vm, idx < 0, "index must be < 1");
+    vm_assert(vm, idx == i.data.num, "index must be a whole number!");
+    vm_assert(vm, vm->arg_sp + idx >= vm->arg_stack, "index out of bounds!");
+    VM_PUSH_ARG(vm, *(vm->arg_sp + idx));
+    next(vm);
+}
+
+void swapi_impl(VM* vm) {
+    VALUE i;
+    VM_TPOP_ARG(&i, vm, NUM_TYPE);
+    long long idx = (long long)i.data.num;
+    vm_assert(vm, idx < 0, "index must be < 1");
+    vm_assert(vm, idx == i.data.num, "index must be a whole number!");
+    vm_assert(vm, vm->arg_sp + idx >= vm->arg_stack, "index out of bounds!");   
+    VALUE tmp = *(vm->arg_sp - 1);
+    *(vm->arg_sp - 1) = *(vm->arg_sp + idx);
+    *(vm->arg_sp + idx) = tmp;
+    next(vm);
+}
+
 
 // ********
 // * Math *
