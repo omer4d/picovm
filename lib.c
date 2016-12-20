@@ -11,6 +11,8 @@ void init_lib(VM* vm) {
     FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta, "pcall");
     FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta, "dgetf");
     FUNC* dsetf_func = create_func(&primitives[dsetf_loc], vm->primitive_func_meta, "dsetf");
+    FUNC* delete_object_func = create_func(&primitives[delete_object_loc], vm->primitive_func_meta, "delete_object");
+    FUNC* detele_string_func = create_func(&primitives[delete_string_loc], vm->primitive_func_meta, "delete_string");
     FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta, "dcall");
     
     // DECLARE CALL
@@ -149,6 +151,7 @@ void init_lib(VM* vm) {
     //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);
     set_method(vm, vm->default_meta, "setf", dsetf_func);
+    set_method(vm, vm->default_meta, "delete", delete_object_func);
     set_method(vm, vm->func_meta, "call", dcall_func);
     set_method(vm, vm->primitive_func_meta, "call", pcall_func);
     

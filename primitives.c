@@ -399,6 +399,20 @@ void meta_impl(VM* vm) {
     next(vm);
 }
 
+void delete_string_impl(VM* vm) {
+    VALUE strval;
+    VM_TPOP_ARG(&strval, vm, STRING_TYPE);
+    destroy_string((STRING*)strval.data.obj);
+    next(vm);
+}
+
+void delete_object_impl(VM* vm) {
+    VALUE objval;
+    VM_TPOP_ARG(&objval, vm, OBJECT_TYPE);
+    destroy_object((OBJECT*)objval.data.obj);
+    next(vm);
+}
+
 // *********
 // * Misc. *
 // *********

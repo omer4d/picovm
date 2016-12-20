@@ -64,6 +64,8 @@ T(dcall)   N("")         S   \
 TN(meta)                S   \
 T(dgetf)   N("")         S   \
 T(dsetf)   N("")        S       \
+T(delete_string)  N("") S \
+T(delete_object)  N("") S \
 				            \
 				            \
 TN(get)                 S   \

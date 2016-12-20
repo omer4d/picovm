@@ -17,6 +17,13 @@ defun setf
 	getf call
 end
 
+defun delete
+	dup meta
+	' delete
+	swap
+	getf call
+end
+
 defmacro !call call end
 
 defmacro ! >> get # !call end
