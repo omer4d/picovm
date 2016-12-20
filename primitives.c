@@ -350,6 +350,16 @@ void dgetf_impl(VM* vm) {
     next(vm);
 }
 
+void dsetf_impl(VM* vm) {
+    VALUE objval, val, key;
+    VM_TPOP_ARG(&objval, vm, OBJECT_TYPE);
+    VM_POP_ARG(&val, vm);
+    VM_POP_ARG(&key, vm);
+    OBJECT* obj = (OBJECT*)objval.data.obj;
+    map_put(&obj->map, &key, &val);
+    next(vm);
+}
+
 void meta_impl(VM* vm) {
     VALUE objval;
     VM_POP_ARG(&objval, vm);

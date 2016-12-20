@@ -10,6 +10,13 @@ defmacro get setmac
 
 defmacro ' >> compile-literal end
 
+defun setf
+	dup meta
+	' setf
+	swap
+	getf call
+end
+
 defmacro !call call end
 
 defmacro ! >> get # !call end

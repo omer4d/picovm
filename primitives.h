@@ -61,6 +61,7 @@ T(dcall)   N("")         S   \
 				            \
 TN(meta)                S   \
 T(dgetf)   N("")         S   \
+T(dsetf)   N("")        S       \
 				            \
 				            \
 TN(get)                 S   \
@@ -76,8 +77,6 @@ T(compile_literal)     N("compile-literal")  S   \
 T(compile_call)        N("compile-call")     S   \
 T(begin_compilation)   N("")                 S   \
 T(end_compilation)     N("")                 S   \
-                                             \
-                                             \
 T(create_object)       N("{}")
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \

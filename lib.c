@@ -10,6 +10,7 @@ void init_lib(VM* vm) {
     COMPILER* c = &vm->compiler;
     FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta, "pcall");
     FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta, "dgetf");
+    FUNC* dsetf_func = create_func(&primitives[dsetf_loc], vm->primitive_func_meta, "dsetf");
     FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta, "dcall");
     
     // DECLARE CALL
@@ -67,8 +68,8 @@ void init_lib(VM* vm) {
     PNODE* call = end_compilation(c, "call");
 
     register_func(vm, call, "call", 0);
-
-
+    
+    
     // BEGIN RUN
     begin_compilation(c);
     compile_call(c, call);
@@ -147,6 +148,7 @@ void init_lib(VM* vm) {
     
     //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);
+    set_method(vm, vm->default_meta, "setf", dsetf_func);
     set_method(vm, vm->func_meta, "call", dcall_func);
     set_method(vm, vm->primitive_func_meta, "call", pcall_func);
     
