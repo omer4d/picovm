@@ -1,47 +1,34 @@
-defun # >> >> compile-call >> compile-call compile-call end
+defun # >> compile-call end
+>>
+# get setmac
 
->> # get setmac
+defun peek >> dup << end
 
-defun peek # >> dup # << end
+defun defmacro peek # defun get setmac end
+>>
+defmacro get setmac
 
->> peek get setmac
+defmacro ' >> compile-literal end
 
-defun defmacro # peek # defun get setmac end
+defmacro !call call end
 
->> defmacro get setmac
+defmacro ! >> get # !call end
 
-defmacro ' # >> # compile-literal end
+defmacro !>> >> end
 
-defmacro call! call end
-
-defmacro ! # >> get # call! end
-
-defmacro ## # >> # compile-literal ' compile # compile-call end
+defmacro ## >> compile-literal ' compile compile-call end
 
 defmacro if
 	## not
 	# ?jump
+end
 	
-	label:
-	# >> dup ' endif =
-	?jump
-		# compile
-	! swap
-	jump to-label
-	resolve:
-	drop
-	
-	
+defmacro endif
 	# resolve:
 end
 
-
-
-defun test
-	label:
-	not
-	?jump
-	! swap
-	jump to-label
-	resolve:
+defmacro else
+    # jump
+    swap
+	# resolve:
 end

@@ -68,16 +68,16 @@ TN(set)                 S   \
 T(setmac)  N("setmac")   S   \
 T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
-TN(load)
-
-#define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
-T(read_string)         N("\"")               S   \
+TN(load)                S  \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \
 T(compile_literal)     N("compile-literal")  S   \
 T(compile_call)        N("compile-call")     S   \
 T(begin_compilation)   N("")                 S   \
-T(end_compilation)     N("")                 S   \
+T(end_compilation)     N("")
+
+#define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
+T(read_string)         N("\"")               S   \
 T(jump_macro)          N("jump")             S   \
 T(cjump_macro)         N("?jump")            S   \
 T(resolve)             N("resolve:")         S   \
