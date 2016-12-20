@@ -60,6 +60,28 @@ defmacro /*
 	do repeat
 end
 
+/* now we can add C-style comments! */
+
+defmacro {
+	## {}
+	## dup
+	>> compile-literal
+	## swap
+end
+
+defmacro ;
+	## swap
+	## setf
+	## dup
+	>> compile-literal
+	## swap
+end
+
+defmacro }
+	## swap
+	## setf
+end
+
 defmacro test
 	while dup 10 < do 1 + repeat
 end
