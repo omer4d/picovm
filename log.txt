@@ -1,6 +1,5 @@
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
 
 About to execute: N/A
 
@@ -8,35 +7,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-<object>                                                     
-<object>                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-<object>                                                     
-<object>                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-<object>                                                     
-<object>                                                     
 '#                                                           
 
 About to execute: N/A
@@ -45,8 +15,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -54,8 +22,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -63,8 +29,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -72,8 +36,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -81,8 +43,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -90,8 +50,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 'defmacro                                                    
 
 About to execute: N/A
@@ -100,8 +58,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -109,8 +65,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -118,8 +72,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -127,8 +79,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -136,8 +86,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -145,8 +93,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -154,8 +100,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -163,8 +107,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -172,8 +114,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -181,8 +121,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -190,8 +128,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -199,8 +135,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -208,8 +142,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -217,8 +149,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -226,8 +156,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -235,8 +163,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -244,8 +170,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -253,8 +177,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -262,8 +184,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -271,8 +191,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -280,8 +198,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -289,8 +205,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -298,8 +212,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -307,8 +219,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -316,8 +226,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -325,8 +233,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -334,8 +240,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -343,8 +247,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -352,8 +254,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -361,8 +261,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
 
 About to execute: N/A
 
@@ -370,9 +268,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-<object>                                                     
-'foo                                                         
 
 About to execute: N/A
 
@@ -380,9 +275,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-'foo                                                         
-<object>                                                     
 
 About to execute: N/A
 
@@ -390,10 +282,7 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-'foo                                                         
-<object>                                                     
-666.000000                                                   
+123.000000                                                   
 
 About to execute: N/A
 
@@ -401,10 +290,8 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-'foo                                                         
-666.000000                                                   
-<object>                                                     
+123.000000                                                   
+123.000000                                                   
 
 About to execute: N/A
 
@@ -412,33 +299,9 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-<object>                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-<object>                                                     
-'foo                                                         
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-'foo                                                         
-<object>                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-666.000000                                                   
+123.000000                                                   
+123.000000                                                   
+246.000000                                                   
 
 About to execute: N/A
 

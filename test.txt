@@ -49,9 +49,15 @@ defmacro do
 end
 
 defmacro repeat
-  swap
-  # jump  # to-label
-  # resolve:
+	swap
+	# jump  # to-label
+	# resolve:
+end
+
+defmacro /*
+	while
+		>> ' */ = not
+	do repeat
 end
 
 defmacro test
