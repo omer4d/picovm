@@ -292,10 +292,7 @@ PNODE* pvm_compile(VM* vm) {
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    VALUE* old_arg_stack = vm->xc.arg_stack;
-    VALUE* old_arg_sp = vm->xc.arg_sp;
-    //VALUE* old_curr = vm->xc.curr;
-    
+    VM_EXECUTION_CONTEXT old_xc = vm->xc;
     vm->xc.arg_stack = vm->xc.arg_sp;
     pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
     
@@ -328,8 +325,7 @@ PNODE* pvm_compile(VM* vm) {
         }
     }
     
-    vm->xc.arg_stack = old_arg_stack;
-    vm->xc.arg_sp = old_arg_sp;
+    vm->xc = old_xc;
     
     if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
         abort_compilation(c);
