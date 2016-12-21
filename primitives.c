@@ -44,9 +44,9 @@ do {\
 
 #define VM_PUSH_ARG(vm, x)\
 do {\
-    if((vm)->arg_sp < (vm)->arg_stack + ARG_STACK_SIZE) {\
-        *((vm)->arg_sp) = (x);\
-        ++(vm)->arg_sp;\
+    if((vm)->xc.arg_sp < (vm)->xc.arg_stack + ARG_STACK_SIZE) {\
+        *((vm)->xc.arg_sp) = (x);\
+        ++(vm)->xc.arg_sp;\
     }\
     else {\
         vm_signal_error((vm), "Argument stack overflow", __func__);\
@@ -56,8 +56,8 @@ do {\
 
 #define VM_POP_ARG(out, vm)\
 do {\
-    if((vm)->arg_sp > (vm)->arg_stack)\
-        *(out) = *(--(vm)->arg_sp);\
+    if((vm)->xc.arg_sp > (vm)->xc.arg_stack)\
+        *(out) = *(--(vm)->xc.arg_sp);\
     else {\
         vm_signal_error((vm), "Argument stack underflow", __func__);\
         return;\
@@ -66,8 +66,8 @@ do {\
 
 #define VM_TPOP_ARG(out, vm, desired_type)\
 do {\
-    if((vm)->arg_sp > (vm)->arg_stack) {\
-        *(out) = *(--(vm)->arg_sp);\
+    if((vm)->xc.arg_sp > (vm)->xc.arg_stack) {\
+        *(out) = *(--(vm)->xc.arg_sp);\
         if((out)->type != (desired_type)) {\
             vm_signal_error((vm), "Bad argument type. Expected " #desired_type, __func__);\
             return;\
@@ -80,8 +80,8 @@ do {\
 }while(0)
 
 void next(VM* vm) {
-    ++vm->curr;
-    vm->instr = vm->curr->into->fp;
+    ++vm->xc.curr;
+    vm->instr = vm->xc.curr->into->fp;
 }
 
 void halt_impl(VM* vm) {
@@ -113,7 +113,7 @@ void nil_impl(VM* vm) {
 // **********************
 
 void push_impl(VM* vm) {
-    VM_PUSH_ARG(vm, (++vm->curr)->value);
+    VM_PUSH_ARG(vm, (++vm->xc.curr)->value);
     next(vm);
 }
 
@@ -146,8 +146,8 @@ void dupi_impl(VM* vm) {
     long long idx = (long long)i.data.num;
     vm_assert(vm, idx < 0, "index must be < 1");
     vm_assert(vm, idx == i.data.num, "index must be a whole number!");
-    vm_assert(vm, vm->arg_sp + idx >= vm->arg_stack, "index out of bounds!");
-    VM_PUSH_ARG(vm, *(vm->arg_sp + idx));
+    vm_assert(vm, vm->xc.arg_sp + idx >= vm->xc.arg_stack, "index out of bounds!");
+    VM_PUSH_ARG(vm, *(vm->xc.arg_sp + idx));
     next(vm);
 }
 
@@ -157,10 +157,10 @@ void swapi_impl(VM* vm) {
     long long idx = (long long)i.data.num;
     vm_assert(vm, idx < 0, "index must be < 1");
     vm_assert(vm, idx == i.data.num, "index must be a whole number!");
-    vm_assert(vm, vm->arg_sp + idx >= vm->arg_stack, "index out of bounds!");   
-    VALUE tmp = *(vm->arg_sp - 1);
-    *(vm->arg_sp - 1) = *(vm->arg_sp + idx);
-    *(vm->arg_sp + idx) = tmp;
+    vm_assert(vm, vm->xc.arg_sp + idx >= vm->xc.arg_stack, "index out of bounds!");   
+    VALUE tmp = *(vm->xc.arg_sp - 1);
+    *(vm->xc.arg_sp - 1) = *(vm->xc.arg_sp + idx);
+    *(vm->xc.arg_sp + idx) = tmp;
     next(vm);
 }
 
@@ -296,9 +296,9 @@ void not_impl(VM* vm) {
 // *************
 
 void jump_impl(VM* vm) {
-    ++vm->curr;
-	vm->curr = vm->curr->into;
-	vm->instr = vm->curr->into->fp;
+    ++vm->xc.curr;
+	vm->xc.curr = vm->xc.curr->into;
+	vm->instr = vm->xc.curr->into->fp;
 }
 
 void cjump_impl(VM* vm) {
@@ -306,19 +306,19 @@ void cjump_impl(VM* vm) {
     VALUE c;
     VM_TPOP_ARG(&c, vm, BOOL_TYPE);
 	if(c.data.boolean) {
-        ++vm->curr;
-	    vm->curr = vm->curr->into;
-	    vm->instr = vm->curr->into->fp;
+        ++vm->xc.curr;
+	    vm->xc.curr = vm->xc.curr->into;
+	    vm->instr = vm->xc.curr->into->fp;
 	}
 	
 	else {
-		++vm->curr;
+		++vm->xc.curr;
 		next(vm);
 	}
 }
 
 void exit_impl(VM* vm) {
-    vm->curr = NULL;
+    vm->xc.curr = NULL;
     vm->instr = NULL;
 }
 
@@ -327,23 +327,23 @@ void exit_impl(VM* vm) {
 // ****************
 
 void enter_impl(VM* vm) {
-    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
-    *vm->ret_sp = vm->curr;
-    ++vm->ret_sp;
+    vm_assert(vm, vm->xc.ret_sp <= &vm->xc.ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
+    *vm->xc.ret_sp = vm->xc.curr;
+    ++vm->xc.ret_sp;
     
-    vm->curr = vm->curr->into;
+    vm->xc.curr = vm->xc.curr->into;
 	next(vm);
 }
 
 void leave_impl(VM* vm) {
-    vm_assert(vm, vm->ret_sp > vm->ret_stack, "Return stack underflow");
-    --vm->ret_sp;
-    vm->curr = *vm->ret_sp;
+    vm_assert(vm, vm->xc.ret_sp > vm->xc.ret_stack, "Return stack underflow");
+    --vm->xc.ret_sp;
+    vm->xc.curr = *vm->xc.ret_sp;
     next(vm);
 }
 
 void pcall_impl(VM* vm) { // call a primitive
-    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
+    vm_assert(vm, vm->xc.ret_sp <= &vm->xc.ret_stack[RET_STACK_SIZE - 1], "Return stack overflow");
     
     VALUE v;
     VM_TPOP_ARG(&v, vm, FUNC_TYPE);
@@ -351,13 +351,13 @@ void pcall_impl(VM* vm) { // call a primitive
 }
 
 void dcall_impl(VM* vm) { // call a function object
-    vm_assert(vm, vm->ret_sp <= &vm->ret_stack[RET_STACK_SIZE - 1], "Return stack_overflow");
-    *vm->ret_sp = vm->curr;
-    ++vm->ret_sp;
+    vm_assert(vm, vm->xc.ret_sp <= &vm->xc.ret_stack[RET_STACK_SIZE - 1], "Return stack_overflow");
+    *vm->xc.ret_sp = vm->xc.curr;
+    ++vm->xc.ret_sp;
     
     VALUE v;
     VM_TPOP_ARG(&v, vm, FUNC_TYPE);
-    vm->curr = ((FUNC*)v.data.obj)->pnode;
+    vm->xc.curr = ((FUNC*)v.data.obj)->pnode;
     next(vm);
 }
 
@@ -565,7 +565,7 @@ void load_impl(VM* vm) {
     VM_TPOP_ARG(&fn, vm, STRING_TYPE);
     FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
     FILE* old_in = vm->in;
-    PNODE const* old_curr = vm->curr;
+    PNODE const* old_curr = vm->xc.curr;
     
     vm->in = fp;
 
@@ -578,14 +578,14 @@ void load_impl(VM* vm) {
         
         if(vm->flags & (PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
             vm->in = old_in;
-            vm->curr = old_curr;
+            vm->xc.curr = old_curr;
             free(n);
             vm_assert(vm, 0, "Load aborted.");
         }
     }
     
     vm->in = old_in;
-    vm->curr = old_curr;
+    vm->xc.curr = old_curr;
     fclose(fp);
     next(vm);
 }

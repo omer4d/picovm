@@ -24,11 +24,12 @@ VM* create_vm() {
     vm->read_queue_start = 0;
     vm->read_queue_end = 0;
     
-    vm->arg_stack = vm->arg_stack_data;
-    vm->arg_sp = vm->arg_stack;
-    vm->ret_sp = vm->ret_stack;
+    vm->xc.arg_stack = vm->arg_stack_data;
+    vm->xc.ret_stack = vm->ret_stack_data;
+    vm->xc.arg_sp = vm->xc.arg_stack;
+    vm->xc.ret_sp = vm->xc.ret_stack;
     
-    vm->curr = NULL;
+    vm->xc.curr = NULL;
     vm->instr = NULL;
     
     vm->default_meta = create_object(NULL);
@@ -96,15 +97,15 @@ PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int pr
 }
 
 void push(VM* vm, VALUE x) {
-    ASSERT_PUSH(vm->arg_stack, vm->arg_sp, ARG_STACK_SIZE);
-    *vm->arg_sp = x;
-    ++vm->arg_sp;
+    ASSERT_PUSH(vm->xc.arg_stack, vm->xc.arg_sp, ARG_STACK_SIZE);
+    *vm->xc.arg_sp = x;
+    ++vm->xc.arg_sp;
 }
 
 VALUE pop(VM* vm) {
-    ASSERT_POP(vm->arg_stack, vm->arg_sp);
-    --vm->arg_sp;
-    return *vm->arg_sp;
+    ASSERT_POP(vm->xc.arg_stack, vm->xc.arg_sp);
+    --vm->xc.arg_sp;
+    return *vm->xc.arg_sp;
 }
 
 char* value_to_string(char* str, VALUE* sp) {
@@ -184,13 +185,12 @@ int pvm_test_flags(VM* vm, int f) {
 }
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
-    cc->curr = vm->curr;
-    cc->ret_sp = vm->ret_sp;
-    memcpy(cc->ret_stack, vm->ret_stack, RET_STACK_SIZE);
+    cc->curr = vm->xc.curr;
+    cc->ret_sp = vm->xc.ret_sp;
+    memcpy(cc->ret_stack, vm->xc.ret_stack, RET_STACK_SIZE);
 }
 
 void pvm_continue(VM_CONTINUATION_DATA* cc) {
-    
 }
 
 void print_debug_row(VM* vm, VALUE* asp, PNODE const** rsp) {
@@ -211,14 +211,14 @@ void print_debug_info(VM* vm) {
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
     
-    for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp - 1 || rsp < vm->ret_sp; ++rsp, ++asp) {
-        print_debug_row(vm, asp < vm->arg_sp ? asp : NULL, rsp < vm->ret_sp ? rsp : NULL);
+    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp - 1 || rsp < vm->xc.ret_sp; ++rsp, ++asp) {
+        print_debug_row(vm, asp < vm->xc.arg_sp ? asp : NULL, rsp < vm->xc.ret_sp ? rsp : NULL);
     }
     
-    rsp = &vm->curr;
-    print_debug_row(vm, asp < vm->arg_sp ? asp : NULL, *rsp ? rsp : NULL);
+    rsp = &vm->xc.curr;
+    print_debug_row(vm, asp < vm->xc.arg_sp ? asp : NULL, *rsp ? rsp : NULL);
     
-    vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
+    vm_log(vm, "\nAbout to execute: %s", vm->xc.curr ? lookup_debug_info(vm, vm->xc.curr->into) : "N/A");
     vm_log(vm, "\n\n\n\n");
     fflush(vm->log_stream);
 }
@@ -282,7 +282,7 @@ void program_unread(VM* vm, VALUE const* v) {
 void callf(VM* vm, VALUE v) {
     PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
     push(vm, v);
-    vm->curr = run;
+    vm->xc.curr = run;
     next(vm);
     loop(vm);
 }
@@ -292,10 +292,11 @@ PNODE* pvm_compile(VM* vm) {
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    VALUE* old_arg_stack = vm->arg_stack;
-    VALUE* old_arg_sp = vm->arg_sp;
+    VALUE* old_arg_stack = vm->xc.arg_stack;
+    VALUE* old_arg_sp = vm->xc.arg_sp;
+    //VALUE* old_curr = vm->xc.curr;
     
-    vm->arg_stack = vm->arg_sp;
+    vm->xc.arg_stack = vm->xc.arg_sp;
     pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
     
     begin_compilation(c);
@@ -327,8 +328,8 @@ PNODE* pvm_compile(VM* vm) {
         }
     }
     
-    vm->arg_stack = old_arg_stack;
-    vm->arg_sp = old_arg_sp;
+    vm->xc.arg_stack = old_arg_stack;
+    vm->xc.arg_sp = old_arg_sp;
     
     if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
         abort_compilation(c);
@@ -341,7 +342,7 @@ PNODE* pvm_compile(VM* vm) {
 }
 
 void pvm_run(VM* vm, PNODE* pn) {
-    vm->curr = pn;
+    vm->xc.curr = pn;
     next(vm);
     loop(vm);
     print_debug_info(vm);

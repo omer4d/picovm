@@ -26,6 +26,16 @@ typedef struct {
     PNODE const* curr;
 }VM_CONTINUATION_DATA;
 
+typedef struct {
+    VALUE* arg_stack;
+    VALUE* arg_sp;
+    
+    PNODE const** ret_stack;
+    PNODE const** ret_sp;
+    
+    PNODE const* curr;
+}VM_EXECUTION_CONTEXT;
+
 typedef struct VM_t {
     FILE* log_stream;
     FILE* in;
@@ -36,13 +46,10 @@ typedef struct VM_t {
     int read_queue_start, read_queue_end;
     
     VALUE arg_stack_data[ARG_STACK_SIZE];
-    VALUE* arg_stack;
-    VALUE* arg_sp;
+    PNODE const* ret_stack_data[RET_STACK_SIZE];
     
-    PNODE const* ret_stack[RET_STACK_SIZE];
-    PNODE const** ret_sp;
+    VM_EXECUTION_CONTEXT xc;
     
-    PNODE const* curr;
     CFUN instr;
     
     struct SYMBOL_t** sym_table;

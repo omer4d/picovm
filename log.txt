@@ -1,9 +1,402 @@
-Runtime error in 'plus_impl': Argument stack underflow
 ARG STACK                      CALL STACK                    
 _________________________________________
-                               eval                          
 
-About to execute: +
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'#                                                           
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+'defmacro                                                    
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+Compile time error in 'macro_qm_impl': Bad argument type. Expected FUNC_TYPE
+Compile time error in 'swap_impl': Argument stack underflow
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               run                           
+                               call                          
+                               defun                         
+                               run                           
+                               call                          
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               run                           
+                               call                          
+                               defun                         
+                               run                           
+                               call                          
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       run                           
+                               call                          
+                               defun                         
+                               run                           
+                               call                          
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+10.000000                      run                           
+                               call                          
+                               defun                         
+                               run                           
+                               call                          
+
+About to execute: N/A
 
 
 

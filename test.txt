@@ -92,6 +92,3 @@ end
 defmacro test
 	while dup 10 < do 1 + repeat
 end
-
-
-defun kaka crap end
