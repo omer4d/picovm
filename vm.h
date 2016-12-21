@@ -21,7 +21,8 @@ struct FUNC_t;
 #define PVM_USER_HALT 4
 
 typedef struct {
-    PNODE const* ret_stack[RET_STACK_SIZE];
+    PNODE const* ret_stack_data[RET_STACK_SIZE];
+    PNODE const** ret_stack;
     PNODE const** ret_sp;
     PNODE const* curr;
 }VM_CONTINUATION_DATA;
@@ -96,14 +97,13 @@ PNODE* pvm_compile(VM* vm);
 void pvm_run(VM* vm, PNODE* pnode);
 // Runs the provided function.
 // Side-effects:
-// - Input stream position: after the last character read
-// - Flags: may set the compile time error flag. Otherwise unchanged.
+// - Input stream position: unchanged
+// - Flags: sets or clears the runtime time error flag. Otherwise unchanged.
 // - Read Queue: undefined
-// - Compile-time argument stack: undefined
-// - Runtime argument stack: unchanged
-// - Continuation: unchanged
+// - Argument stack: undefined
+// - Continuation: undefined
 // - Global scope: undefined
-// - Compiler: unuchanged
+// - Compiler state: unchanged.
 
 
 
@@ -114,6 +114,7 @@ void pvm_set_flags(VM* vm, int f);
 void pvm_clear_flags(VM* vm, int f);
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm);
+void pvm_continue(VM* vm, VM_CONTINUATION_DATA* cc);
 
 VALUE program_read(VM* vm);
 void program_unread(VM* vm, VALUE const* v); 

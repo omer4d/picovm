@@ -1,20 +1,5 @@
 ARG STACK                      CALL STACK                    
 _________________________________________
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-1.000000                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
 1.000000                                                     
 2.000000                                                     
 
@@ -30,31 +15,17 @@ About to execute: N/A
 
 
 
+Runtime error in 'plus_impl': Argument stack underflow
 ARG STACK                      CALL STACK                    
 _________________________________________
+                               eval                          
 
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
+About to execute: +
 
 
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-'kaka                                                        
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-'kaka                                                        
 
 About to execute: N/A
 

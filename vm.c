@@ -186,11 +186,9 @@ int pvm_test_flags(VM* vm, int f) {
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
     cc->curr = vm->xc.curr;
+    cc->ret_stack = vm->xc.ret_stack;
     cc->ret_sp = vm->xc.ret_sp;
-    memcpy(cc->ret_stack, vm->xc.ret_stack, RET_STACK_SIZE);
-}
-
-void pvm_continue(VM_CONTINUATION_DATA* cc) {
+    memcpy(cc->ret_stack_data, vm->ret_stack_data, RET_STACK_SIZE);
 }
 
 void print_debug_row(VM* vm, VALUE* asp, PNODE const** rsp) {
@@ -223,7 +221,7 @@ void print_debug_info(VM* vm) {
     fflush(vm->log_stream);
 }
 
-void loop(VM* vm) {
+void pvm_loop(VM* vm) {
     //printf("Initial state: ");
     //print_debug_info(vm);
     
@@ -284,7 +282,7 @@ void callf(VM* vm, VALUE v) {
     push(vm, v);
     vm->xc.curr = run;
     next(vm);
-    loop(vm);
+    pvm_loop(vm);
 }
 
 VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm) {
@@ -347,13 +345,22 @@ PNODE* pvm_compile(VM* vm) {
 }
 
 void pvm_run(VM* vm, PNODE* pn) {
+    pvm_clear_flags(vm, PVM_RUNTIME_ERROR);
     vm->xc.curr = pn;
     next(vm);
-    loop(vm);
+    pvm_loop(vm);
 }
 
 void pvm_resume(VM* vm) {
+    pvm_clear_flags(vm, PVM_USER_HALT);
     next(vm);
-    loop(vm);
-    print_debug_info(vm);
+    pvm_loop(vm);
+}
+
+void pvm_continue(VM* vm, VM_CONTINUATION_DATA* cc) {
+    vm->xc.curr = cc->curr;
+    vm->xc.ret_stack = cc->ret_stack;
+    vm->xc.ret_sp = cc->ret_sp;
+    memcpy(vm->ret_stack_data, cc->ret_stack_data, RET_STACK_SIZE);
+    pvm_loop(vm);
 }
