@@ -24,6 +24,7 @@ VM* create_vm() {
     vm->read_queue_start = 0;
     vm->read_queue_end = 0;
     
+    vm->arg_stack = vm->arg_stack_data;
     vm->arg_sp = vm->arg_stack;
     vm->ret_sp = vm->ret_stack;
     
@@ -146,7 +147,7 @@ char const* lookup_debug_info(VM* vm, PNODE const* pnode) {
     }
 }
 
-void vm_log(VM* vm, char const *fmt, ...) { 
+void vm_log(VM* vm, char const *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
     vprintf(fmt, ap);
@@ -169,6 +170,15 @@ void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
     }
 }
 
+void pvm_set_flags(VM* vm, int f) {
+    vm->flags |= f;
+}
+
+void pvm_clear_flags(VM* vm, int f) {
+    vm->flags &= ~f;
+}
+
+
 int pvm_test_flags(VM* vm, int f) {
     return vm->flags & f; 
 }
@@ -183,23 +193,32 @@ void pvm_continue(VM_CONTINUATION_DATA* cc) {
     
 }
 
+void print_debug_row(VM* vm, VALUE* asp, PNODE const** rsp) {
+    char tmp[256] = {};
+    
+    if(rsp && asp)
+        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
+    else if(rsp)
+        vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
+    else if(asp)
+        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
+}
+
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
-    char tmp[256] = {};
     
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
-    for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp || rsp < vm->ret_sp; ++rsp, ++asp) {
-        if(rsp < vm->ret_sp && asp < vm->arg_sp)
-            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
-        else if(rsp < vm->ret_sp)
-            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
-        else
-            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
-    }
-    vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     
+    for(asp = vm->arg_stack, rsp = vm->ret_stack; asp < vm->arg_sp - 1 || rsp < vm->ret_sp; ++rsp, ++asp) {
+        print_debug_row(vm, asp < vm->arg_sp ? asp : NULL, rsp < vm->ret_sp ? rsp : NULL);
+    }
+    
+    rsp = &vm->curr;
+    print_debug_row(vm, asp < vm->arg_sp ? asp : NULL, *rsp ? rsp : NULL);
+    
+    vm_log(vm, "\nAbout to execute: %s", vm->curr ? lookup_debug_info(vm, vm->curr->into) : "N/A");
     vm_log(vm, "\n\n\n\n");
     fflush(vm->log_stream);
 }
@@ -260,15 +279,27 @@ void program_unread(VM* vm, VALUE const* v) {
     vm->read_buff[(vm->read_queue_end++) % READ_BUFF_SIZE] = *v;
 }
 
+void callf(VM* vm, VALUE v) {
+    PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
+    push(vm, v);
+    vm->curr = run;
+    next(vm);
+    loop(vm);
+}
+
 PNODE* pvm_compile(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
+    VALUE* old_arg_stack = vm->arg_stack;
+    VALUE* old_arg_sp = vm->arg_sp;
+    
+    vm->arg_stack = vm->arg_sp;
+    pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
     
     begin_compilation(c);
-    for(tt = next_tok(tok, vm->in); tt != TOK_END; tt = next_tok(tok, vm->in)) {
+    for(tt = next_tok(tok, vm->in); tt != TOK_END && !pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR); tt = next_tok(tok, vm->in)) {
         switch(tt) {
             case TOK_WORD:
                 key = symbol_value(vm, tok);
@@ -281,34 +312,32 @@ PNODE* pvm_compile(VM* vm) {
                 }else {
                     FUNC* f = (FUNC*)item.data.obj;
                     
-                    if(f->is_macro) {
-                        push(vm, item);
-                        vm->curr = run;
-                        next(vm);
-                        loop(vm);
-                        if(vm->flags & PVM_COMPILE_TIME_ERROR) {
-                            reset_compiler(&vm->compiler);
-                            return NULL;
-                        }
-                    }
-                    
-                    else {
+                    if(f->is_macro)
+                        callf(vm, item);
+                    else
                         compile_call(c, f->pnode);
-                    }
                 }
                 break;
             case TOK_NUM:
                 compile_literal(c, parse_num(tok));
                 break;
             default:
-                assert(0);
+                assert(!"Unhandled token type!");
                 break;
         }
     }
     
-    compile_call(c, &primitives[exit_loc]);
-    compile_call(c, &primitives[leave_loc]);
-    return end_compilation(c, "eval");
+    vm->arg_stack = old_arg_stack;
+    vm->arg_sp = old_arg_sp;
+    
+    if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
+        abort_compilation(c);
+        return NULL;
+    }else {
+        compile_call(c, &primitives[exit_loc]);
+        compile_call(c, &primitives[leave_loc]);
+        return end_compilation(c, "eval");
+    }
 }
 
 void pvm_run(VM* vm, PNODE* pn) {

@@ -35,7 +35,8 @@ typedef struct VM_t {
     VALUE read_buff[READ_BUFF_SIZE];
     int read_queue_start, read_queue_end;
     
-    VALUE arg_stack[ARG_STACK_SIZE];
+    VALUE arg_stack_data[ARG_STACK_SIZE];
+    VALUE* arg_stack;
     VALUE* arg_sp;
     
     PNODE const* ret_stack[RET_STACK_SIZE];
@@ -78,13 +79,12 @@ PNODE* pvm_compile(VM* vm);
 // Return value: a pointer to the beginning of the compiled (sub)program
 // Side-effects:
 // - Input stream position: after the last character read
-// - Flags: may set the compile time error flag. Otherwise unchanged.
+// - Flags: sets or clears the compile time error flag. Otherwise unchanged.
 // - Read Queue: undefined
-// - Compile-time argument stack: undefined
-// - Runtime argument stack: unchanged
+// - Argument stack: unchanged
 // - Continuation: unchanged
 // - Global scope: undefined
-// - Compiler: unuchanged
+// - Compiler state: unuchanged
 
 
 void pvm_run(VM* vm, PNODE* pnode);
@@ -103,6 +103,8 @@ void pvm_run(VM* vm, PNODE* pnode);
 
 void pvm_resume(VM* vm);
 int pvm_test_flags(VM* vm, int f);
+void pvm_set_flags(VM* vm, int f);
+void pvm_clear_flags(VM* vm, int f);
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm);
 
