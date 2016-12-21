@@ -1,6 +1,5 @@
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
 
 About to execute: N/A
 
@@ -8,33 +7,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
-10.000000                                                    
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-2.000000                                                     
-
-About to execute: N/A
-
-
-
-Compile time error in 'macro_qm_impl': Bad argument type. Expected FUNC_TYPE
-ARG STACK                      CALL STACK                    
-_________________________________________
-2.000000                                                     
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-2.000000                                                     
 1.000000                                                     
 
 About to execute: N/A
@@ -43,7 +15,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
 1.000000                                                     
 2.000000                                                     
 
@@ -53,9 +24,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
-1.000000                                                     
-2.000000                                                     
 3.000000                                                     
 
 About to execute: N/A
@@ -64,9 +32,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
-1.000000                                                     
-5.000000                                                     
 
 About to execute: N/A
 
@@ -74,8 +39,6 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-2.000000                                                     
-6.000000                                                     
 
 About to execute: N/A
 
@@ -83,16 +46,15 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-8.000000                                                     
+'kaka                                                        
 
 About to execute: N/A
 
 
 
-Compile time error in 'macro_qm_impl': Bad argument type. Expected FUNC_TYPE
 ARG STACK                      CALL STACK                    
 _________________________________________
-8.000000                                                     
+'kaka                                                        
 
 About to execute: N/A
 

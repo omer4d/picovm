@@ -565,27 +565,27 @@ void load_impl(VM* vm) {
     VM_TPOP_ARG(&fn, vm, STRING_TYPE);
     FILE* fp = fopen(((STRING*)fn.data.obj)->data, "r");
     FILE* old_in = vm->in;
-    PNODE const* old_curr = vm->xc.curr;
     
     vm->in = fp;
 
-    while(!feof(vm->in)) {
+    VM_EXECUTION_CONTEXT old_xc = pvm_protect_xc(vm);
+    
+    while(!feof(vm->in) && !pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
         PNODE* n = pvm_compile(vm);
         if(n) {
             pvm_run(vm, n);
             free(n);
         }
-        
-        if(vm->flags & (PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
-            vm->in = old_in;
-            vm->xc.curr = old_curr;
-            free(n);
-            vm_assert(vm, 0, "Load aborted.");
-        }
     }
     
+    vm->xc = old_xc;
     vm->in = old_in;
-    vm->xc.curr = old_curr;
+    
+    if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+        pvm_clear_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR);
+        vm_assert(vm, 0, "Load aborted.");
+    }
+    
     fclose(fp);
     next(vm);
 }

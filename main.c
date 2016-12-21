@@ -37,8 +37,10 @@ int main() {
         switch(mode) {
             case REPL:
                 n = pvm_compile(vm);
-                if(n)
+                if(n) {
                     pvm_run(vm, n);
+                    print_debug_info(vm);
+                }
                 break;
             case RESUME:
                 pvm_resume(vm);
@@ -77,6 +79,7 @@ int main() {
         }
     }
 
+    printf("the end!");
     //getchar();
     //fclose(f);
     destroy_vm(vm);

@@ -287,13 +287,20 @@ void callf(VM* vm, VALUE v) {
     loop(vm);
 }
 
+VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm) {
+    VM_EXECUTION_CONTEXT old_xc = vm->xc;
+    vm->xc.arg_stack = vm->xc.arg_sp;
+    vm->xc.ret_stack = vm->xc.ret_sp;
+    return old_xc;
+}
+
 PNODE* pvm_compile(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     VALUE key, item;
     COMPILER* c = &vm->compiler;
-    VM_EXECUTION_CONTEXT old_xc = vm->xc;
-    vm->xc.arg_stack = vm->xc.arg_sp;
+    VM_EXECUTION_CONTEXT old_xc = pvm_protect_xc(vm);
+    int old_ucc = unfinished_compilation_count(c);
     pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
     
     begin_compilation(c);
@@ -328,7 +335,9 @@ PNODE* pvm_compile(VM* vm) {
     vm->xc = old_xc;
     
     if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
-        abort_compilation(c);
+        while(unfinished_compilation_count(c) != old_ucc) {
+            drop_compilation(c);
+        }
         return NULL;
     }else {
         compile_call(c, &primitives[exit_loc]);
@@ -341,7 +350,6 @@ void pvm_run(VM* vm, PNODE* pn) {
     vm->xc.curr = pn;
     next(vm);
     loop(vm);
-    print_debug_info(vm);
 }
 
 void pvm_resume(VM* vm) {

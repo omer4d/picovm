@@ -67,6 +67,10 @@ void reset_compiler(COMPILER* c) {
     init_compiler(c);
 }
 
+int unfinished_compilation_count(COMPILER* c) {
+    return c->program_sp - c->program_stack;
+}
+
 void begin_compilation(COMPILER* c) {
     ASSERT_PUSH(c->program_stack, c->program_sp, PROGRAM_STACK_SIZE);
     init_program(c->program_sp++);
@@ -111,7 +115,7 @@ void perform_tco(PROGRAM* prog) {
     }
 }
 
-void abort_compilation(COMPILER* c) {
+void drop_compilation(COMPILER* c) {
     ASSERT_POP(c->program_stack, c->program_sp);
     cleanup_program(--c->program_sp);
 }

@@ -91,8 +91,7 @@ PNODE* pvm_compile(VM* vm);
 // - Argument stack: unchanged
 // - Continuation: unchanged
 // - Global scope: undefined
-// - Compiler state: unuchanged
-
+// - Compiler state: unchanged.
 
 void pvm_run(VM* vm, PNODE* pnode);
 // Runs the provided function.
@@ -108,6 +107,7 @@ void pvm_run(VM* vm, PNODE* pnode);
 
 
 
+VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm);
 void pvm_resume(VM* vm);
 int pvm_test_flags(VM* vm, int f);
 void pvm_set_flags(VM* vm, int f);

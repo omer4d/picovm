@@ -46,9 +46,10 @@ typedef struct COMPILER_t {
 void init_compiler(COMPILER* c);
 void cleanup_compiler(COMPILER* c);
 void reset_compiler(COMPILER* c);
+int unfinished_compilation_count(COMPILER* c);
 
 void begin_compilation(COMPILER* c);
-void abort_compilation(COMPILER* c);
+void drop_compilation(COMPILER* c);
 PNODE* end_compilation(COMPILER* c, char const* context_name);
 
 void compile_call(COMPILER* c, PNODE const* into);
