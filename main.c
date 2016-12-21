@@ -39,6 +39,7 @@ void loop() {
     while(!feof(vm->in)) {
         switch(mode) {
             case REPL:
+                printf(">");
                 n = pvm_compile(vm);
                 if(n) {
                     pvm_run(vm, n);
@@ -53,7 +54,10 @@ void loop() {
                 break;
         }
         
-        if(pvm_test_flags(vm, PVM_USER_HALT))
+        if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+            fflush(stdin);
+        }
+        else if(pvm_test_flags(vm, PVM_USER_HALT))
             mode = show_halt_menu();
         else {
             free(n);

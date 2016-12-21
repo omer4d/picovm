@@ -171,6 +171,23 @@ void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
     }
 }
 
+void vm_vsignal_error(VM* vm, char const *fmt0, ...) {
+    char* prelude = compiler_is_compiling(&vm->compiler) ? "Compile time error: " : "Runtime error: ";
+    char fmt[256];
+    snprintf(fmt, 256, "%s %s", prelude, fmt0);
+    
+    vm->flags |= compiler_is_compiling(&vm->compiler) ? PVM_COMPILE_TIME_ERROR : PVM_RUNTIME_ERROR;
+    
+    va_list ap;
+    va_start(ap, fmt0);
+    vprintf(fmt, ap);
+    va_end(ap);
+    va_start(ap, fmt0);
+    vfprintf(vm->log_stream, fmt, ap);
+    va_end(ap);
+}
+
+
 void pvm_set_flags(VM* vm, int f) {
     vm->flags |= f;
 }
@@ -309,9 +326,9 @@ PNODE* pvm_compile(VM* vm) {
                 map_get(&item, &vm->global_scope->map, &key);
                 
                 if(value_is_nil(&item)) {
-                    printf("Undefined function '%s'.\n", tok);
+                    vm_vsignal_error(vm, "Undefined function '%s'.\n", tok);
                 }else if(item.type != FUNC_TYPE) {
-                    printf("'%s' is not a function.\n", tok);
+                    vm_vsignal_error(vm, "'%s' is not a function.\n", tok);
                 }else {
                     FUNC* f = (FUNC*)item.data.obj;
                     
