@@ -10,6 +10,7 @@
 #include "lib.h"
 
 #include "value.h"
+#include "func.h"
 
 typedef enum {
     REPL, RESUME, RESTART

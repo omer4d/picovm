@@ -21,6 +21,7 @@ VM* create_vm() {
     vm->log_stream = fopen("log.txt", "w+");
     vm->in = stdin;
     
+    vm->flags = 0;
     vm->read_queue_start = 0;
     vm->read_queue_end = 0;
     
@@ -194,6 +195,7 @@ void print_debug_row(VM* vm, VALUE* asp, PNODE const** rsp) {
         vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
 }
 
+
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
@@ -201,7 +203,7 @@ void print_debug_info(VM* vm) {
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
     
-    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp - 1 || rsp < vm->xc.ret_sp; ++rsp, ++asp) {
+    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp || rsp < vm->xc.ret_sp; ++rsp, ++asp) {
         print_debug_row(vm, asp < vm->xc.arg_sp ? asp : NULL, rsp < vm->xc.ret_sp ? rsp : NULL);
     }
     
@@ -212,6 +214,39 @@ void print_debug_info(VM* vm) {
     vm_log(vm, "\n\n\n\n");
     fflush(vm->log_stream);
 }
+
+
+//void print_debug_info(VM* vm) {
+//    VALUE* asp;
+//    PNODE const** rsp;
+//    char tmp[256] = {};
+//    
+//    vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
+//    vm_log(vm, "_________________________________________\n");
+//    
+//    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp && rsp < vm->xc.ret_sp; ++rsp, ++asp) {
+//        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
+//    }
+//    
+//    if(asp < vm->xc.arg_sp) {
+//        rsp = &vm->xc.curr;
+//        if(*rsp)
+//            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp++), find_compilation_context(&vm->compiler, *rsp));
+//        for(; asp < vm->xc.arg_sp; ++asp)
+//            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
+//    }
+//    
+//    /*
+//    else if(rsp < vm->xc.ret_sp) {
+//        vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, vm->xc.curr->into));
+//        for(; rsp < vm->xc.ret_sp; ++rsp)
+//            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
+//    }*/
+//    
+//    vm_log(vm, "\nAbout to execute: %s", vm->xc.curr ? lookup_debug_info(vm, vm->xc.curr->into) : "N/A");
+//    vm_log(vm, "\n\n\n\n");
+//    fflush(vm->log_stream);
+//}
 
 void pvm_loop(VM* vm) {
     //printf("Initial state: ");

@@ -124,7 +124,7 @@ PNODE* end_compilation(COMPILER* c, char const* context_name) {
     ASSERT_POP(c->program_stack, c->program_sp);
     PROGRAM* prog = curr_program(c);
     
-    perform_tco(prog);
+    //perform_tco(prog);
     
     PNODE* out = malloc(sizeof(PNODE) * prog->size + 1);
     PNODE* write_pos = out + 1;
@@ -171,19 +171,23 @@ PNODE* end_compilation(COMPILER* c, char const* context_name) {
     d->len = prog->size + 1;
     d->context_name = context_name;
     
+    //printf("context_name %s, %d %d\n", d->context_name, (int)d->start, (int)(d->start + d->len) - 1);
+    
     cleanup_program(--c->program_sp);
     return out;
 }
 
 char const* find_compilation_context(COMPILER* c, PNODE const* n) {
     int i;
+    char const* context_name = "unknown";
+    
     for(i = 0; i < c->debug_entry_num; ++i) {
         DEBUG_ENTRY* d = &c->debug_entries[i];
         if(n >= d->start && n < d->start + d->len)
-            return d->context_name;
+            context_name = d->context_name;
     }
     
-    return "unknown";
+    return context_name;
 }
 
 void compile_call(COMPILER* c, PNODE const* into) {

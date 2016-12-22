@@ -1,13 +1,3 @@
-Runtime error: : 123.000000
-ARG STACK                      CALL STACK                    
-_________________________________________
-                               eval                          
-
-About to execute: error
-
-
-
-Compile time error:  Undefined function '{'.
 ARG STACK                      CALL STACK                    
 _________________________________________
 
@@ -15,12 +5,47 @@ About to execute: N/A
 
 
 
-Runtime error: : <object>
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+3.000000                       eval                          
+                               foo                           
+                               bar                           
+
+About to execute: halt
+
+
+
+Runtime error in 'meta_impl': Bad argument type. Expected OBJECT_BASE.
 ARG STACK                      CALL STACK                    
 _________________________________________
                                eval                          
+                               foo                           
+                               bar                           
 
-About to execute: error
+About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
 
 
 
