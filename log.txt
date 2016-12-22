@@ -1,12 +1,6 @@
 ARG STACK                      CALL STACK                    
 _________________________________________
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
+1.000000                                                     
 
 About to execute: N/A
 
@@ -23,22 +17,60 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-3.000000                       eval                          
-                               foo                           
-                               bar                           
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
 
-About to execute: halt
+About to execute: N/A
 
 
 
-Runtime error in 'meta_impl': Bad argument type. Expected OBJECT_BASE.
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+Runtime error in 'plus_impl': Argument stack underflow
 ARG STACK                      CALL STACK                    
 _________________________________________
                                eval                          
                                foo                           
                                bar                           
 
-About to execute: meta
+About to execute: +
 
 
 
@@ -71,11 +103,48 @@ About to execute: N/A
 
 ARG STACK                      CALL STACK                    
 _________________________________________
-1.000000                       eval                          
-5.000000                       foo                           
-                               bar                           
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+4.000000                                                     
 
-About to execute: halt
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+4.000000                                                     
+5.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+4.000000                                                     
+5.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+4.000000                                                     
+5.000000                                                     
+
+About to execute: N/A
 
 
 
@@ -83,10 +152,22 @@ Runtime error in 'meta_impl': Bad argument type. Expected OBJECT_BASE.
 ARG STACK                      CALL STACK                    
 _________________________________________
 1.000000                       eval                          
-                               foo                           
-                               bar                           
+2.000000                       foo                           
+3.000000                       bar                           
+4.000000                                                     
 
 About to execute: meta
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+4.000000                                                     
+
+About to execute: N/A
 
 
 

@@ -184,69 +184,38 @@ void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
     memcpy(cc->ret_stack_data, vm->ret_stack_data, RET_STACK_SIZE);
 }
 
-void print_debug_row(VM* vm, VALUE* asp, PNODE const** rsp) {
-    char tmp[256] = {};
-    
-    if(rsp && asp)
-        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
-    else if(rsp)
-        vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
-    else if(asp)
-        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
-}
-
-
 void print_debug_info(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
+    char tmp[256] = {};
     
     vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
     vm_log(vm, "_________________________________________\n");
     
-    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp || rsp < vm->xc.ret_sp; ++rsp, ++asp) {
-        print_debug_row(vm, asp < vm->xc.arg_sp ? asp : NULL, rsp < vm->xc.ret_sp ? rsp : NULL);
+    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp && rsp < vm->xc.ret_sp; ++rsp, ++asp) {
+        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
     }
     
-    rsp = &vm->xc.curr;
-    print_debug_row(vm, asp < vm->xc.arg_sp ? asp : NULL, *rsp ? rsp : NULL);
+    if(asp < vm->xc.arg_sp) {
+        rsp = &vm->xc.curr;
+        if(*rsp)
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp++), find_compilation_context(&vm->compiler, *rsp));
+        for(; asp < vm->xc.arg_sp; ++asp)
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
+    }
+    
+    else if(rsp < vm->xc.ret_sp) {
+        for(; rsp < vm->xc.ret_sp; ++rsp)
+            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
+        rsp = &vm->xc.curr;
+        if(*rsp)
+            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
+    }
     
     vm_log(vm, "\nAbout to execute: %s", vm->xc.curr ? lookup_debug_info(vm, vm->xc.curr->into) : "N/A");
     vm_log(vm, "\n\n\n\n");
     fflush(vm->log_stream);
 }
-
-
-//void print_debug_info(VM* vm) {
-//    VALUE* asp;
-//    PNODE const** rsp;
-//    char tmp[256] = {};
-//    
-//    vm_log(vm, "%-30s %-30s\n", "ARG STACK", "CALL STACK");
-//    vm_log(vm, "_________________________________________\n");
-//    
-//    for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp && rsp < vm->xc.ret_sp; ++rsp, ++asp) {
-//        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
-//    }
-//    
-//    if(asp < vm->xc.arg_sp) {
-//        rsp = &vm->xc.curr;
-//        if(*rsp)
-//            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp++), find_compilation_context(&vm->compiler, *rsp));
-//        for(; asp < vm->xc.arg_sp; ++asp)
-//            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
-//    }
-//    
-//    /*
-//    else if(rsp < vm->xc.ret_sp) {
-//        vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, vm->xc.curr->into));
-//        for(; rsp < vm->xc.ret_sp; ++rsp)
-//            vm_log(vm, "%-30s %-30s\n", "", find_compilation_context(&vm->compiler, *rsp));
-//    }*/
-//    
-//    vm_log(vm, "\nAbout to execute: %s", vm->xc.curr ? lookup_debug_info(vm, vm->xc.curr->into) : "N/A");
-//    vm_log(vm, "\n\n\n\n");
-//    fflush(vm->log_stream);
-//}
 
 void pvm_loop(VM* vm) {
     //printf("Initial state: ");
