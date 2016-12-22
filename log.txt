@@ -44,8 +44,49 @@ About to execute: meta
 
 ARG STACK                      CALL STACK                    
 _________________________________________
+1.000000                                                     
 
 About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                                                     
+2.000000                                                     
+3.000000                                                     
+
+About to execute: N/A
+
+
+
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       eval                          
+5.000000                       foo                           
+                               bar                           
+
+About to execute: halt
+
+
+
+Runtime error in 'meta_impl': Bad argument type. Expected OBJECT_BASE.
+ARG STACK                      CALL STACK                    
+_________________________________________
+1.000000                       eval                          
+                               foo                           
+                               bar                           
+
+About to execute: meta
 
 
 

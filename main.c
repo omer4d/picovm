@@ -60,6 +60,7 @@ void loop() {
             //while(fgets(buff, 10, vm->in));
             free(n);
             fflush(stdin);
+            mode = REPL;
         }
         else if(pvm_test_flags(vm, PVM_USER_HALT))
             mode = show_halt_menu();
