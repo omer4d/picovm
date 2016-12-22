@@ -325,19 +325,19 @@ PNODE* pvm_compile(VM* vm) {
                 break;
         }
     }
-    
-    vm->xc = old_xc;
-    
+
     if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
+        print_debug_info(vm);
         while(unfinished_compilation_count(c) != old_ucc) {
             drop_compilation(c);
         }
-        return NULL;
     }else {
         compile_call(c, &primitives[exit_loc]);
         compile_call(c, &primitives[leave_loc]);
-        return end_compilation(c, "eval");
     }
+    
+    vm->xc = old_xc;
+    return pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR) ? NULL : end_compilation(c, "eval");
 }
 
 void pvm_run(VM* vm, PNODE* pn) {
