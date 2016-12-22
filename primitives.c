@@ -590,6 +590,16 @@ void load_impl(VM* vm) {
     next(vm);
 }
 
+void error_impl(VM* vm) {
+    VALUE e;
+    VM_POP_ARG(&e, vm);
+    char buff[256];
+    value_to_string(buff, &e);
+    vm_log(vm, "%s: %s\n", compiler_is_compiling(&vm->compiler) ? "Compile-time error" : "Runtime error", buff);
+    vm_signal_silent_error(vm);
+}
+
+
 void jump_macro_impl(VM* vm) {
     VM_PUSH_ARG(vm, cref_value(compile_jump(&vm->compiler), 0));
     next(vm);

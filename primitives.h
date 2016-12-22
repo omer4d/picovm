@@ -74,6 +74,7 @@ T(setmac)  N("setmac")   S   \
 T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
 TN(load)                S  \
+TN(error)               S   \
                             \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \

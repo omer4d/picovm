@@ -1,4 +1,7 @@
 #include "value.h"
+#include "func.h"
+#include "string.h"
+#include "symbol.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -35,6 +38,36 @@ int values_equal(VALUE const* a, VALUE const* b) {
                 assert(0);
         }
     }
+}
+
+char* value_to_string(char* str, VALUE* sp) {
+    switch(sp->type) {
+        case BOOL_TYPE:
+            sprintf(str, "%s", sp->data.boolean ? "true" : "false");
+            break;
+        case NUM_TYPE:
+            sprintf(str, "%f", sp->data.num);
+            break;
+        case FUNC_TYPE:
+            sprintf(str, "<function %s>", ((FUNC*)sp->data.obj)->name ? ((FUNC*)sp->data.obj)->name : "unknown");
+            break;
+        case STRING_TYPE:
+            sprintf(str, "\"%s\"", ((STRING*)sp->data.obj)->data);
+            break;
+        case SYMBOL_TYPE:
+            sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
+            break;
+        case OBJECT_TYPE:
+            sprintf(str, value_is_nil(sp) ? "nil" : "<object>");
+            break;
+        case CREF_TYPE:
+            sprintf(str, "<cref(%d) %x>", sp->data.cref.tag, sp->data.cref.ptr);
+            break;
+        default:
+            assert(0);
+    }
+    
+    return str;
 }
 
 unsigned int sax_hash(void const* data, int len) {

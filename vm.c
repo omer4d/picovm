@@ -108,36 +108,6 @@ VALUE pop(VM* vm) {
     return *vm->xc.arg_sp;
 }
 
-char* value_to_string(char* str, VALUE* sp) {
-    switch(sp->type) {
-        case BOOL_TYPE:
-            sprintf(str, "%s", sp->data.boolean ? "true" : "false");
-            break;
-        case NUM_TYPE:
-            sprintf(str, "%f", sp->data.num);
-            break;
-        case FUNC_TYPE:
-            sprintf(str, "<function %s>", ((FUNC*)sp->data.obj)->name ? ((FUNC*)sp->data.obj)->name : "unknown");
-            break;
-        case STRING_TYPE:
-            sprintf(str, "\"%s\"", ((STRING*)sp->data.obj)->data);
-            break;
-        case SYMBOL_TYPE:
-            sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
-            break;
-        case OBJECT_TYPE:
-            sprintf(str, value_is_nil(sp) ? "nil" : "<object>");
-            break;
-        case CREF_TYPE:
-            sprintf(str, "<cref(%d) %x>", sp->data.cref.tag, sp->data.cref.ptr);
-            break;
-        default:
-            assert(0);
-    }
-    
-    return str;
-}
-
 char const* lookup_debug_info(VM* vm, PNODE const* pnode) {
     if(pnode >= primitives && pnode < primitives + PRIMITIVE_NUM) {
         char const* public_name = primitive_names[pnode - primitives];
@@ -156,6 +126,11 @@ void vm_log(VM* vm, char const *fmt, ...) {
     va_start(ap, fmt);
     vfprintf(vm->log_stream, fmt, ap);
     va_end(ap);
+}
+
+void vm_signal_silent_error(VM* vm) {
+    vm->instr = NULL;
+    vm->flags |= compiler_is_compiling(&vm->compiler) ? PVM_COMPILE_TIME_ERROR : PVM_RUNTIME_ERROR;
 }
 
 void vm_signal_error(VM* vm, char const* msg, char const* primitive) {
@@ -363,6 +338,7 @@ PNODE* pvm_compile(VM* vm) {
 
 void pvm_run(VM* vm, PNODE* pn) {
     pvm_clear_flags(vm, PVM_RUNTIME_ERROR);
+    vm->xc.ret_sp = vm->xc.ret_stack;
     vm->xc.curr = pn;
     next(vm);
     pvm_loop(vm);

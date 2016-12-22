@@ -31,6 +31,7 @@ typedef struct {
 VALUE num_value(double x);
 VALUE cref_value(void* ptr, int tag);
 int values_equal(VALUE const* a, VALUE const* b); // returns 0 or 1
+char* value_to_string(char* str, VALUE* sp);
 unsigned int value_hash(VALUE const* v);
 int value_is_nil(VALUE const* v);
 

@@ -1,0 +1,26 @@
+Runtime error: : 123.000000
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               eval                          
+
+About to execute: error
+
+
+
+Compile time error:  Undefined function '{'.
+ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+Runtime error: : <object>
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               eval                          
+
+About to execute: error
+
+
+

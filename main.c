@@ -55,6 +55,9 @@ void loop() {
         }
         
         if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+            //char buff[10];
+            //while(fgets(buff, 10, vm->in));
+            free(n);
             fflush(stdin);
         }
         else if(pvm_test_flags(vm, PVM_USER_HALT))
