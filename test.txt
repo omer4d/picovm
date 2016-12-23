@@ -101,10 +101,3 @@ end
 defun nil?
   nil =
 end
-
-defun eval
-  while eol? not do
-    >> dup symbol?
-    if get call endif
-  repeat
-end

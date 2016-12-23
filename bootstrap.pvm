@@ -59,18 +59,30 @@ defmacro defun
 	program_read
 	begin_compilation
 	
-	label
-	program_read
-	dup ' end eq
-	if
-		drop
-	else
+	while
+	  program_read
+	  dup ' end eq not
+	do
 		compile
-		jump
-		resolve_to_label
-	endif
+	repeat
 	
+	drop
 	' leave compile
 	
 	end_compilation
+end
+
+defun setf
+   dup meta
+   ' setf
+   swap
+   getf
+   call
+end
+
+defun eval
+  while eol_qm not do
+		program_read dup type ' symbol eq
+		if get call endif
+  repeat
 end

@@ -44,12 +44,12 @@ void loop() {
                 n = pvm_compile(vm);
                 if(n) {
                     pvm_run(vm, n);
-                    print_debug_info(vm);
+                    pvm_trace(vm);
                 }
                 break;
             case RESUME:
                 pvm_resume(vm);
-                print_debug_info(vm);
+                pvm_trace(vm);
                 break;
             case RESTART:
                 break;

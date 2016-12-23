@@ -71,7 +71,7 @@ VM* create_vm();
 void destroy_vm(VM* vm);
 void push(VM* vm, VALUE x);
 VALUE pop(VM* vm);
-void print_debug_info(VM* vm);
+void pvm_trace(VM* vm);
 char* value_to_string(char* str, VALUE* sp);
 PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive);
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive);
@@ -112,6 +112,7 @@ void pvm_resume(VM* vm);
 int pvm_test_flags(VM* vm, int f);
 void pvm_set_flags(VM* vm, int f);
 void pvm_clear_flags(VM* vm, int f);
+void pvm_trace(VM* vm);
 
 void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm);
 void pvm_continue(VM* vm, VM_CONTINUATION_DATA* cc);

@@ -30,16 +30,16 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[eq_loc]);
 
     compile_call(c, &primitives[not_loc]);
-    ANODE* jump0 = compile_cjump(c);
+    ANODE* node0 = compile_cjump(c);
     compile_call(c, &primitives[drop_loc]);
     compile_call(c, &primitives[dgetf_loc]);
-    ANODE* jump1 = compile_jump(c);
-    resolve_jump(jump0, compiler_pos(c));
+    ANODE* node1 = compile_jump(c);
+    resolve_jump(node0, compiler_pos(c));
     compile_literal(c, symbol_value(vm, "index"));
     compile_call(c, &primitives[swap_loc]);
     compile_recur(c);
     compile_call(c, call_stub);
-    resolve_jump(jump1, compiler_pos(c));
+    resolve_jump(node1, compiler_pos(c));
 
     compile_call(c, &primitives[leave_loc]);
     PNODE* getf = end_compilation(c, "getf");
@@ -54,24 +54,24 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[eq_loc]);
 
     compile_call(c, &primitives[not_loc]);
-    ANODE* jump2 = compile_cjump(c);
+    ANODE* node2 = compile_cjump(c);
     compile_call(c, &primitives[pcall_loc]);
-    ANODE* jump3 = compile_jump(c);
-    resolve_jump(jump2, compiler_pos(c));
+    ANODE* node3 = compile_jump(c);
+    resolve_jump(node2, compiler_pos(c));
     compile_call(c, &primitives[dup_loc]);
     compile_call(c, &primitives[meta_loc]);
     compile_literal(c, symbol_value(vm, "call"));
     compile_call(c, &primitives[swap_loc]);
     compile_call(c, getf);
     compile_recur(c);
-    resolve_jump(jump3, compiler_pos(c));
+    resolve_jump(node3, compiler_pos(c));
 
     compile_call(c, &primitives[leave_loc]);
     PNODE* call = end_compilation(c, "call");
 
     register_func(vm, call, "call", 0);
-    
-    
+
+
     // BEGIN RUN
     begin_compilation(c);
     compile_call(c, call);
@@ -90,55 +90,49 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[eq_loc]);
 
     compile_call(c, &primitives[not_loc]);
-    ANODE* jump4 = compile_cjump(c);
+    ANODE* node4 = compile_cjump(c);
     compile_call(c, &primitives[compile_literal_loc]);
-    ANODE* jump5 = compile_jump(c);
-    resolve_jump(jump4, compiler_pos(c));
+    ANODE* node5 = compile_jump(c);
+    resolve_jump(node4, compiler_pos(c));
     compile_call(c, &primitives[dup_loc]);
     compile_call(c, &primitives[get_loc]);
     compile_call(c, &primitives[macro_qm_loc]);
     compile_call(c, &primitives[not_loc]);
 
     compile_call(c, &primitives[not_loc]);
-    ANODE* jump6 = compile_cjump(c);
+    ANODE* node6 = compile_cjump(c);
     compile_call(c, &primitives[compile_call_loc]);
-    ANODE* jump7 = compile_jump(c);
-    resolve_jump(jump6, compiler_pos(c));
+    ANODE* node7 = compile_jump(c);
+    resolve_jump(node6, compiler_pos(c));
     compile_call(c, &primitives[get_loc]);
     compile_call(c, call);
-    resolve_jump(jump7, compiler_pos(c));
+    resolve_jump(node7, compiler_pos(c));
 
-    resolve_jump(jump5, compiler_pos(c));
+    resolve_jump(node5, compiler_pos(c));
 
     compile_call(c, &primitives[leave_loc]);
     PNODE* compile = end_compilation(c, "compile");
 
     register_macro(vm, compile, "compile", 0);
 
-    
-    
-    
-    
+
     // BEGIN DEFUN
     begin_compilation(c);
     compile_call(c, &primitives[program_read_loc]);
     compile_call(c, &primitives[begin_compilation_loc]);
-    ANODE* lab0 = compiler_pos(c);
+    ANODE* node8 = compiler_pos(c);
     compile_call(c, &primitives[program_read_loc]);
     compile_call(c, &primitives[dup_loc]);
     compile_literal(c, symbol_value(vm, "end"));
     compile_call(c, &primitives[eq_loc]);
-
     compile_call(c, &primitives[not_loc]);
-    ANODE* jump8 = compile_cjump(c);
-    compile_call(c, &primitives[drop_loc]);
-    ANODE* jump9 = compile_jump(c);
-    resolve_jump(jump8, compiler_pos(c));
+    compile_call(c, &primitives[not_loc]);
+    ANODE* node9 = compile_cjump(c);
     compile_call(c, compile);
-    ANODE* jump10 = compile_jump(c);
-    resolve_jump(jump10, lab0);
-    resolve_jump(jump9, compiler_pos(c));
-
+    ANODE* node10 = compile_jump(c);
+    resolve_jump(node10, node8);
+    resolve_jump(node9, compiler_pos(c));
+    compile_call(c, &primitives[drop_loc]);
     compile_literal(c, symbol_value(vm, "leave"));
     compile_call(c, compile);
     compile_call(c, &primitives[end_compilation_loc]);
@@ -147,6 +141,49 @@ void init_lib(VM* vm) {
 
     register_macro(vm, defun, "defun", 0);
 
+
+    // BEGIN SETF
+    begin_compilation(c);
+    compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[meta_loc]);
+    compile_literal(c, symbol_value(vm, "setf"));
+    compile_call(c, &primitives[swap_loc]);
+    compile_call(c, getf);
+    compile_call(c, call);
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* setf = end_compilation(c, "setf");
+
+    register_func(vm, setf, "setf", 0);
+
+
+    // BEGIN EVAL
+    begin_compilation(c);
+    ANODE* node11 = compiler_pos(c);
+    compile_call(c, &primitives[eol_qm_loc]);
+    compile_call(c, &primitives[not_loc]);
+    compile_call(c, &primitives[not_loc]);
+    ANODE* node12 = compile_cjump(c);
+    compile_call(c, &primitives[program_read_loc]);
+    compile_call(c, &primitives[dup_loc]);
+    compile_call(c, &primitives[type_loc]);
+    compile_literal(c, symbol_value(vm, "symbol"));
+    compile_call(c, &primitives[eq_loc]);
+
+    compile_call(c, &primitives[not_loc]);
+    ANODE* node13 = compile_cjump(c);
+    compile_call(c, &primitives[get_loc]);
+    compile_call(c, call);
+    resolve_jump(node13, compiler_pos(c));
+
+    ANODE* node14 = compile_jump(c);
+    resolve_jump(node14, node11);
+    resolve_jump(node12, compiler_pos(c));
+    compile_call(c, &primitives[leave_loc]);
+    PNODE* eval = end_compilation(c, "eval");
+
+    register_func(vm, eval, "eval", 0);
+
+    
     
     //call_stub[2].into = &call[1];
     set_method(vm, vm->default_meta, "index", dgetf_func);

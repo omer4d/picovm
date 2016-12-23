@@ -184,7 +184,7 @@ void pvm_get_cc(VM_CONTINUATION_DATA* cc, VM* vm) {
     memcpy(cc->ret_stack_data, vm->ret_stack_data, RET_STACK_SIZE);
 }
 
-void print_debug_info(VM* vm) {
+void pvm_trace(VM* vm) {
     VALUE* asp;
     PNODE const** rsp;
     char tmp[256] = {};
@@ -321,7 +321,7 @@ PNODE* pvm_compile(VM* vm) {
     }
 
     if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
-        print_debug_info(vm);
+        pvm_trace(vm);
         while(unfinished_compilation_count(c) != old_ucc) {
             drop_compilation(c);
         }

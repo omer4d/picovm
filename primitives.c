@@ -619,6 +619,10 @@ void error_impl(VM* vm) {
     vm_signal_silent_error(vm);
 }
 
+void trace_impl(VM* vm) {
+    pvm_trace(vm);
+    next(vm);
+}
 
 void jump_macro_impl(VM* vm) {
     VM_PUSH_ARG(vm, cref_value(compile_jump(&vm->compiler), 0));

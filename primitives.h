@@ -75,6 +75,7 @@ T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
 TN(load)                S  \
 TN(error)               S   \
+TN(trace)               S   \
                             \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \
