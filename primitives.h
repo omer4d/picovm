@@ -78,6 +78,7 @@ TN(error)               S   \
                             \
 T(program_read)        N(">>")               S   \
 T(program_unread)      N("<<")               S   \
+T(eol_qm)              N("eol?")             S   \
 T(compile_literal)     N("compile-literal")  S   \
 T(compile_call)        N("compile-call")     S   \
 T(begin_compilation)   N("")                 S   \

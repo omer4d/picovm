@@ -508,6 +508,17 @@ void program_unread_impl(VM* vm) {
     next(vm);
 }
 
+void eol_qm_impl(VM* vm) {
+    VALUE v = program_read(vm);
+    if(value_is_nil(&v)) {
+        VM_PUSH_ARG(vm, PVM_TRUE);
+    }else {
+        program_unread(vm, &v);
+        VM_PUSH_ARG(vm, PVM_FALSE);
+    }
+    next(vm);
+}
+
 void compile_literal_impl(VM* vm) {
     VALUE v;
     VM_POP_ARG(&v, vm);
