@@ -245,27 +245,21 @@ VALUE program_read(VM* vm) {
     char tok[256];
     TOK_TYPE tt;
     
-    //vm_log(vm, "************ TRY TO READ *************\n");
-    
     if(vm->read_queue_end > vm->read_queue_start)
         return vm->read_buff[(vm->read_queue_start++) % READ_BUFF_SIZE];
     else {
-        do {
-            tt = next_tok(tok, vm->in);
-            //vm_log(vm, "************ READ %s (%d) *************\n", tok, tt);
-            
-            switch(tt) {
-                case TOK_WORD:
-                    return parse_word(vm, tok);
-                case TOK_NUM:
-                    return parse_num(tok);
-                default:
-                    break;
-            }
-        }while(!feof(vm->in));
-        
-        //vm_log(vm, "************ LAST READ %s (%d) *************\n", tok, tt);
-        assert(!"unexpected eof");
+        tt = next_tok(tok, vm->in);
+
+        switch(tt) {
+            case TOK_WORD:
+                return parse_word(vm, tok);
+            case TOK_NUM:
+                return parse_num(tok);
+            case TOK_END:
+                return PVM_NIL;
+            default:
+                assert(!"Unhandled token type!");
+        }
     }
 }
 

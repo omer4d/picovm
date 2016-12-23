@@ -487,9 +487,18 @@ void type_impl(VM* vm) {
 // ************
 
 void program_read_impl(VM* vm) {
-    VALUE v = program_read(vm);
-    VM_PUSH_ARG(vm, v);
-    next(vm);
+    VALUE v;
+    
+    do {
+        v = program_read(vm);
+        if(!value_is_nil(&v)) {
+            VM_PUSH_ARG(vm, v);
+            next(vm);
+            return;
+        }
+    }while(!feof(vm->in));
+    
+    vm_assert(vm, 0, "Unexpected eof!");
 }
 
 void program_unread_impl(VM* vm) {

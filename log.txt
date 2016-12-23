@@ -1,22 +1,21 @@
+Compile time error in 'program_read_impl': Unexpected eof!
+ARG STACK                      CALL STACK                    
+_________________________________________
+'foo                           run                           
+                               call                          
+                               call                          
+                               call                          
+                               defun                         
+
+About to execute: >>
+
+
+
+Runtime error in 'load_impl': Load aborted.
 ARG STACK                      CALL STACK                    
 _________________________________________
 
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-'foo                                                         
-
-About to execute: N/A
+About to execute: load
 
 
 

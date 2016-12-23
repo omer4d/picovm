@@ -17,6 +17,7 @@ defun setf
 	getf call
 end
 
+
 defun delete
 	dup meta
 	' delete
