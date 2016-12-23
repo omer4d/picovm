@@ -82,8 +82,10 @@ void load(char const* fn) {
                 break;
         }
 
-        if(pvm_test_flags(vm, PVM_USER_HALT))
+        if(pvm_test_flags(vm, PVM_USER_HALT)) {
+            pvm_trace(vm);
             mode = show_halt_menu();
+        }
         else {
             mode = REPL;
         }
