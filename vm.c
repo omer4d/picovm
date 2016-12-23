@@ -267,14 +267,17 @@ void program_unread(VM* vm, VALUE const* v) {
     vm->read_buff[(vm->read_queue_end++) % READ_BUFF_SIZE] = *v;
 }
 
-void callf(VM* vm, VALUE v) {
+void pvm_exec(VM* vm, VALUE v) {
     PNODE const* run = ((FUNC*)lookup_by_name(vm, "run").data.obj)->pnode;
+    reset_compiler(&vm->compiler);
+    vm->flags = 0;
+    vm->xc.ret_sp = vm->xc.ret_stack;
     push(vm, v);
     vm->xc.curr = run;
     next(vm);
     pvm_loop(vm);
 }
-
+//
 VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm) {
     VM_EXECUTION_CONTEXT old_xc = vm->xc;
     vm->xc.arg_stack = vm->xc.arg_sp;
@@ -282,57 +285,62 @@ VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm) {
     return old_xc;
 }
 
-PNODE* pvm_compile(VM* vm) {
-    char tok[256];
-    TOK_TYPE tt;
-    VALUE key, item;
-    COMPILER* c = &vm->compiler;
-    VM_EXECUTION_CONTEXT old_xc = pvm_protect_xc(vm);
-    int old_ucc = unfinished_compilation_count(c);
-    pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
-    
-    begin_compilation(c);
-    for(tt = next_tok(tok, vm->in); tt != TOK_END && !pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR); tt = next_tok(tok, vm->in)) {
-        switch(tt) {
-            case TOK_WORD:
-                key = symbol_value(vm, tok);
-                map_get(&item, &vm->global_scope->map, &key);
-                
-                if(value_is_nil(&item)) {
-                    vm_vsignal_error(vm, "Undefined function '%s'.\n", tok);
-                }else if(item.type != FUNC_TYPE) {
-                    vm_vsignal_error(vm, "'%s' is not a function.\n", tok);
-                }else {
-                    FUNC* f = (FUNC*)item.data.obj;
-                    
-                    if(f->is_macro)
-                        callf(vm, item);
-                    else
-                        compile_call(c, f->pnode);
-                }
-                break;
-            case TOK_NUM:
-                compile_literal(c, parse_num(tok));
-                break;
-            default:
-                assert(!"Unhandled token type!");
-                break;
-        }
-    }
-
-    if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
-        pvm_trace(vm);
-        while(unfinished_compilation_count(c) != old_ucc) {
-            drop_compilation(c);
-        }
-    }else {
-        compile_call(c, &primitives[exit_loc]);
-        compile_call(c, &primitives[leave_loc]);
-    }
-    
-    vm->xc = old_xc;
-    return pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR) ? NULL : end_compilation(c, "eval");
+void pvm_restore_xc(VM* vm, VM_EXECUTION_CONTEXT const* xc) {
+    vm->xc = *xc;
 }
+
+//
+//PNODE* pvm_compile(VM* vm) {
+//    char tok[256];
+//    TOK_TYPE tt;
+//    VALUE key, item;
+//    COMPILER* c = &vm->compiler;
+//    VM_EXECUTION_CONTEXT old_xc = pvm_protect_xc(vm);
+//    int old_ucc = unfinished_compilation_count(c);
+//    pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
+//    
+//    begin_compilation(c);
+//    for(tt = next_tok(tok, vm->in); tt != TOK_END && !pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR); tt = next_tok(tok, vm->in)) {
+//        switch(tt) {
+//            case TOK_WORD:
+//                key = symbol_value(vm, tok);
+//                map_get(&item, &vm->global_scope->map, &key);
+//                
+//                if(value_is_nil(&item)) {
+//                    vm_vsignal_error(vm, "Undefined function '%s'.\n", tok);
+//                }else if(item.type != FUNC_TYPE) {
+//                    vm_vsignal_error(vm, "'%s' is not a function.\n", tok);
+//                }else {
+//                    FUNC* f = (FUNC*)item.data.obj;
+//                    
+//                    if(f->is_macro)
+//                        callf(vm, item);
+//                    else
+//                        compile_call(c, f->pnode);
+//                }
+//                break;
+//            case TOK_NUM:
+//                compile_literal(c, parse_num(tok));
+//                break;
+//            default:
+//                assert(!"Unhandled token type!");
+//                break;
+//        }
+//    }
+//
+//    if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
+//        pvm_trace(vm);
+//        while(unfinished_compilation_count(c) != old_ucc) {
+//            drop_compilation(c);
+//        }
+//    }else {
+//        compile_call(c, &primitives[exit_loc]);
+//        compile_call(c, &primitives[leave_loc]);
+//    }
+//    
+//    vm->xc = old_xc;
+//    return pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR) ? NULL : end_compilation(c, "eval");
+//}
 
 void pvm_run(VM* vm, PNODE* pn) {
     pvm_clear_flags(vm, PVM_RUNTIME_ERROR);

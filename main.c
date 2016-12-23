@@ -17,7 +17,6 @@ typedef enum {
 }MODE;
 
 VM* vm;
-PNODE* n;
 
 MODE show_halt_menu() {
     printf("[1] Debug\n");
@@ -40,12 +39,9 @@ void loop() {
     while(!feof(vm->in)) {
         switch(mode) {
             case REPL:
-                printf(">");
-                n = pvm_compile(vm);
-                if(n) {
-                    pvm_run(vm, n);
-                    pvm_trace(vm);
-                }
+                vm_log(vm, ">");
+                pvm_exec(vm, lookup_by_name(vm, "eval"));
+                pvm_trace(vm);
                 break;
             case RESUME:
                 pvm_resume(vm);
@@ -56,16 +52,12 @@ void loop() {
         }
         
         if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
-            //char buff[10];
-            //while(fgets(buff, 10, vm->in));
-            free(n);
             fflush(stdin);
             mode = REPL;
         }
         else if(pvm_test_flags(vm, PVM_USER_HALT))
             mode = show_halt_menu();
         else {
-            free(n);
             mode = REPL;
         }
     }

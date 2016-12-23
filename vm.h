@@ -108,7 +108,10 @@ void pvm_run(VM* vm, PNODE* pnode);
 
 
 VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm);
+void pvm_restore_xc(VM* vm, VM_EXECUTION_CONTEXT const* xc);
+
 void pvm_resume(VM* vm);
+void pvm_exec(VM* vm, VALUE v);
 int pvm_test_flags(VM* vm, int f);
 void pvm_set_flags(VM* vm, int f);
 void pvm_clear_flags(VM* vm, int f);

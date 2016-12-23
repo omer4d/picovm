@@ -10,19 +10,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/stas/Desktop/picovm/main.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/primitives.h</file>
             <file>file:/C:/Users/stas/Desktop/picovm/object.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/func.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/lib.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/primitives.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/vm.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/symbol.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/compiler.h</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/value.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/main.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/map.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/vm.h</file>
             <file>file:/C:/Users/stas/Desktop/picovm/compiler.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/value.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/primitives.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/vm.c</file>
         </group>
     </open-files>
 </project-private>

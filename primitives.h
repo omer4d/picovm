@@ -73,7 +73,6 @@ TN(set)                 S   \
 T(setmac)  N("setmac")   S   \
 T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
-TN(load)                S  \
 TN(error)               S   \
 TN(trace)               S   \
                             \

@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/charstream.o \
 	${OBJECTDIR}/compiler.o \
 	${OBJECTDIR}/func.o \
 	${OBJECTDIR}/lib.o \
@@ -72,6 +73,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/picovm.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/picovm ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/charstream.o: charstream.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/charstream.o charstream.c
 
 ${OBJECTDIR}/compiler.o: compiler.c
 	${MKDIR} -p ${OBJECTDIR}

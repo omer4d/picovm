@@ -56,6 +56,13 @@ void init_compiler(COMPILER* c) {
     c->debug_entry_num = 0;
 }
 
+void clear_program_stack(COMPILER* c) {
+    PROGRAM* p;
+    for(p = c->program_stack; p < c->program_sp; ++p)
+        cleanup_program(p);
+    c->program_sp = c->program_stack;
+}
+
 void cleanup_compiler(COMPILER* c) {
     PROGRAM* p;
     for(p = c->program_stack; p < c->program_sp; ++p)
@@ -63,8 +70,7 @@ void cleanup_compiler(COMPILER* c) {
 }
 
 void reset_compiler(COMPILER* c) {
-    cleanup_compiler(c);
-    init_compiler(c);
+    clear_program_stack(c);
 }
 
 int unfinished_compilation_count(COMPILER* c) {
