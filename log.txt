@@ -1,0 +1,56 @@
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+''                                                           
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+'kakaka                                                      
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+'kakaka                                                      
+'kakaka                                                      
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+'kakaka                                                      
+'kakaka                                                      
+'kakaka                                                      
+
+About to execute: N/A
+
+
+

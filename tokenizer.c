@@ -3,15 +3,16 @@
 #include <assert.h>
 
 #include "tokenizer.h"
+#include "charstream.h"
 #include <ctype.h>
 #include <assert.h>
 
-TOK_TYPE next_tok(char* tok, FILE* stream) {
+TOK_TYPE next_tok(char* tok, CHARSTREAM* stream) {
     char* tok_pos = tok;
     char c;
     
     start:
-        c = fgetc(stream);
+        c = chs_getc(stream);
         if(c == EOF || c == '\n')
             return TOK_END;
         else if(isspace(c)) {
@@ -28,9 +29,9 @@ TOK_TYPE next_tok(char* tok, FILE* stream) {
             goto word;
         }
     word:
-        c = fgetc(stream);
+        c = chs_getc(stream);
         if(c == EOF || isspace(c)) {
-            ungetc(c, stream);
+            chs_ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_WORD;
         }else {
@@ -39,9 +40,9 @@ TOK_TYPE next_tok(char* tok, FILE* stream) {
             goto word;
         }
     signed_num:
-        c = fgetc(stream);
+        c = chs_getc(stream);
         if(c == EOF || isspace(c)) {
-            ungetc(c, stream);
+            chs_ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_WORD;
         }else if(isdigit(c)) {
@@ -56,9 +57,9 @@ TOK_TYPE next_tok(char* tok, FILE* stream) {
             goto word;
         }
     integer_part:
-        c = fgetc(stream);
+        c = chs_getc(stream);
         if(c == EOF || isspace(c)) {
-            ungetc(c, stream);
+            chs_ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_NUM;
         }else if(isdigit(c)) {
@@ -73,9 +74,9 @@ TOK_TYPE next_tok(char* tok, FILE* stream) {
             goto word;
         }
     fractional_part:
-        c = fgetc(stream);
+        c = chs_getc(stream);
         if(c == EOF || isspace(c)) {
-            ungetc(c, stream);
+            chs_ungetc(c, stream);
             *(tok_pos++) = 0;
             return TOK_NUM;
         }else if(isdigit(c)) {

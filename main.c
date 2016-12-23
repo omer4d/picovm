@@ -36,7 +36,7 @@ MODE show_halt_menu() {
 void loop() {
     MODE mode = REPL;
     
-    while(!feof(vm->in)) {
+    while(!chs_eof(vm->in)) {
         switch(mode) {
             case REPL:
                 vm_log(vm, ">");
@@ -52,7 +52,7 @@ void loop() {
         }
         
         if(pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
-            fflush(stdin);
+            chs_drop(vm->in);
             mode = REPL;
         }
         else if(pvm_test_flags(vm, PVM_USER_HALT))

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#include "charstream.h"
 #include "pnode.h"
 #include "value.h"
 #include "object.h"
@@ -39,7 +40,7 @@ typedef struct {
 
 typedef struct VM_t {
     FILE* log_stream;
-    FILE* in;
+    CHARSTREAM* in;
     
     int flags;
     

@@ -496,7 +496,7 @@ void program_read_impl(VM* vm) {
             next(vm);
             return;
         }
-    }while(!feof(vm->in));
+    }while(!chs_eof(vm->in));
     
     vm_assert(vm, 0, "Unexpected eof!");
 }
@@ -562,10 +562,10 @@ void read_string_impl(VM* vm) {
     int buff_used;
     char c = 0;
     
-    fgetc(vm->in);
+    chs_getc(vm->in);
     do {
         for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
-            c = fgetc(vm->in);
+            c = chs_getc(vm->in);
             vm_assert(vm, c != EOF, "Unexpected EOF");
             buff[buff_used] = c;
         }

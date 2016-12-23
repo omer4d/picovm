@@ -19,7 +19,7 @@ VM* create_vm() {
     VM* vm = malloc(sizeof(VM));
     
     vm->log_stream = fopen("log.txt", "w+");
-    vm->in = stdin;
+    vm->in = create_file_charstream(stdin);
     
     vm->flags = 0;
     vm->read_queue_start = 0;
@@ -51,6 +51,7 @@ VM* create_vm() {
 }
 
 void destroy_vm(VM* vm) {
+    destroy_charstream(vm->in);
     fclose(vm->log_stream);
     
     destroy_object(vm->global_scope);
