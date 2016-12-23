@@ -1,5 +1,6 @@
 >ARG STACK                      CALL STACK                    
 _________________________________________
+1.000000                                                     
 
 About to execute: N/A
 
@@ -7,48 +8,7 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-''                                                           
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-'kakaka                                                      
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-'kakaka                                                      
-'kakaka                                                      
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-'kakaka                                                      
-'kakaka                                                      
-'kakaka                                                      
+10.000000                                                    
 
 About to execute: N/A
 

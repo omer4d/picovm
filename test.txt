@@ -90,7 +90,7 @@ defmacro }
 	## setf
 end
 
-defmacro test
+defun test
 	while dup 10 < do 1 + repeat
 end
 

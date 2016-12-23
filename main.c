@@ -33,7 +33,7 @@ MODE show_halt_menu() {
     }
 }
 
-void loop() {
+void repl() {
     MODE mode = REPL;
     
     while(!chs_eof(vm->in)) {
@@ -63,10 +63,42 @@ void loop() {
     }
 }
 
+void load(char const* fn) {
+    MODE mode = REPL;
+    FILE* f = fopen(fn, "r");
+    CHARSTREAM* chs = create_file_charstream(f);
+    CHARSTREAM* old_in = vm->in;
+    vm->in = chs;
+    
+    while(!chs_eof(vm->in) && !pvm_test_flags(vm, PVM_RUNTIME_ERROR | PVM_COMPILE_TIME_ERROR)) {
+        switch(mode) {
+            case REPL:
+                pvm_exec(vm, lookup_by_name(vm, "eval"));
+                break;
+            case RESUME:
+                pvm_resume(vm);
+                break;
+            case RESTART:
+                break;
+        }
+
+        if(pvm_test_flags(vm, PVM_USER_HALT))
+            mode = show_halt_menu();
+        else {
+            mode = REPL;
+        }
+    }
+    
+    destroy_charstream(chs);
+    fclose(f);
+    vm->in = old_in;
+}
+
 int main() {
     vm = create_vm();
     init_lib(vm);
-    loop();
+    load("test.txt");
+    repl();
     destroy_vm(vm);
     return 0;
 }
