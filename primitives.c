@@ -42,6 +42,14 @@ do {\
     }\
 }while(0)
 
+#define vm_assert_compiling(vm)\
+do {\
+    if(!compiler_is_compiling(&(vm)->compiler)) {\
+        vm_signal_error((vm), "Must be in compilation mode!", __func__);\
+        return;\
+    }\
+}while(0)
+
 #define VM_PUSH_ARG(vm, x)\
 do {\
     if((vm)->xc.arg_sp < (vm)->xc.arg_stack + ARG_STACK_SIZE) {\
@@ -520,6 +528,8 @@ void eol_qm_impl(VM* vm) {
 }
 
 void compile_literal_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VALUE v;
     VM_POP_ARG(&v, vm);
     compile_literal(&vm->compiler, v);
@@ -527,6 +537,8 @@ void compile_literal_impl(VM* vm) {
 }
 
 void compile_call_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VALUE func_name;
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     VALUE func_val = lookup_by_symv(vm, &func_name);
@@ -627,16 +639,22 @@ void trace_impl(VM* vm) {
 }
 
 void jump_macro_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VM_PUSH_ARG(vm, cref_value(compile_jump(&vm->compiler), 0));
     next(vm);
 }
 
 void cjump_macro_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VM_PUSH_ARG(vm, cref_value(compile_cjump(&vm->compiler), 0));
     next(vm);
 }
 
 void resolve_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VALUE jnode_val;
     VM_TPOP_ARG(&jnode_val, vm, CREF_TYPE);
     resolve_jump((ANODE*)jnode_val.data.cref.ptr, compiler_pos(&vm->compiler));
@@ -644,11 +662,15 @@ void resolve_impl(VM* vm) {
 }
 
 void label_impl(VM* vm) {
+     vm_assert_compiling(vm);
+    
      VM_PUSH_ARG(vm, cref_value(compiler_pos(&vm->compiler), 0));
     next(vm);
 }
 
 void to_label_impl(VM* vm) {
+    vm_assert_compiling(vm);
+    
     VALUE jnode_val, label_val;
     VM_TPOP_ARG(&jnode_val, vm, CREF_TYPE);
     VM_TPOP_ARG(&label_val, vm, CREF_TYPE);
