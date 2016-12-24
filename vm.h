@@ -55,6 +55,8 @@ typedef struct VM_t {
     CFUN instr;
     
     struct SYMBOL_t** sym_table;
+    MAP string_table;
+    
     int sym_table_cap;
     int sym_num;
     
@@ -73,7 +75,6 @@ void destroy_vm(VM* vm);
 void push(VM* vm, VALUE x);
 VALUE pop(VM* vm);
 void pvm_trace(VM* vm);
-char* value_to_string(char* str, VALUE* sp);
 PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive);
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive);
 VALUE lookup_by_name(VM* vm, char const* name);

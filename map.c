@@ -168,9 +168,13 @@ void map_get(VALUE* out, MAP const* m, VALUE const* key) {
     *out = PVM_NIL;
 }
 
-
-
-
+void map_foreach(MAP* m, void (*func)(VALUE const* key, VALUE* val, void* data), void* data) {
+    for(NODE* n = m->data; n < m->data + m->capacity; ++n) {
+        if(!value_is_nil(&n->item)) {
+            func(&n->key, &n->item, data);
+        }
+    }
+}
 
 unsigned int gen_key_helper(unsigned int x) {
     static const unsigned int prime = 4294967291u;

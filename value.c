@@ -12,6 +12,11 @@ VALUE num_value(double x) {
     return v;
 }
 
+VALUE string_value(STRING* s) {
+    VALUE v = {.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)s};
+    return v;
+}
+
 VALUE cref_value(void* ptr, int tag) {
     VALUE v;
     v.type = CREF_TYPE;
@@ -32,40 +37,46 @@ int values_equal(VALUE const* a, VALUE const* b) {
                 return a->data.num == b->data.num;
             case CREF_TYPE:
                 return a->data.cref.ptr == b->data.cref.ptr;
-            case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
+            case FUNC_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
                 return a->data.obj == b->data.obj;
+            case STRING_TYPE: 
+                return strings_equal((STRING*)a->data.obj, (STRING*)b->data.obj);
             default:
                 assert(0);
         }
     }
 }
 
-char* value_to_string(char* str, VALUE* sp) {
+char* value_to_string(char* str, int n, VALUE* sp) {
+    int written;
     switch(sp->type) {
         case BOOL_TYPE:
-            sprintf(str, "%s", sp->data.boolean ? "true" : "false");
+            written = snprintf(str, n, "%s", sp->data.boolean ? "true" : "false");
             break;
         case NUM_TYPE:
-            sprintf(str, "%f", sp->data.num);
+            written = snprintf(str, n, "%f", sp->data.num);
             break;
         case FUNC_TYPE:
-            sprintf(str, "<function %s>", ((FUNC*)sp->data.obj)->name ? ((FUNC*)sp->data.obj)->name : "unknown");
+            written = snprintf(str, n, "<function %s>", ((FUNC*)sp->data.obj)->name ? ((FUNC*)sp->data.obj)->name : "unknown");
             break;
         case STRING_TYPE:
-            sprintf(str, "\"%s\"", ((STRING*)sp->data.obj)->data);
+            written = snprintf(str, n, "\"%s\"", ((STRING*)sp->data.obj)->data);
             break;
         case SYMBOL_TYPE:
-            sprintf(str, "'%s", ((SYMBOL*)sp->data.obj)->name);
+            written = snprintf(str, n, "'%s", ((SYMBOL*)sp->data.obj)->name);
             break;
         case OBJECT_TYPE:
-            sprintf(str, value_is_nil(sp) ? "nil" : "<object>");
+            written = snprintf(str, n, value_is_nil(sp) ? "nil" : "<object>");
             break;
         case CREF_TYPE:
-            sprintf(str, "<cref(%d) %x>", sp->data.cref.tag, sp->data.cref.ptr);
+            written = snprintf(str, n, "<cref(%d) %p>", sp->data.cref.tag, sp->data.cref.ptr);
             break;
         default:
             assert(0);
     }
+    
+    if(written > n - 1 && n > 3)
+        str[n - 2] = str[n - 3] = str[n - 4] = '.';
     
     return str;
 }
@@ -92,8 +103,11 @@ unsigned int value_hash(VALUE const* key) {
         case NUM_TYPE:
             h = sax_hash(&key->data.num, sizeof(double));
             break;
-        case FUNC_TYPE: case STRING_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
+        case FUNC_TYPE: case SYMBOL_TYPE: case OBJECT_TYPE:
             h = sax_hash(&key->data.obj, sizeof(struct OBJECT_BASE_t*));
+            break;
+        case STRING_TYPE:
+            h = sax_hash(((STRING*)key->data.obj)->data, ((STRING*)key->data.obj)->len);
             break;
         default:
             assert(0);

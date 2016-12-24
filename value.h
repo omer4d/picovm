@@ -13,6 +13,7 @@
 #define PVM_FALSE (VALUE)PVM_FALSE_INIT
 
 struct OBJECT_BASE_t;
+struct STRING_t;
 
 typedef enum {
     BOOL_TYPE, NUM_TYPE, FUNC_TYPE, STRING_TYPE, SYMBOL_TYPE, OBJECT_TYPE, CREF_TYPE
@@ -29,9 +30,10 @@ typedef struct {
 }VALUE;
 
 VALUE num_value(double x);
+VALUE string_value(struct STRING_t* s);
 VALUE cref_value(void* ptr, int tag);
 int values_equal(VALUE const* a, VALUE const* b); // returns 0 or 1
-char* value_to_string(char* str, VALUE* sp);
+char* value_to_string(char* str, int n, VALUE* sp);
 unsigned int value_hash(VALUE const* v);
 int value_is_nil(VALUE const* v);
 

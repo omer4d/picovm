@@ -1,73 +1,5 @@
-ARG STACK                      CALL STACK                    
-_________________________________________
-'/*                            run                           
-'/*                            call                          
-<cref(0) 33f748>               call                          
-<cref(0) 33f7c0>               call                          
-                               eval                          
-                               call                          
-                               call                          
-                               call                          
-                               defmacro                      
-                               defun                         
-                               compile                       
-                               call                          
-                               call                          
-                               call                          
-                               repeat                        
-
-About to execute: halt
-
-
-
-ARG STACK                      CALL STACK                    
-_________________________________________
-'test                          run                           
-'test                          call                          
-<cref(0) 33f8d8>               call                          
-<cref(0) 33f748>               call                          
-                               eval                          
-                               call                          
-                               call                          
-                               call                          
-                               defmacro                      
-                               defun                         
-                               compile                       
-                               call                          
-                               call                          
-                               call                          
-                               repeat                        
-
-About to execute: halt
-
-
-
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-
-About to execute: N/A
-
-
-
->Runtime error in 'meta_impl': Argument can't be nil!
-ARG STACK                      CALL STACK                    
-_________________________________________
-10.000000                      run                           
-nil                            call                          
-                               call                          
-                               call                          
-                               eval                          
-                               call                          
-
-About to execute: meta
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-10.000000                                                    
-nil                                                          
 
 About to execute: N/A
 
@@ -75,8 +7,7 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-nil                                                          
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...                               
 
 About to execute: N/A
 
@@ -84,8 +15,8 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-nil                                                          
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...                               
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...                               
 
 About to execute: N/A
 
@@ -93,33 +24,7 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-nil                                                          
-123.000000                                                   
-
-About to execute: N/A
-
-
-
->Runtime error in 'meta_impl': Argument can't be nil!
-ARG STACK                      CALL STACK                    
-_________________________________________
-10.000000                      run                           
-nil                            call                          
-123.000000                     call                          
-nil                            call                          
-                               eval                          
-                               call                          
-
-About to execute: meta
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-10.000000                                                    
-nil                                                          
-123.000000                                                   
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...                               
 
 About to execute: N/A
 
@@ -127,9 +32,6 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-nil                                                          
-246.000000                                                   
 
 About to execute: N/A
 
@@ -137,19 +39,6 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-10.000000                                                    
-nil                                                          
-492.000000                                                   
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-10.000000                                                    
-nil                                                          
-984.000000                                                   
 
 About to execute: N/A
 

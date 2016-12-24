@@ -10,14 +10,27 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/stas/Desktop/picovm/string.h</file>
             <file>file:/C:/Users/stas/Desktop/picovm/primitives.h</file>
             <file>file:/C:/Users/stas/Desktop/picovm/object.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/main.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/map.c</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/vm.h</file>
-            <file>file:/C:/Users/stas/Desktop/picovm/compiler.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/charstream.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/string.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/primitives.c</file>
             <file>file:/C:/Users/stas/Desktop/picovm/vm.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/object.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/map.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/tokenizer.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/map.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/symbol.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/macros.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/tokenizer.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/vm.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/compiler.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/value.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/charstream.c</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/cref.h</file>
+            <file>file:/C:/Users/stas/Desktop/picovm/func.h</file>
         </group>
     </open-files>
 </project-private>

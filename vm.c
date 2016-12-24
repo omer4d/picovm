@@ -43,11 +43,16 @@ VM* create_vm() {
     vm->sym_table = malloc(sizeof(SYMBOL*) * vm->sym_table_cap);
     vm->sym_num = 0;
     
-    vm->global_scope = create_object(vm->default_meta);
+    init_map(&vm->string_table, 20);
     
+    vm->global_scope = create_object(vm->default_meta);
     init_compiler(&vm->compiler);
     
     return vm;
+}
+
+void destroy_interned_string(VALUE const* key, VALUE* val, void* data) {
+    destroy_string((STRING*)val->data.obj);
 }
 
 void destroy_vm(VM* vm) {
@@ -60,7 +65,7 @@ void destroy_vm(VM* vm) {
     for(i = 0; i < vm->sym_num; ++i)
         destroy_symbol(vm->sym_table[i]);
     free(vm->sym_table);
-    
+    map_foreach(&vm->string_table, destroy_interned_string, NULL);
     free(vm);
 }
 
@@ -194,15 +199,15 @@ void pvm_trace(VM* vm) {
     vm_log(vm, "_________________________________________\n");
     
     for(asp = vm->xc.arg_stack, rsp = vm->xc.ret_stack; asp < vm->xc.arg_sp && rsp < vm->xc.ret_sp; ++rsp, ++asp) {
-        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), find_compilation_context(&vm->compiler, *rsp));
+        vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, 256, asp), find_compilation_context(&vm->compiler, *rsp));
     }
     
     if(asp < vm->xc.arg_sp) {
         rsp = &vm->xc.curr;
         if(*rsp)
-            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp++), find_compilation_context(&vm->compiler, *rsp));
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, 256, asp++), find_compilation_context(&vm->compiler, *rsp));
         for(; asp < vm->xc.arg_sp; ++asp)
-            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, asp), "");
+            vm_log(vm, "%-30s %-30s\n", value_to_string(tmp, 256, asp), "");
     }
     
     else if(rsp < vm->xc.ret_sp) {
@@ -219,16 +224,9 @@ void pvm_trace(VM* vm) {
 }
 
 void pvm_loop(VM* vm) {
-    //printf("Initial state: ");
-    //print_debug_info(vm);
-    
     while(vm->instr) {
-        //print_debug_info(vm);
-        //getch();
         vm->instr(vm);
     }
-    
-    //print_debug_info(vm);
 }
 
 VALUE parse_num(char const* str) {
@@ -289,59 +287,6 @@ VM_EXECUTION_CONTEXT pvm_protect_xc(VM* vm) {
 void pvm_restore_xc(VM* vm, VM_EXECUTION_CONTEXT const* xc) {
     vm->xc = *xc;
 }
-
-//
-//PNODE* pvm_compile(VM* vm) {
-//    char tok[256];
-//    TOK_TYPE tt;
-//    VALUE key, item;
-//    COMPILER* c = &vm->compiler;
-//    VM_EXECUTION_CONTEXT old_xc = pvm_protect_xc(vm);
-//    int old_ucc = unfinished_compilation_count(c);
-//    pvm_clear_flags(vm, PVM_COMPILE_TIME_ERROR);
-//    
-//    begin_compilation(c);
-//    for(tt = next_tok(tok, vm->in); tt != TOK_END && !pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR); tt = next_tok(tok, vm->in)) {
-//        switch(tt) {
-//            case TOK_WORD:
-//                key = symbol_value(vm, tok);
-//                map_get(&item, &vm->global_scope->map, &key);
-//                
-//                if(value_is_nil(&item)) {
-//                    vm_vsignal_error(vm, "Undefined function '%s'.\n", tok);
-//                }else if(item.type != FUNC_TYPE) {
-//                    vm_vsignal_error(vm, "'%s' is not a function.\n", tok);
-//                }else {
-//                    FUNC* f = (FUNC*)item.data.obj;
-//                    
-//                    if(f->is_macro)
-//                        callf(vm, item);
-//                    else
-//                        compile_call(c, f->pnode);
-//                }
-//                break;
-//            case TOK_NUM:
-//                compile_literal(c, parse_num(tok));
-//                break;
-//            default:
-//                assert(!"Unhandled token type!");
-//                break;
-//        }
-//    }
-//
-//    if(pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR)) {
-//        pvm_trace(vm);
-//        while(unfinished_compilation_count(c) != old_ucc) {
-//            drop_compilation(c);
-//        }
-//    }else {
-//        compile_call(c, &primitives[exit_loc]);
-//        compile_call(c, &primitives[leave_loc]);
-//    }
-//    
-//    vm->xc = old_xc;
-//    return pvm_test_flags(vm, PVM_COMPILE_TIME_ERROR) ? NULL : end_compilation(c, "eval");
-//}
 
 void pvm_run(VM* vm, PNODE* pn) {
     pvm_clear_flags(vm, PVM_RUNTIME_ERROR);

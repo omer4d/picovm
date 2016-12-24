@@ -16,6 +16,7 @@ void destroy_map(MAP* m);
 
 void map_put(MAP* m, VALUE const* key, VALUE const* item);
 void map_get(VALUE* out, MAP const* m, VALUE const* key);
+void map_foreach(MAP* m, void (*func)(VALUE const* key, VALUE* val, void* data), void* data);
 
 void test_map();
 

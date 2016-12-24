@@ -554,6 +554,17 @@ void create_object_impl(VM* vm) {
     next(vm);
 }
 
+VALUE get_interned_string(VM* vm, char const* data, int len) {
+    STRING tmp_str;
+    VALUE key, interned;
+    
+    init_string(&tmp_str, data, len, NULL);
+    key = string_value(&tmp_str);
+    map_get(&interned, &vm->string_table, &key);
+    
+    return interned;
+}
+
 void read_string_impl(VM* vm) {
     char* data = NULL;
     int len = 0;
@@ -563,6 +574,7 @@ void read_string_impl(VM* vm) {
     char c = 0;
     
     chs_getc(vm->in);
+
     do {
         for(buff_used = 0; buff_used < 256 && c != '"'; ++buff_used) {
             c = chs_getc(vm->in);
@@ -571,12 +583,32 @@ void read_string_impl(VM* vm) {
         }
         
         len += buff_used;
+        
+        // Early out for short interned strings, no heap allocation:
+        if(c == '"' && len <= 256) {
+            VALUE interned = get_interned_string(vm, buff, len - 1);
+            if(!value_is_nil(&interned)) {
+                compile_literal(&vm->compiler, interned);
+                next(vm);
+                return;
+            }
+        }
+        
         data = realloc(data, sizeof(char) * len);
         memcpy(data + len - buff_used, buff, buff_used);
     }while(buff[buff_used - 1] != '"');
     
     data[len - 1] = 0;
-    compile_literal(&vm->compiler, (VALUE){.type = STRING_TYPE, .data.obj = (OBJECT_BASE*)create_string(data, len - 1, NULL)});
+    VALUE interned = get_interned_string(vm, data, len - 1);
+    
+    if(!value_is_nil(&interned)) {
+        compile_literal(&vm->compiler, interned);
+    }else {
+        VALUE str = string_value(create_string(data, len - 1, NULL));
+        map_put(&vm->string_table, &str, &str);
+        compile_literal(&vm->compiler, str);
+    }
+    
     next(vm);
 }
 
@@ -584,7 +616,7 @@ void error_impl(VM* vm) {
     VALUE e;
     VM_POP_ARG(&e, vm);
     char buff[256];
-    value_to_string(buff, &e);
+    value_to_string(buff, 256, &e);
     vm_log(vm, "%s: %s\n", compiler_is_compiling(&vm->compiler) ? "Compile-time error" : "Runtime error", buff);
     vm_signal_silent_error(vm);
 }
