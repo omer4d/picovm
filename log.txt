@@ -1,56 +1,6 @@
->Runtime error in 'compile_literal_impl': Must be in compilation mode!
-ARG STACK                      CALL STACK                    
-_________________________________________
-'foo                           run                           
-                               call                          
-                               call                          
-                               call                          
-                               eval                          
-                               call                          
-                               call                          
-                               call                          
-                               '                             
-
-About to execute: compile-literal
-
-
-
->Runtime error in 'compile_literal_impl': Must be in compilation mode!
-ARG STACK                      CALL STACK                    
-_________________________________________
-'foo                           run                           
-'fee                           call                          
-                               call                          
-                               call                          
-                               eval                          
-                               call                          
-                               call                          
-                               call                          
-                               '                             
-
-About to execute: compile-literal
-
-
-
->Runtime error in 'jump_macro_impl': Must be in compilation mode!
-ARG STACK                      CALL STACK                    
-_________________________________________
-'foo                           run                           
-'fee                           call                          
-                               call                          
-                               call                          
-                               eval                          
-                               call                          
-                               call                          
-
-About to execute: pcall
-
-
-
+Warning: redefining function 'setf'
 >ARG STACK                      CALL STACK                    
 _________________________________________
-'foo                                                         
-'fee                                                         
 
 About to execute: N/A
 
@@ -58,8 +8,6 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-'foo                                                         
-'fee                                                         
 
 About to execute: N/A
 
@@ -67,8 +15,115 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-'foo                                                         
-'fee                                                         
+16.000000                                                    
+
+About to execute: N/A
+
+
+
+>Warning: redefining function 'foo'
+ARG STACK                      CALL STACK                    
+_________________________________________
+16.000000                                                    
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+4.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+256.000000                                                   
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+256.000000                                                   
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+256.000000                                                   
+
+About to execute: N/A
+
+
+
+>Warning: redefining function 'foo'
+ARG STACK                      CALL STACK                    
+_________________________________________
+256.000000                                                   
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+16.000000                                                    
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+16.000000                                                    
 
 About to execute: N/A
 

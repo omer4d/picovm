@@ -73,7 +73,7 @@ end
 defmacro {
 	## {}
 	## dup
-	>> compile-literal
+	>> compile-literal >> drop
 	## swap
 end
 
@@ -81,7 +81,7 @@ defmacro ;
 	## swap
 	## setf
 	## dup
-	>> compile-literal
+	>> compile-literal >> drop
 	## swap
 end
 

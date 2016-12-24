@@ -556,7 +556,19 @@ void end_compilation_impl(VM* vm) {
     VALUE func_name;
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
-    VALUE func_val = func_value(end_compilation(&vm->compiler, name_str), vm->func_meta, name_str);
+    PNODE* new_func_start = end_compilation(&vm->compiler, name_str);
+    VALUE func_val = func_value(new_func_start, vm->func_meta, name_str);
+    VALUE old_func_val;
+    map_get(&old_func_val, &vm->global_scope->map, &func_name);
+    
+    if(!value_is_nil(&old_func_val) && old_func_val.type == FUNC_TYPE) {
+        FUNC* old_func = (FUNC*)old_func_val.data.obj;
+        // Dirty hack to redirect from the old function to the new one:
+        ((PNODE*)old_func->pnode)[1].into = &primitives[jump_loc];
+        ((PNODE*)old_func->pnode)[2].into = new_func_start + 1;
+        vm_log(vm, "Warning: redefining function '%s'\n", old_func->name);
+    }
+    
     map_put(&vm->global_scope->map, &func_name, &func_val);
     next(vm);
 }
