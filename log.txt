@@ -1,30 +1,21 @@
 Warning: redefining function 'setf'
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-16.000000                                                    
-
-About to execute: N/A
-
-
-
->Warning: redefining function 'foo'
+>Compile time error in 'macro_qm_impl': Bad argument type. Expected FUNC_TYPE
 ARG STACK                      CALL STACK                    
 _________________________________________
-16.000000                                                    
+'bar                           run                           
+'foo                           call                          
+                               eval                          
+                               call                          
+                               defun                         
+                               compile                       
+
+About to execute: macro?
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+'bar                                                         
 
 About to execute: N/A
 
@@ -34,88 +25,61 @@ About to execute: N/A
 _________________________________________
 
 About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>Runtime error in 'undefined_func_error_impl': Attempted to call declared but undefined function!
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               run                           
+                               call                          
+                               eval                          
+                               call                          
+                               bar                           
+                               foo                           
+
+About to execute: undefined_func_error
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>Runtime error in 'dup_impl': Argument stack underflow
+ARG STACK                      CALL STACK                    
+_________________________________________
+                               run                           
+                               call                          
+                               eval                          
+                               call                          
+                               bar                           
+                               foo                           
+
+About to execute: dup
 
 
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
 4.000000                                                     
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-256.000000                                                   
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-256.000000                                                   
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-256.000000                                                   
-
-About to execute: N/A
-
-
-
->Warning: redefining function 'foo'
-ARG STACK                      CALL STACK                    
-_________________________________________
-256.000000                                                   
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-16.000000                                                    
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
 
 About to execute: N/A
 

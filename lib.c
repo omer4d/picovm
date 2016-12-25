@@ -8,17 +8,16 @@
 
 void init_lib(VM* vm) {
     COMPILER* c = &vm->compiler;
-    FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta, "pcall");
-    FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta, "dgetf");
-    FUNC* dsetf_func = create_func(&primitives[dsetf_loc], vm->primitive_func_meta, "dsetf");
-    FUNC* delete_object_func = create_func(&primitives[delete_object_loc], vm->primitive_func_meta, "delete_object");
-    FUNC* detele_string_func = create_func(&primitives[delete_string_loc], vm->primitive_func_meta, "delete_string");
-    FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta, "dcall");
-    
+    FUNC* pcall_func = create_func(&primitives[pcall_loc], vm->primitive_func_meta, "pcall", 0);
+    FUNC* dgetf_func = create_func(&primitives[dgetf_loc], vm->primitive_func_meta, "dgetf", 0);
+    FUNC* dsetf_func = create_func(&primitives[dsetf_loc], vm->primitive_func_meta, "dsetf", 0);
+    FUNC* delete_object_func = create_func(&primitives[delete_object_loc], vm->primitive_func_meta, "delete_object", 0);
+    FUNC* delete_string_func = create_func(&primitives[delete_string_loc], vm->primitive_func_meta, "delete_string", 0);
+    FUNC* dcall_func = create_func(&primitives[dcall_loc], vm->primitive_func_meta, "dcall", 0);
+
+
     // DECLARE CALL
-    begin_compilation(c);
-    compile_stub(c);
-    PNODE* call_stub = end_compilation(c, "call-stub");
+    PNODE* call_stub = compile_stub(c, "call-stub");
 
 
     // BEGIN GETF
@@ -69,6 +68,7 @@ void init_lib(VM* vm) {
     compile_call(c, &primitives[leave_loc]);
     PNODE* call = end_compilation(c, "call");
 
+    resolve_stub(call_stub, call);
     register_func(vm, call, "call", 0);
 
 
@@ -183,9 +183,9 @@ void init_lib(VM* vm) {
 
     register_func(vm, eval, "eval", 0);
 
+
     
-    
-    //call_stub[2].into = &call[1];
+
     set_method(vm, vm->default_meta, "index", dgetf_func);
     set_method(vm, vm->default_meta, "setf", dsetf_func);
     set_method(vm, vm->default_meta, "delete", delete_object_func);

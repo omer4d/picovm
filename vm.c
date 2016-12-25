@@ -90,15 +90,14 @@ VALUE lookup_by_symv(VM* vm, VALUE const* key) {
 
 PNODE const* register_func(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
-    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name);
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name, 0);
     map_put(&vm->global_scope->map, &key, &item);
     return pnode;
 }
 
 PNODE const* register_macro(VM* vm, PNODE const* pnode, char const* name, int primitive) {
     VALUE key = symbol_value(vm, name);
-    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name);
-    ((FUNC*)item.data.obj)->is_macro = 1;
+    VALUE item = func_value(pnode, primitive ? vm->primitive_func_meta : vm->func_meta, name, PVM_FUNC_MACRO);
     map_put(&vm->global_scope->map, &key, &item);
     return pnode;
 }

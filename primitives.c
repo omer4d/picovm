@@ -447,7 +447,7 @@ void setmac_impl(VM* vm) {
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
     vm_assert_arg_not_nil(vm, func_val);
-    ((FUNC*)func_val.data.obj)->is_macro = 1;
+    ((FUNC*)func_val.data.obj)->flags |= PVM_FUNC_MACRO;
     next(vm);
 }
 
@@ -455,7 +455,7 @@ void macro_qm_impl(VM* vm) {
     VALUE func_val;
     VM_TPOP_ARG(&func_val, vm, FUNC_TYPE);
     vm_assert_arg_not_nil(vm, func_val);
-    VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->is_macro}));
+    VM_PUSH_ARG(vm, ((VALUE){.type = BOOL_TYPE, .data.boolean = ((FUNC*)func_val.data.obj)->flags & PVM_FUNC_MACRO}));
     next(vm);
 }
 
@@ -494,19 +494,22 @@ void type_impl(VM* vm) {
 // * Compiler *
 // ************
 
-void program_read_impl(VM* vm) {
-    VALUE v;
-    
+int program_read_helper(VALUE* out, VM* vm) {
     do {
-        v = program_read(vm);
-        if(!value_is_nil(&v)) {
-            VM_PUSH_ARG(vm, v);
-            next(vm);
-            return;
-        }
+        *out = program_read(vm);
+        if(!value_is_nil(out))
+            return 0;
     }while(!chs_eof(vm->in));
     
-    vm_assert(vm, 0, "Unexpected eof!");
+    return -1;
+}
+
+void program_read_impl(VM* vm) {
+    VALUE v;
+    if(program_read_helper(&v, vm))
+        vm_assert(vm, 0, "Unexpected eof!");
+    VM_PUSH_ARG(vm, v);
+    next(vm);
 }
 
 void program_unread_impl(VM* vm) {
@@ -557,16 +560,16 @@ void end_compilation_impl(VM* vm) {
     VM_TPOP_ARG(&func_name, vm, SYMBOL_TYPE);
     char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
     PNODE* new_func_start = end_compilation(&vm->compiler, name_str);
-    VALUE func_val = func_value(new_func_start, vm->func_meta, name_str);
+    VALUE func_val = func_value(new_func_start, vm->func_meta, name_str, 0);
     VALUE old_func_val;
     map_get(&old_func_val, &vm->global_scope->map, &func_name);
     
     if(!value_is_nil(&old_func_val) && old_func_val.type == FUNC_TYPE) {
         FUNC* old_func = (FUNC*)old_func_val.data.obj;
-        // Dirty hack to redirect from the old function to the new one:
-        ((PNODE*)old_func->pnode)[1].into = &primitives[jump_loc];
-        ((PNODE*)old_func->pnode)[2].into = new_func_start + 1;
-        vm_log(vm, "Warning: redefining function '%s'\n", old_func->name);
+        // A hack to redirect from the old function to the new one by converting it into a stub:
+        resolve_stub((PNODE*)old_func->pnode, new_func_start);
+        if(!(old_func->flags & PVM_FUNC_STUB))
+            vm_log(vm, "Warning: redefining function '%s'\n", old_func->name);
     }
     
     map_put(&vm->global_scope->map, &func_name, &func_val);
@@ -575,6 +578,21 @@ void end_compilation_impl(VM* vm) {
 
 void create_object_impl(VM* vm) {
     VM_PUSH_ARG(vm, ((VALUE){.type = OBJECT_TYPE, .data.obj = (OBJECT_BASE*)create_object(vm->default_meta)}));
+    next(vm);
+}
+
+void decl_impl(VM* vm) {
+    VALUE func_name;
+    vm_assert(vm, !program_read_helper(&func_name, vm), "Expected function name!");
+    vm_assert_arg_type(vm, func_name, SYMBOL_TYPE);
+    
+    char const* name_str = ((SYMBOL*)func_name.data.obj)->name;
+    VALUE func_val;
+    
+    map_get(&func_val, &vm->global_scope->map, &func_name);
+    vm_assert(vm, value_is_nil(&func_val) || func_val.type != FUNC_TYPE, "function already defined!");
+    func_val = func_value(compile_stub(&vm->compiler, name_str), vm->func_meta, name_str, PVM_FUNC_STUB);
+    map_put(&vm->global_scope->map, &func_name, &func_val);
     next(vm);
 }
 
@@ -643,6 +661,11 @@ void error_impl(VM* vm) {
     value_to_string(buff, 256, &e);
     vm_log(vm, "%s: %s\n", compiler_is_compiling(&vm->compiler) ? "Compile-time error" : "Runtime error", buff);
     vm_signal_silent_error(vm);
+}
+
+void undefined_func_error_impl(VM* vm) {
+    vm_assert(vm, 0, "Attempted to call declared but undefined function!");
+    next(vm);
 }
 
 void trace_impl(VM* vm) {

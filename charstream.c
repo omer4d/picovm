@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <malloc.h>
 
+#define BUFF_SIZE 512
+
 typedef struct {
     int (*getc)(CHARSTREAM* ls);
     int (*ungetc)(int c, CHARSTREAM* ls);
@@ -10,7 +12,7 @@ typedef struct {
 
 typedef struct CHARSTREAM_t {
     FILE* file;
-    char buff[512];
+    char buff[BUFF_SIZE];
     int pos;
     //CHARSTREAM_OPERATIONS* operations;
 }CHARSTREAM;
@@ -28,8 +30,8 @@ void destroy_charstream(CHARSTREAM* chs) {
 }
 
 int chs_getc(CHARSTREAM* chs) {
-    if(chs->pos >= 512 || !chs->buff[chs->pos]) {
-        if(fgets(&chs->buff[1], 511, chs->file)) {
+    if(chs->pos >= BUFF_SIZE || !chs->buff[chs->pos]) {
+        if(fgets(&chs->buff[1], BUFF_SIZE - 1, chs->file)) {
             chs->pos = 1;
         }else {
             return EOF;

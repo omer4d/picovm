@@ -57,7 +57,8 @@ void compile_literal(COMPILER* c, VALUE v);
 ANODE* compile_cjump(COMPILER* c);
 ANODE* compile_jump(COMPILER* c);
 void compile_recur(COMPILER* c);
-void compile_stub(COMPILER* c);
+PNODE* compile_stub(COMPILER* c, char const* name);
+void resolve_stub(PNODE* stub_start, PNODE* func_start);
 
 ANODE* compiler_pos(COMPILER* c);
 

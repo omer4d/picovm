@@ -74,6 +74,7 @@ T(setmac)  N("setmac")   S   \
 T(macro_qm)N("macro?")   S   \
 TN(type)                S   \
 TN(error)               S   \
+T(undefined_func_error) N("") S \
 TN(trace)               S   \
                             \
 T(program_read)        N(">>")               S   \
@@ -86,6 +87,7 @@ T(end_compilation)     N("")                 S   \
 T(create_object)       N("{}")
 
 #define PRIMITIVE_MACRO_LIST(T, N, TN, S) \
+TN(decl)                                     S   \
 T(read_string)         N("\"")               S   \
 T(jump_macro)          N("jump")             S   \
 T(cjump_macro)         N("?jump")            S   \
