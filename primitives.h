@@ -50,6 +50,12 @@ TN(or)                  S   \
 TN(not)                 S   \
 				            \
 				            \
+T(bit_and)  N("")             S  \
+T(bit_or)   N("")             S  \
+T(bit_xor)  N("")             S  \
+T(bit_not)  N("")             S  \
+                                    \
+                                    \
 TN(exit)                S   \
 T(jump)    N("")         S   \
 T(cjump)   N("")         S   \

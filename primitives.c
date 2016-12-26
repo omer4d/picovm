@@ -299,6 +299,41 @@ void not_impl(VM* vm) {
     next(vm);
 }
 
+// ***********
+// * Bit Ops *
+// ***********
+
+void bit_and_impl(VM* vm) {
+    VALUE a, b;
+    VM_TPOP_ARG(&a, vm, NUM_TYPE);
+    VM_TPOP_ARG(&b, vm, NUM_TYPE);
+    VM_PUSH_ARG(vm, num_value((double)((unsigned long long)a.data.num & (unsigned long long)b.data.num)));
+    next(vm);
+}
+
+void bit_or_impl(VM* vm) {
+    VALUE a, b;
+    VM_TPOP_ARG(&a, vm, NUM_TYPE);
+    VM_TPOP_ARG(&b, vm, NUM_TYPE);
+    VM_PUSH_ARG(vm, num_value((double)((unsigned long long)a.data.num | (unsigned long long)b.data.num)));
+    next(vm);
+}
+
+void bit_xor_impl(VM* vm) {
+    VALUE a, b;
+    VM_TPOP_ARG(&a, vm, NUM_TYPE);
+    VM_TPOP_ARG(&b, vm, NUM_TYPE);
+    VM_PUSH_ARG(vm, num_value((double)((unsigned long long)a.data.num ^ (unsigned long long)b.data.num)));
+    next(vm);
+}
+
+void bit_not_impl(VM* vm) {
+    VALUE a;
+    VM_TPOP_ARG(&a, vm, NUM_TYPE);
+    VM_PUSH_ARG(vm, num_value((double)(~(unsigned long long)a.data.num)));
+    next(vm);
+}
+
 // *************
 // * Branching *
 // *************

@@ -1,58 +1,135 @@
 Warning: redefining function 'setf'
->Compile time error in 'macro_qm_impl': Bad argument type. Expected FUNC_TYPE
+>ARG STACK                      CALL STACK                    
+_________________________________________
+0.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+0.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+0.000000                                                     
+
+About to execute: N/A
+
+
+
+>Runtime error in 'and_impl': Bad argument type. Expected BOOL_TYPE
 ARG STACK                      CALL STACK                    
 _________________________________________
-'bar                           run                           
-'foo                           call                          
-                               eval                          
-                               call                          
-                               defun                         
-                               compile                       
-
-About to execute: macro?
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-'bar                                                         
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->ARG STACK                      CALL STACK                    
-_________________________________________
-
-About to execute: N/A
-
-
-
->Runtime error in 'undefined_func_error_impl': Attempted to call declared but undefined function!
-ARG STACK                      CALL STACK                    
-_________________________________________
-                               run                           
+18446744073709551616.000000    run                           
                                call                          
                                eval                          
                                call                          
-                               bar                           
-                               foo                           
 
-About to execute: undefined_func_error
+About to execute: pcall
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+0.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+0.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+0.000000                                                     
+4.000000                                                     
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+0.000000                                                     
+
+About to execute: N/A
 
 
 
@@ -63,17 +140,69 @@ About to execute: N/A
 
 
 
->Runtime error in 'dup_impl': Argument stack underflow
-ARG STACK                      CALL STACK                    
+>ARG STACK                      CALL STACK                    
 _________________________________________
-                               run                           
-                               call                          
-                               eval                          
-                               call                          
-                               bar                           
-                               foo                           
+8.000000                                                     
 
-About to execute: dup
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+12412.000000                                                 
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709539328.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+
+About to execute: N/A
 
 
 
@@ -87,7 +216,124 @@ About to execute: N/A
 
 >ARG STACK                      CALL STACK                    
 _________________________________________
-16.000000                                                    
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+-4.000000                                                    
+-8.000000                                                    
+-16.000000                                                   
+-32.000000                                                   
+-64.000000                                                   
+-128.000000                                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+-4.000000                                                    
+-8.000000                                                    
+-16.000000                                                   
+-32.000000                                                   
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+-4.000000                                                    
+-8.000000                                                    
+-16.000000                                                   
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+-4.000000                                                    
+-8.000000                                                    
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+-4.000000                                                    
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+-2.000000                                                    
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+-1.000000                                                    
+18446744073709551616.000000                                  
+
+About to execute: N/A
+
+
+
+>ARG STACK                      CALL STACK                    
+_________________________________________
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
+18446744073709551616.000000                                  
 
 About to execute: N/A
 
