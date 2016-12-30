@@ -25,7 +25,6 @@
       <itemPath>Makefile</itemPath>
       <itemPath>bootstrap.pvm</itemPath>
       <itemPath>log.txt</itemPath>
-      <itemPath>test.bat</itemPath>
       <itemPath>test.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -130,8 +129,6 @@
       </item>
       <item path="symbol.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="test.bat" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="test.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tokenizer.c" ex="false" tool="0" flavor2="0">
@@ -218,8 +215,6 @@
       <item path="symbol.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="symbol.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="test.bat" ex="false" tool="3" flavor2="0">
       </item>
       <item path="test.txt" ex="false" tool="3" flavor2="0">
       </item>
