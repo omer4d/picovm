@@ -108,7 +108,7 @@ int new_bucket, same_bucket, wrong_bucket;
 void map_put(MAP* m, VALUE const* key, VALUE const* item) {
     NODE* n = own_node(m, key);
     
-    if(n->item.type == OBJECT_TYPE && n->item.data.obj == NULL) {
+    if(value_is_nil(&n->item)) {
         ++new_bucket;
         if(n == m->next_free)
             get_free_node(m);

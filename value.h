@@ -3,7 +3,7 @@
 
 #include "cref.h"
 
-#define PVM_NIL_INIT { .type = OBJECT_TYPE, .data.obj = ((void*)0) }
+#define PVM_NIL_INIT { .type = NIL_TYPE, .data.obj = ((void*)0) }
 #define PVM_NIL (VALUE)PVM_NIL_INIT
 
 #define PVM_TRUE_INIT { .type = BOOL_TYPE, .data.boolean = 1 }
@@ -16,7 +16,7 @@ struct OBJECT_BASE_t;
 struct STRING_t;
 
 typedef enum {
-    BOOL_TYPE, NUM_TYPE, FUNC_TYPE, STRING_TYPE, SYMBOL_TYPE, OBJECT_TYPE, CREF_TYPE
+    NIL_TYPE, BOOL_TYPE, NUM_TYPE, FUNC_TYPE, STRING_TYPE, SYMBOL_TYPE, OBJECT_TYPE, CREF_TYPE
 }VALUE_TYPE;
 
 typedef struct {

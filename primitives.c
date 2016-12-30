@@ -434,7 +434,6 @@ void meta_impl(VM* vm) {
     VALUE objval;
     VM_POP_ARG(&objval, vm);
     vm_assert(vm, objval.type == OBJECT_TYPE || objval.type == FUNC_TYPE, "Bad argument type. Expected OBJECT_BASE.");
-	vm_assert_arg_not_nil(vm, objval);
     OBJECT* obj = (OBJECT*)objval.data.obj;
     objval.type = OBJECT_TYPE;
     objval.data.obj = (OBJECT_BASE*)obj->base.meta;
@@ -516,6 +515,9 @@ void type_impl(VM* vm) {
             break;
         case OBJECT_TYPE:
             VM_PUSH_ARG(vm, symbol_value(vm, "object"));
+            break;
+        case NIL_TYPE:
+            VM_PUSH_ARG(vm, symbol_value(vm, "nil"));
             break;
         default:
             assert(0);

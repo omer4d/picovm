@@ -31,6 +31,8 @@ int values_equal(VALUE const* a, VALUE const* b) {
     }
     else {
         switch(a->type) {
+            case NIL_TYPE:
+                return 1;
             case BOOL_TYPE:
                 return a->data.boolean == b->data.boolean;
             case NUM_TYPE:
@@ -65,8 +67,11 @@ char* value_to_string(char* str, int n, VALUE* sp) {
         case SYMBOL_TYPE:
             written = snprintf(str, n, "'%s", ((SYMBOL*)sp->data.obj)->name);
             break;
+        case NIL_TYPE:
+            written = snprintf(str, n, "nil");
+            break;
         case OBJECT_TYPE:
-            written = snprintf(str, n, value_is_nil(sp) ? "nil" : "<object>");
+            written = snprintf(str, n, "<object>");
             break;
         case CREF_TYPE:
             written = snprintf(str, n, "<cref(%d) %p>", sp->data.cref.tag, sp->data.cref.ptr);
@@ -97,6 +102,8 @@ unsigned int value_hash(VALUE const* key) {
     unsigned int h;
     
     switch(key->type) {
+        case NIL_TYPE:
+            h = 0;
         case BOOL_TYPE:
             h = sax_hash(&key->data.boolean, sizeof(int));
             break;
@@ -117,5 +124,5 @@ unsigned int value_hash(VALUE const* key) {
 }
 
 int value_is_nil(VALUE const* v) {
-    return v->type == OBJECT_TYPE && !v->data.obj;
+    return v->type == NIL_TYPE;
 }
